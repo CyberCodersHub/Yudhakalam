@@ -385,7 +385,8 @@ function About() {
         alt=""
         fill
         sizes="100vw"
-        className="object-cover object-[75%_center] brightness-[0.5] sm:object-right"
+        //className="object-cover object-[75%_center] brightness-[0.5] sm:object-right"
+        className="about-bg object-cover brightness-[0.5] sm:object-right"
       />
 
       {/* Dark overlay - makes text clear */}
@@ -457,7 +458,8 @@ function Why() {
         alt=""
         fill
         sizes="100vw"
-        className="object-cover object-[75%_center] brightness-[0.5] sm:object-right"
+        className="about-bg object-cover brightness-[0.5] sm:object-right"
+        //className="object-cover object-[75%_center] brightness-[0.5] sm:object-right"
       />
 
       {/* Dark overlay so the cards and text stay clear */}
@@ -564,6 +566,7 @@ function Training() {
         alt=""
         fill
         sizes="100vw"
+        //className="training-bg object-cover brightness-[0.1] sm:object-right"
         className="object-cover object-[75%_center] brightness-[0.1] sm:object-right"
       />
 
@@ -876,7 +879,8 @@ function Women() {
         alt="A woman practising Silambam with a bamboo staff on the beach at sunset"
         fill
         sizes="100vw"
-        className="object-cover object-[75%_center] md:object-right"
+        className="women-bg object-cover md:object-right"
+        //className="object-cover object-[75%_center] md:object-right"
       />
 
       {/* Overlay: dark on the left where the text is, clear on the right where she stands.
@@ -959,7 +963,8 @@ function Achievements() {
     >
       {/* Background image – anchor the trophy to the right */}
       <div
-        className="absolute inset-0 bg-cover bg-[70%_center] lg:bg-right"
+        //className="absolute inset-0 bg-cover bg-[70%_center] lg:bg-right"
+        className="achievement-bg absolute inset-0 bg-cover lg:bg-right"
         style={{ backgroundImage: "url('/win.jpg')" }}
       />
 
@@ -1007,7 +1012,7 @@ function Events() {
     >
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="achievement-bg absolute inset-0 bg-cover lg:bg-right "
         style={{
           backgroundImage: "url('/coming-up.png')",
         }}
