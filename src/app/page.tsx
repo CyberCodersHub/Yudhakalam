@@ -1,7 +1,8 @@
+'use client';
+
 import Image from "next/image";
-import type { CSSProperties, ReactNode } from "react";
-import VideoController from "./components/VideoController";
-import MobileFx from "./components/MobileFx";
+import Link from "next/link";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 // ---------- Edit all content here ----------
 const SITE = {
@@ -26,11 +27,11 @@ const NAV = [
 
 // Confirm these figures with the academy.
 const STATS = [
-  ["5+", "Years teaching"],
-  ["150+", "Students trained"],
-  ["38+", "Titles won"],
-  ["40%", "Women in our classes"],
-];
+  { value: "5+", label: "Years teaching" },
+  { value: "150+", label: "Students trained" },
+  { value: "38+", label: "Titles won" },
+  { value: "40%", label: "Women in our classes" },
+] as const;
 
 const HIGHLIGHTS = [
   ["Champions of Tomorrow", "We train young warriors to excel in competitions and achieve great success."],
@@ -118,11 +119,20 @@ const ITEMS = [
     desc: "Flexibility, balance and strength that support every Silambam skill." },
 ];
 
-// [left %, delay s, duration s] for the rising sparks
-const EMBERS = [
-  [8, 0, 7], [18, 2, 9], [27, 4, 8], [38, 1, 10], [48, 5, 7],
-  [58, 3, 9], [68, 6, 8], [78, 2, 10], [88, 4, 7], [95, 1, 9],
-];
+/* ---- Sparks: fixed values (no Math.random) so server and browser always match ---- */
+const EMBERS = Array.from({ length: 42 }, (_, i) => {
+  const r = (n: number) => {
+    const x = Math.sin((i + 1) * 12.9898 + n * 78.233) * 43758.5453;
+    return x - Math.floor(x);
+  };
+  return {
+    x: `${(r(1) * 100).toFixed(1)}%`,
+    w: `${(2 + r(2) * 3).toFixed(1)}px`,
+    dur: `${(5 + r(3) * 7).toFixed(1)}s`,
+    delay: `${(-r(4) * 12).toFixed(1)}s`,
+    drift: `${(r(5) * 260 - 40).toFixed(0)}px`,
+  };
+});
 
 // Tailwind needs these written out in full so it can find them.
 const SELECT =
@@ -233,6 +243,101 @@ const Logo = () => (
   />
 );
 
+const SPARKLES = [
+  { x: "9%", y: "30%", size: "18px", delay: "0s" },
+  { x: "22%", y: "62%", size: "12px", delay: "0.7s" },
+  { x: "34%", y: "24%", size: "22px", delay: "1.4s" },
+  { x: "48%", y: "55%", size: "14px", delay: "0.3s" },
+  { x: "58%", y: "28%", size: "20px", delay: "2.0s" },
+  { x: "71%", y: "60%", size: "16px", delay: "1.1s" },
+  { x: "83%", y: "34%", size: "22px", delay: "1.8s" },
+  { x: "92%", y: "58%", size: "12px", delay: "0.5s" },
+];
+
+/* =====================================================================
+   NEW (1): LOADING SCREEN
+   Logo + name + progress bar counting 0 -> 100%, then fades away.
+   Styles for it are in globals.css under "LOADING SCREEN".
+   ===================================================================== */
+function Loader() {
+  const [pct, setPct] = useState(0);
+  const [phase, setPhase] = useState<"load" | "out" | "done">("load");
+
+  // count 0 -> 100
+  useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const total = reduce ? 500 : 2400; // total loading time in ms
+    const start = performance.now();
+    let raf = 0;
+
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / total);
+      setPct(Math.round((1 - Math.pow(1 - t, 2.2)) * 100)); // fast start, slow finish
+      if (t < 1) raf = requestAnimationFrame(tick);
+      else setPhase("out");
+    };
+
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  // fade out, then remove from the page
+  useEffect(() => {
+    if (phase !== "out") return;
+    const id = setTimeout(() => setPhase("done"), 800);
+    return () => clearTimeout(id);
+  }, [phase]);
+
+  // no scrolling while the loader is on screen
+  useEffect(() => {
+    document.documentElement.style.overflow = phase === "done" ? "" : "hidden";
+    return () => {
+      document.documentElement.style.overflow = "";
+    };
+  }, [phase]);
+
+  if (phase === "done") return null;
+
+  return (
+    <div
+      role="status"
+      aria-label="Loading"
+      className={`loader ${phase === "out" ? "loader-out" : ""}`}
+    >
+      <div className="loader-glow" aria-hidden />
+
+      <div className="relative flex flex-col items-center px-6 text-center">
+        <div className="loader-logo">
+          <span className="loader-ring" aria-hidden />
+          <Image
+            src="/logo.jpeg"
+            alt=""
+            width={120}
+            height={120}
+            priority
+            className="relative h-24 w-24 rounded-full border border-[#FFD84D]/70 bg-[#120804] sm:h-28 sm:w-28"
+          />
+        </div>
+
+        <p className="glow-text mt-8 font-display text-xl uppercase tracking-[0.25em] text-[#F5C518] sm:text-3xl">
+          {SITE.name}
+        </p>
+
+        <div className="mt-6 h-[2px] w-56 overflow-hidden rounded-full bg-[#FF8A1F]/20 sm:w-72">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-[#FF7A18] via-[#F5C518] to-[#FFD84D] shadow-[0_0_10px_rgba(255,170,40,0.9)]"
+            style={{ width: `${pct}%` }}
+          />
+        </div>
+
+        <p className="mt-3 text-[11px] font-semibold tracking-[0.3em] text-[#E9D6AE]/70">
+          {pct}%
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // ---------- Sections ----------
 function Nav() {
   return (
@@ -314,63 +419,237 @@ function Nav() {
   );
 }
 
-function Hero() {
-  return (
-    <section id="top" className="relative scroll-mt-20 overflow-hidden bg-[#1C120C] px-4 pb-16 pt-24 sm:px-5">
-      {/* sunset background image */}
-      <Image
-        src="/hero-bg.jpg"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-      />
-      {/* dark overlay: strong at the top and middle, fades into the page colour at the bottom */}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(28,18,12,0.8),rgba(28,18,12,0.65)_55%,#1C120C)]"
-      />
+/* =====================================================================
+   NEW (2): HERO SCROLL
+   - wrapper is now TALL (230svh) so the hero stays pinned while you scroll
+   - tagline / buttons / stats start hidden and RISE IN as you scroll
+     (before, they were visible first and faded out: the opposite)
+   - image zooms + blurs + goes black as you scroll
+   ===================================================================== */
+function HeroScroll({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLDivElement | null>(null);
 
-      <div className="relative mx-auto max-w-6xl">
-        <div className="relative aspect-[16/9] min-h-[200px] overflow-hidden rounded-2xl border border-[#FF8A1F]/40 shadow-2xl shadow-[#FF7A1A]/25">
-          <Image
-            src="/hero.png"
-            alt="Silambam fighters with staffs, swords and shields before a temple tower at sunset, under the title Padaivedu Yudhakalam"
-            fill
-            priority
-            sizes="(min-width:1152px) 1152px, 100vw"
-            className="hero-img object-cover"
-          />
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const clamp = (n: number) => Math.min(1, Math.max(0, n));
+
+    const apply = () => {
+      const rect = node.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      const progress = clamp(-rect.top / (vh * 1.15));
+
+      // image: zoom, blur, dim to black
+      node.style.setProperty("--blur", `${(progress * 9).toFixed(2)}px`);
+      node.style.setProperty("--scale", (1 + progress * 0.22).toFixed(3));
+      node.style.setProperty("--dim", progress.toFixed(3));
+
+      // title: lifts away and fades
+      node.style.setProperty("--title-o", clamp(1 - progress * 1.25).toFixed(3));
+      node.style.setProperty("--title-y", `${(-progress * 80).toFixed(2)}px`);
+
+      // content: rises in one after another (0 = hidden, 1 = fully shown)
+      const rise = (from: number, to: number) => clamp((progress - from) / (to - from));
+      node.style.setProperty("--c1", rise(0.2, 0.55).toFixed(3));
+      node.style.setProperty("--c2", rise(0.35, 0.7).toFixed(3));
+      node.style.setProperty("--c3", rise(0.5, 0.85).toFixed(3));
+
+      // buttons can be tapped only once they have appeared
+      node.dataset.live = progress > 0.4 ? "1" : "0";
+    };
+
+    apply();
+    window.addEventListener("scroll", apply, { passive: true });
+    window.addEventListener("resize", apply);
+
+    return () => {
+      window.removeEventListener("scroll", apply);
+      window.removeEventListener("resize", apply);
+    };
+  }, []);
+
+  return (
+    <div
+      id="top"
+      ref={ref}
+      data-live="0"
+      style={{
+        ["--blur" as any]: "0px",
+        ["--scale" as any]: "1",
+        ["--dim" as any]: "0",
+        ["--title-o" as any]: "1",
+        ["--title-y" as any]: "0px",
+        ["--c1" as any]: "0",
+        ["--c2" as any]: "0",
+        ["--c3" as any]: "0",
+      }}
+      className="hero-scroll relative h-[230svh]"
+    >
+      {children}
+    </div>
+  );
+}
+
+function Hero() {
+  const reveal = (v: string): CSSProperties => ({
+    opacity: `var(${v})`,
+    transform: `translateY(calc((1 - var(${v})) * 40px))`,
+  });
+
+  return (
+    <HeroScroll>
+      <div className="sticky top-0 flex h-[100svh] w-full flex-col overflow-hidden">
+        {/* 1. Background art (text-free warriors image at /public/hero.png) */}
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-40 bg-cover bg-[center_top] bg-no-repeat will-change-transform"
+          style={{
+            backgroundImage: "url('/hero.png')",
+            filter: "blur(var(--blur))",
+            transform: "scale(var(--scale))",
+          }}
+        />
+
+        {/* Dark overlay that grows as you scroll */}
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-30 bg-[#0b0301]"
+          style={{ opacity: "var(--dim)" }}
+        />
+
+        {/* Sunset glow + bottom fade */}
+        <div aria-hidden className="sun-glow -z-30" />
+        <div
+          aria-hidden
+          className="absolute inset-0 -z-30 bg-[linear-gradient(180deg,rgba(255,140,0,0.2)_0%,rgba(40,12,0,0.25)_50%,#0b0301_95%)]"
+        />
+
+        {/* Ground dust haze */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 top-[48%] -z-20 h-40 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,170,40,0.45),transparent_70%)]"
+        />
+
+        {/* Corner fire */}
+        <div aria-hidden className="flame flame-left -z-20" />
+        <div aria-hidden className="flame flame-right -z-20" />
+
+        {/* Floating sparks */}
+        <div className="hero-sparks pointer-events-none" aria-hidden="true">
+          {Array.from({ length: 18 }).map((_, index) => (
+            <span key={index} className={`hero-spark hero-spark-${index + 1}`} />
+          ))}
         </div>
 
-        {/* text sits on its own dark glass panel so it is always readable */}
-        <div className="mx-auto mt-10 max-w-3xl rounded-2xl border border-[#FF8A1F]/25 bg-[#1C120C]/70 px-5 py-8 text-center backdrop-blur-sm sm:px-10">
-          <p className="text-xl font-bold text-[#FFD84D] [text-shadow:0_2px_10px_rgba(0,0,0,0.9)] sm:text-2xl">
-            மண்ணில் விழுந்த வியர்வை, வரலாற்றில் மலர்ந்த பெருமை
-          </p>
-          <p className="mt-4 text-base leading-8 text-white [text-shadow:0_1px_8px_rgba(0,0,0,0.9)] sm:text-lg">
-            வீர மரபின் அசைவுகளை கற்று, வலிமையான நாளையை உருவாக்குவோம்.
-          </p>
-          <p className="mt-4 text-base leading-8 text-white [text-shadow:0_1px_8px_rgba(0,0,0,0.9)] sm:text-xl">
-            Master the movements of a warrior tradition and build a stronger tomorrow.
-          </p>
-          <div className="mt-7 flex flex-wrap justify-center gap-4">
-            <Btn href="#training" solid>See our training</Btn>
-            <Btn href="#join">Join the academy</Btn>
+        {/* Flying embers */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          {EMBERS.map((e, i) => (
+            <span
+              key={i}
+              className="ember"
+              style={
+                {
+                  "--x": e.x,
+                  "--w": e.w,
+                  "--dur": e.dur,
+                  "--delay": e.delay,
+                  "--drift": e.drift,
+                } as CSSProperties
+              }
+            />
+          ))}
+        </div>
+
+        {/* ===== Big title banner (fades & lifts away on scroll) ===== */}
+        <div
+          className="absolute inset-x-0 top-0 z-10 flex justify-center px-2 pt-16 sm:pt-20"
+          style={{
+            opacity: "var(--title-o)",
+            transform: "translateY(var(--title-y))",
+            pointerEvents: "none",
+          }}
+        >
+          <div className="title-fx relative w-full max-w-[1400px]">
+            <img
+              src="/heros.gif"
+              alt="Padaivedu Silambam warriors in front of a Tamil temple at sunset"
+              className="title-glow block w-full object-contain"
+            />
+            {/* sliding light sweep */}
+            <span aria-hidden className="title-shine" />
+            {/* twinkling sparkles */}
+            {SPARKLES.map((s, i) => (
+              <span
+                key={i}
+                aria-hidden
+                className="title-sparkle"
+                style={
+                  {
+                    left: s.x,
+                    top: s.y,
+                    "--s": s.size,
+                    "--d": s.delay,
+                  } as CSSProperties
+                }
+              />
+            ))}
           </div>
         </div>
 
-        <dl className="mx-auto mt-12 grid max-w-4xl grid-cols-2 gap-6 border-t border-[#FF8A1F]/30 pt-8 text-center sm:grid-cols-4">
-          {STATS.map(([n, l]) => (
-            <div key={l}>
-              <dt className="bg-gradient-to-b from-[#FFD84D] to-[#FF8A1F] bg-clip-text font-display text-3xl text-transparent sm:text-4xl">{n}</dt>
-              <dd className="mt-1 text-sm text-white/90 [text-shadow:0_1px_6px_rgba(0,0,0,0.9)]">{l}</dd>
+        {/* ===== Content that rises in over the dark background ===== */}
+        <div className="hero-rise relative z-20 mx-auto mt-auto flex w-full max-w-6xl flex-col items-center px-4 pb-10 text-center sm:pb-14">
+          {/* Tagline (plain text, no box) */}
+          <div style={reveal("--c1")} className="will-change-transform">
+            <div aria-hidden className="mx-auto flex w-full max-w-md items-center gap-3 pb-5">
+              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[#ffc72c]" />
+              <span className="h-2 w-2 rotate-45 border border-[#ffd24a] bg-[#ff9a1f]" />
+              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[#ffc72c]" />
             </div>
-          ))}
-        </dl>
+            <p className="mx-auto max-w-2xl font-display text-xs uppercase leading-6 tracking-[0.16em] text-[#F5E5C5] [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] sm:text-base sm:leading-8">
+              Discover the ancient Tamil art of Silambam. Build strength, sharpen your focus and carry a
+              proud warrior tradition into the future.
+            </p>
+          </div>
+
+          {/* Buttons */}
+          <div
+            style={reveal("--c2")}
+            className="mt-7 flex flex-wrap items-center justify-center gap-4 will-change-transform"
+          >
+            <Link
+              href="#training"
+              className="btn-fire inline-flex items-center rounded-md px-6 py-3 text-xs font-bold uppercase tracking-[0.18em] text-[#2a0f00] transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd24a] sm:text-sm"
+            >
+              Explore training
+            </Link>
+            <Link
+              href="#join"
+              className="inline-flex items-center rounded-md border border-[#ffc72c]/80 bg-black/30 px-6 py-3 text-xs font-bold uppercase tracking-[0.18em] text-[#ffd24a] transition hover:bg-[#ffc72c]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd24a] sm:text-sm"
+            >
+              Join the academy
+            </Link>
+          </div>
+
+          {/* Stats (no box, no icons: gold number + small white caps label) */}
+          <ul
+            style={reveal("--c3")}
+            className="mt-12 grid w-full max-w-4xl grid-cols-2 gap-x-6 gap-y-8 will-change-transform md:grid-cols-4"
+          >
+            {STATS.map((s) => (
+              <li key={s.label} className="text-center">
+                <span className="block font-display text-3xl leading-none text-[#F5C518] [text-shadow:0_0_14px_rgba(255,160,30,0.55)] sm:text-4xl">
+                  {s.value}
+                </span>
+                <span className="mt-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-white sm:text-xs">
+                  {s.label}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </section>
+    </HeroScroll>
   );
 }
 
@@ -965,7 +1244,7 @@ function Achievements() {
       <div
         //className="absolute inset-0 bg-cover bg-[70%_center] lg:bg-right"
         className="achievement-bg absolute inset-0 bg-cover lg:bg-right"
-        style={{ backgroundImage: "url('/win.jpg')" }}
+        style={{ backgroundImage: "url('/win.png')" }}
       />
 
       {/* Extra darkening on phones so the text stays readable */}
@@ -1547,6 +1826,7 @@ function FloatingCall() {
 export default function Home() {
   return (
     <>
+      <Loader />
       <Nav />
       <main>
         <Hero />
@@ -1569,9 +1849,6 @@ export default function Home() {
       </main>
       <Footer />
       <FloatingCall />
-      
     </>
   );
 }
-
-
