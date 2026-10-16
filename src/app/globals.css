@@ -1,887 +1,8 @@
 @import "tailwindcss";
 
-:root {
-  --orange: #ff6a00;
-  --orange-light: #ff8a1f;
-  --gold: #f5c518;
-  --yellow: #ffd84d;
-  --dark: #241006;
-  --brown: #3a1607;
-  --brown-light: #5a2408;
-  --cream: #fff4d6;
-}
-
-/* ---------- Base ---------- */
-
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 4.5rem;
-}
-
-body {
-  margin: 0;
-  max-width: 100%;
-  overflow-x: clip;
-
-  background:
-    radial-gradient(circle at 50% 0%, rgba(255, 184, 0, 0.35), transparent 28%),
-    radial-gradient(circle at 0% 35%, rgba(255, 106, 0, 0.28), transparent 35%),
-    radial-gradient(circle at 100% 70%, rgba(255, 184, 0, 0.18), transparent 35%),
-    linear-gradient(135deg, #241006 0%, #5a2408 25%, #8a3908 45%, #4a1b06 70%, #241006 100%);
-
-  color: var(--cream);
-}
-
-/* ---------- Professional Glow ---------- */
-
-.glow-text {
-  text-shadow:
-    0 0 8px rgba(255, 216, 77, 0.65),
-    0 0 20px rgba(255, 106, 0, 0.55),
-    0 0 40px rgba(255, 140, 31, 0.25);
-}
-
-@theme inline {
-  --font-display: var(--font-yatra);
-  --font-body: var(--font-hind);
-  --color-sand: #e9d6ae;
-  --color-ember: #ff7a18;
-  --color-gold: #f5c518;
-}
-
-/* ---------- Hero ---------- */
-
-@keyframes dust-rise {
-  from { opacity: 0; transform: scale(1.04); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-.hero-img {
-  animation: dust-rise 1.4s ease-out both;
-}
-
-/* ---------- Focus ---------- */
-
-:focus-visible {
-  outline: 2px solid var(--yellow);
-  outline-offset: 3px;
-}
-
-/* ---------- Main Section Backgrounds ---------- */
-
-.bg-umber {
-  background:
-    radial-gradient(circle at 50% 0%, rgba(255, 193, 7, 0.22), transparent 30%),
-    radial-gradient(circle at 15% 80%, rgba(255, 106, 0, 0.18), transparent 35%),
-    linear-gradient(135deg, #241006 0%, #4b1b07 45%, #2d1004 100%);
-}
-
-.bg-stone {
-  background:
-    radial-gradient(circle at 80% 10%, rgba(255, 193, 7, 0.24), transparent 32%),
-    radial-gradient(circle at 10% 80%, rgba(255, 106, 0, 0.22), transparent 35%),
-    linear-gradient(135deg, #5a2408 0%, #7d3008 35%, #4a1905 70%, #321104 100%);
-}
-
-/* ---------- Section Glow ---------- */
-
-section {
-  position: relative;
-}
-
-section::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 50% 0%, rgba(255, 193, 7, 0.08), transparent 35%);
-  opacity: 1;
-}
-
-/* ---------- Professional Cards ---------- */
-
-@keyframes why-rise {
-  from { opacity: 0; transform: translateY(40px) scale(0.96); }
-  to   { opacity: 1; transform: none; }
-}
-
-.why-card {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(145deg, rgba(255, 106, 0, 0.18), rgba(255, 193, 7, 0.08), rgba(36, 16, 6, 0.75));
-  border: 1px solid rgba(255, 193, 7, 0.38);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-}
-
-.why-card::before {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, #ff6a00, #f5c518, #ffd84d, #f5c518, #ff6a00, transparent);
-  transform: scaleX(0);
-  transition: transform 0.45s ease;
-}
-
-.why-card:hover {
-  transform: translateY(-7px);
-  border-color: rgba(255, 216, 77, 0.85);
-  background: linear-gradient(145deg, rgba(255, 106, 0, 0.28), rgba(255, 193, 7, 0.14), rgba(36, 16, 6, 0.65));
-  box-shadow: 0 15px 35px rgba(255, 106, 0, 0.25), 0 0 30px rgba(255, 193, 7, 0.12);
-}
-
-.why-card:hover::before {
-  transform: scaleX(1);
-}
-
-/* ---------- Scroll Animation (old, CSS only) ---------- */
-
-@media (prefers-reduced-motion: no-preference) {
-  .why-card {
-    animation: why-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
-    animation-delay: calc(var(--i, 0) * 100ms);
-  }
-
-  @supports (animation-timeline: view()) {
-    .why-card {
-      animation: why-rise linear backwards;
-      animation-timeline: view();
-      animation-range: entry 0% entry 55%;
-      animation-delay: 0s;
-    }
-  }
-}
-
-/* ---------- Orange / Yellow Buttons ---------- */
-
-.orange-gold-btn {
-  border: 2px solid #ff9a1f;
-  background: linear-gradient(90deg, #ff6a00, #ff9f1c, #f5c518);
-  color: #241006;
-  box-shadow: 0 0 18px rgba(255, 106, 0, 0.4), 0 0 35px rgba(245, 197, 24, 0.2);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
-}
-
-.orange-gold-btn:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(90deg, #ff8a1f, #ffd84d, #fff08a);
-  box-shadow: 0 0 25px rgba(255, 106, 0, 0.55), 0 0 45px rgba(245, 197, 24, 0.3);
-}
-
-/* ---------- Training Ring ---------- */
-
-.orbit-item {
-  --a: calc(var(--n) * 36deg - 90deg);
-  --near: clamp(0, 1 - abs(var(--n) - var(--sel)), 1);
-
-  left: calc(50% + 36% * cos(var(--a)));
-  top: calc(50% + 40% * sin(var(--a)));
-  z-index: calc(10 + 5 * var(--near));
-  transform: translate(-50%, -50%) scale(calc(0.85 + 0.3 * var(--near)));
-  box-shadow: 0 0 calc(30px * var(--near)) calc(4px * var(--near)) rgb(255 138 31 / 0.6);
-  transition: transform 0.6s ease, box-shadow 0.6s ease;
-}
-
-/* ---------- Training Centre Card ---------- */
-
-.panel .card {
-  left: 50%;
-  top: 50%;
-  opacity: 0;
-  transform: translate(-50%, -42%) translateY(28px) scale(0.92);
-  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
-}
-
-.peer:checked + .panel .card {
-  opacity: 1;
-  transform: translate(-50%, -42%);
-}
-
-.panel .rise {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-  transition-delay: calc(var(--d, 0) * 80ms + 150ms);
-}
-
-.peer:checked + .panel .rise {
-  opacity: 1;
-  transform: none;
-}
-
-/* ---------- Ember Particles ---------- */
-
-@keyframes ember {
-  0%   { transform: translateY(0) scale(0.6); opacity: 0; }
-  15%  { opacity: 0.9; }
-  100% { transform: translateY(-260px) scale(1); opacity: 0; }
-}
-
-.ember {
-  animation: ember var(--dur, 8s) ease-in infinite;
-  animation-delay: var(--del, 0s);
-}
-
-/* ---------- Rotating Ring ---------- */
-
-@keyframes orbit-spin {
-  to { transform: rotate(360deg); }
-}
-
-.spin-ring {
-  animation: orbit-spin 90s linear infinite;
-}
-
-/* ---------- Golden Borders ---------- */
-
-.gold-border {
-  border: 1px solid rgba(255, 216, 77, 0.5);
-  box-shadow: 0 0 20px rgba(255, 106, 0, 0.15), inset 0 0 20px rgba(255, 193, 7, 0.04);
-}
-
-/* ---------- Section Divider ---------- */
-
-.section-glow {
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(255, 106, 0, 0.65), rgba(245, 197, 24, 0.95), rgba(255, 216, 77, 0.8), rgba(255, 106, 0, 0.65), transparent);
-  box-shadow: 0 0 18px rgba(255, 106, 0, 0.4);
-}
-
-/* ---------- Scroll reveal (works on touch phones) ---------- */
-
-@keyframes reveal-up {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: none; }
-}
-
-.reveal:not(.is-visible) {
-  opacity: 0;
-}
-
-.reveal.is-visible {
-  animation: reveal-up 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
-  animation-delay: calc(var(--i, 0) * 100ms);
-}
-
-/* ---------- Popup entrance ---------- */
-
-@keyframes pop-in {
-  from { opacity: 0; transform: translateY(20px) scale(0.96); }
-  to   { opacity: 1; transform: none; }
-}
-
-.popup-card {
-  animation: pop-in 0.35s ease-out both;
-}
-
-/* ---------- Phones: no heavy backdrop blur ---------- */
-
-@media (max-width: 639px) {
-  [class*="backdrop-blur"] {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-  }
-}
-
-/* ---------- Reduced Motion ---------- */
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .hero-img {
-    animation: none;
-  }
-
-  .orbit-item,
-  .panel .card,
-  .panel .rise {
-    transition: none;
-  }
-
-  .ember {
-    animation: none;
-  }
-
-  .reveal:not(.is-visible) {
-    opacity: 1;
-  }
-
-  .reveal.is-visible,
-  .popup-card {
-    animation: none;
-  }
-
-  .why-card,
-  .why-card::before {
-    transition: none;
-  }
-
-  .why-card:hover {
-    transform: none;
-  }
-}
-
-.bg-sunset {
-  background-image:
-    linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.65), rgba(42,14,4,0.9)),
-    url("/sunset.jpg");
-  background-size: cover;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-}
-
-
-/* =========================================================
-   MOBILE BACKGROUND IMAGE FIX
-   Keeps important people, fighters and trophies visible
-   ========================================================= */
-
-@media (max-width: 639px) {
-  .hero-bg        { object-position: 52% center !important; }
-  .about-bg       { object-position: 68% center !important; }
-  .why-bg         { object-position: 72% center !important; }
-  .training-bg    { object-position: 65% center !important; }
-  .women-bg       { object-position: 72% center !important; }
-  .gallery-bg     { object-position: 65% center !important; }
-
-  .achievement-bg {
-    background-position: 78% center !important;
-    background-size: cover !important;
-  }
-}
-
-/* Tablet */
-@media (min-width: 640px) and (max-width: 1023px) {
-  .hero-bg        { object-position: 50% center; }
-  .about-bg       { object-position: 72% center; }
-  .why-bg         { object-position: 75% center; }
-  .training-bg    { object-position: 70% center; }
-  .women-bg       { object-position: 75% center; }
-  .gallery-bg     { object-position: 70% center; }
-  .achievement-bg { background-position: 75% center; }
-}
-
-/* =========================================================
-   CINEMATIC WEBSITE ANIMATIONS
-   ========================================================= */
-
-@keyframes heroGlow {
-  0%, 100% { opacity: 0.18; }
-  50%      { opacity: 0.42; }
-}
-
-@keyframes heroContent {
-  from { opacity: 0; transform: translateY(35px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes floating {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-10px); }
-}
-
-@keyframes goldShimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-@keyframes cardReveal {
-  from { opacity: 0; transform: translateY(30px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-@keyframes imageFloat {
-  0%, 100% { transform: scale(1); }
-  50%      { transform: scale(1.04); }
-}
-
-@keyframes buttonPulse {
-  0%, 100% { box-shadow: 0 0 15px rgba(255, 106, 0, 0.25), 0 0 30px rgba(245, 197, 24, 0.1); }
-  50%      { box-shadow: 0 0 28px rgba(255, 106, 0, 0.5), 0 0 50px rgba(245, 197, 24, 0.2); }
-}
-
-@keyframes dividerMove {
-  from { transform: translateX(-100%); }
-  to   { transform: translateX(100%); }
-}
-
-/* HERO */
-
-.hero-full-image {
-  animation: heroZoom 18s ease-in-out infinite alternate;
-  transform-origin: center center;
-  will-change: transform;
-}
-
-.hero-glow {
-  animation: heroGlow 5s ease-in-out infinite;
-}
-
-.hero-content-enter {
-  animation: heroContent 1s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-/* FLOATING */
-
-.float-y {
-  animation: floating 4s ease-in-out infinite;
-}
-
-/* GOLD TEXT (first version; the later .gold-shimmer below overrides it) */
-
-.gold-shimmer {
-  background: linear-gradient(110deg, #ff6a00 20%, #f5c518 40%, #fff3a6 50%, #f5c518 60%, #ff6a00 80%);
-  background-size: 220% 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: goldShimmer 5s linear infinite;
-}
-
-/* CARDS */
-
-.motion-card {
-  animation: cardReveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-  transition: transform 0.5s ease, box-shadow 0.5s ease, border-color 0.35s ease;
-}
-
-.motion-card:hover {
-  transform: translateY(-8px) scale(1.015);
-  box-shadow: 0 18px 45px rgba(255, 106, 0, 0.2), 0 0 30px rgba(245, 197, 24, 0.1);
-}
-
-/* IMAGES */
-
-.motion-image {
-  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease;
-  will-change: transform;
-}
-
-.motion-card:hover .motion-image {
-  transform: scale(1.08);
-  filter: saturate(1.15) contrast(1.05);
-}
-
-/* BUTTON */
-
-.motion-button {
-  transition: transform 0.3s ease, box-shadow 0.35s ease, filter 0.35s ease;
-}
-
-.motion-button:hover {
-  transform: translateY(-3px) scale(1.03);
-  filter: brightness(1.08);
-}
-
-.orange-gold-btn {
-  animation: buttonPulse 3.5s ease-in-out infinite;
-}
-
-/* SECTION BACKGROUND */
-
-.animated-bg {
-  animation: imageFloat 20s ease-in-out infinite alternate;
-  transform-origin: center;
-  will-change: transform;
-}
-
-/* DIVIDER */
-
-.sweep-line {
-  position: relative;
-  overflow: hidden;
-}
-
-.sweep-line::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 216, 77, 0.95), transparent);
-  transform: translateX(-100%);
-  animation: dividerMove 4s linear infinite;
-}
-
-/* FLOATING CALL BUTTON */
-
-.pulse-gold {
-  animation: buttonPulse 3s ease-in-out infinite;
-}
-
-/* NAVBAR */
-
-.cinematic-nav {
-  animation: heroContent 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-/* MOBILE */
-
-@media (max-width: 639px) {
-  .hero-bg,
-  .hero-full-image {
-    animation-duration: 24s;
-  }
-
-  .animated-bg {
-    animation-duration: 28s;
-  }
-
-  .motion-card:hover {
-    transform: translateY(-4px);
-  }
-
-  .motion-card:hover .motion-image {
-    transform: scale(1.04);
-  }
-}
-
-/* REDUCED MOTION */
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-bg,
-  .hero-full-image,
-  .hero-glow,
-  .hero-content-enter,
-  .float-y,
-  .gold-shimmer,
-  .motion-card,
-  .orange-gold-btn,
-  .animated-bg,
-  .sweep-line::after,
-  .pulse-gold,
-  .cinematic-nav {
-    animation: none !important;
-  }
-
-  .motion-card,
-  .motion-image,
-  .motion-button {
-    transition: none !important;
-  }
-}
-
-/* =========================================
-   HERO BACKGROUND
-========================================= */
-
-.hero-bg {
-  animation: heroZoom 14s ease-in-out infinite alternate;
-  transform-origin: center;
-}
-
-@keyframes heroZoom {
-  0%   { transform: scale(1); }
-  100% { transform: scale(1.06); }
-}
-
-
-/* =========================================
-   GOLDEN LIGHT SWEEP
-========================================= */
-
-.hero-light-sweep {
-  position: absolute;
-  top: -30%;
-  left: -50%;
-  width: 28%;
-  height: 170%;
-  background: linear-gradient(90deg, transparent, rgba(255, 190, 60, 0.08), rgba(255, 220, 120, 0.4), rgba(255, 180, 40, 0.12), transparent);
-  transform: rotate(18deg);
-  filter: blur(15px);
-  animation: heroLightSweep 8s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes heroLightSweep {
-  0%   { left: -50%; opacity: 0; }
-  15%  { opacity: 1; }
-  50%  { left: 115%; opacity: 0.8; }
-  70%  { opacity: 0; }
-  100% { left: 115%; opacity: 0; }
-}
-
-
-/* =========================================
-   LIGHT RAYS
-========================================= */
-
-.hero-light-ray {
-  position: absolute;
-  width: 180px;
-  height: 100%;
-  top: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 210, 100, 0.12), transparent);
-  filter: blur(20px);
-  transform: rotate(12deg);
-  pointer-events: none;
-}
-
-.hero-light-ray-1 {
-  left: 20%;
-  animation: rayMove 6s ease-in-out infinite alternate;
-}
-
-.hero-light-ray-2 {
-  left: 70%;
-  animation: rayMove 8s ease-in-out infinite alternate-reverse;
-}
-
-@keyframes rayMove {
-  0%   { opacity: 0.1; transform: rotate(12deg) translateX(-40px); }
-  100% { opacity: 0.5; transform: rotate(12deg) translateX(80px); }
-}
-
-
-/* =========================================
-   IMAGE SHINE
-========================================= */
-
-.hero-image-shine {
-  position: absolute;
-  inset: -50%;
-  background: linear-gradient(110deg, transparent 35%, rgba(255, 220, 130, 0.18) 48%, rgba(255, 245, 190, 0.35) 50%, rgba(255, 220, 130, 0.18) 52%, transparent 65%);
-  transform: translateX(-100%);
-  animation: imageShine 7s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes imageShine {
-  0%   { transform: translateX(-100%); }
-  45%  { transform: translateX(100%); }
-  100% { transform: translateX(100%); }
-}
-
-
-/* =========================================
-   SPARK CONTAINER
-========================================= */
-
-.hero-sparks {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 5;
-}
-
-
-/* =========================================
-   SPARK
-========================================= */
-
-.hero-spark {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #FFD84D;
-  box-shadow: 0 0 6px #FFD84D, 0 0 14px #FF9D00, 0 0 25px rgba(255, 150, 0, 0.8);
-  opacity: 0;
-  animation: sparkRise 5s linear infinite;
-}
-
-
-/* =========================================
-   SPARK POSITIONS
-========================================= */
-
-.hero-spark-1  { left: 8%;  bottom: 15%; animation-delay: 0s; }
-.hero-spark-2  { left: 15%; bottom: 25%; animation-delay: 1.2s; }
-.hero-spark-3  { left: 23%; bottom: 12%; animation-delay: 2.4s; }
-.hero-spark-4  { left: 31%; bottom: 30%; animation-delay: 0.8s; }
-.hero-spark-5  { left: 39%; bottom: 18%; animation-delay: 3s; }
-.hero-spark-6  { left: 48%; bottom: 25%; animation-delay: 1.5s; }
-.hero-spark-7  { left: 57%; bottom: 12%; animation-delay: 2.2s; }
-.hero-spark-8  { left: 64%; bottom: 32%; animation-delay: 0.5s; }
-.hero-spark-9  { left: 72%; bottom: 18%; animation-delay: 3.2s; }
-.hero-spark-10 { left: 80%; bottom: 27%; animation-delay: 1.8s; }
-.hero-spark-11 { left: 87%; bottom: 15%; animation-delay: 2.8s; }
-.hero-spark-12 { left: 94%; bottom: 35%; animation-delay: 0.7s; }
-.hero-spark-13 { left: 12%; bottom: 45%; animation-delay: 3.5s; }
-.hero-spark-14 { left: 37%; bottom: 50%; animation-delay: 2s; }
-.hero-spark-15 { left: 55%; bottom: 45%; animation-delay: 4s; }
-.hero-spark-16 { left: 70%; bottom: 48%; animation-delay: 1.2s; }
-.hero-spark-17 { left: 82%; bottom: 42%; animation-delay: 3.7s; }
-.hero-spark-18 { left: 92%; bottom: 50%; animation-delay: 2.5s; }
-
-
-/* =========================================
-   SPARK MOVEMENT
-========================================= */
-
-@keyframes sparkRise {
-  0%   { opacity: 0;   transform: translate3d(0, 30px, 0) scale(0); }
-  15%  { opacity: 1;   transform: translate3d(8px, 0, 0) scale(1); }
-  45%  { opacity: 0.9; transform: translate3d(-12px, -80px, 0) scale(0.8); }
-  75%  { opacity: 0.5; transform: translate3d(15px, -160px, 0) scale(0.5); }
-  100% { opacity: 0;   transform: translate3d(-10px, -230px, 0) scale(0); }
-}
-
-
-/* =========================================
-   LIGHT SHARDS
-========================================= */
-
-.hero-shards {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 6;
-}
-
-.hero-shards span {
-  position: absolute;
-  width: 2px;
-  height: 90px;
-  background: linear-gradient(to bottom, transparent, rgba(255, 220, 120, 0.9), transparent);
-  filter: blur(1px);
-  opacity: 0;
-  transform: rotate(45deg);
-  animation: shardFlash 6s ease-in-out infinite;
-}
-
-.hero-shards span:nth-child(1) { left: 15%; top: 20%; animation-delay: 0s; }
-.hero-shards span:nth-child(2) { left: 35%; top: 55%; animation-delay: 1.5s; }
-.hero-shards span:nth-child(3) { left: 55%; top: 25%; animation-delay: 3s; }
-.hero-shards span:nth-child(4) { left: 75%; top: 50%; animation-delay: 4.2s; }
-.hero-shards span:nth-child(5) { left: 90%; top: 30%; animation-delay: 5s; }
-
-@keyframes shardFlash {
-  0%   { opacity: 0; transform: rotate(45deg) translateY(60px); }
-  25%  { opacity: 0.9; }
-  45%  { opacity: 0; transform: rotate(45deg) translateY(-80px); }
-  100% { opacity: 0; }
-}
-
-
-/* =========================================
-   ACADEMY NAME
-========================================= */
-
-.hero-academy-name {
-  animation: academyGlow 3s ease-in-out infinite alternate;
-}
-
-@keyframes academyGlow {
-  0%   { text-shadow: 0 0 5px rgba(255, 216, 77, 0.2); }
-  100% { text-shadow: 0 0 8px rgba(255, 216, 77, 0.7), 0 0 25px rgba(255, 138, 31, 0.4); }
-}
-
-
-/* =========================================
-   TAMIL LETTER ANIMATION
-========================================= */
-
-.hero-letter {
-  display: inline-block;
-  opacity: 0;
-  animation: heroLetterReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes heroLetterReveal {
-  0%   { opacity: 0; transform: translateY(35px) scale(0.85); filter: blur(8px); }
-  60%  { opacity: 1; filter: blur(0); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-
-/* =========================================
-   GOLD SHIMMER TEXT
-========================================= */
-
-.gold-shimmer {
-  background: linear-gradient(90deg, #FF8A1F, #FFD84D, #FFF4D6, #FFD84D, #FF8A1F);
-  background-size: 250% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: goldTextShimmer 4s linear infinite;
-  filter: drop-shadow(0 0 8px rgba(255, 180, 40, 0.25));
-}
-
-@keyframes goldTextShimmer {
-  0%   { background-position: 0% center; }
-  100% { background-position: 250% center; }
-}
-
-
-/* =========================================
-   DESCRIPTION / BUTTONS / STATS
-========================================= */
-
-.hero-description {
-  animation: fadeUp 1s ease 1.4s both;
-}
-
-.hero-buttons {
-  animation: fadeUp 1s ease 1.7s both;
-}
-
-.hero-stat {
-  opacity: 0;
-  animation: fadeUp 0.8s ease forwards;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(25px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 640px) {
-  .hero-light-sweep {
-    width: 35%;
-    filter: blur(12px);
-  }
-
-  .hero-light-ray {
-    opacity: 0.5;
-  }
-
-  .hero-spark {
-    width: 3px;
-    height: 3px;
-  }
-
-  .hero-shards span {
-    height: 60px;
-  }
-}
-
-
-/* =========================================
-   REDUCE MOTION
-========================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-bg,
-  .hero-light-sweep,
-  .hero-light-ray,
-  .hero-image-shine,
-  .hero-spark,
-  .hero-shards span,
-  .hero-academy-name,
-  .hero-letter,
-  .gold-shimmer,
-  .hero-description,
-  .hero-buttons,
-  .hero-stat {
-    animation: none !important;
-  }
-}
-
-
-/* ===== Hero fire theme =====
-   (this block was pasted twice in your file; the duplicate is removed,
-   the result is identical) */
-/* Palette: orange, gold, yellow only (on a dark umber base) */
+/* =====================================================================
+   THEME TOKENS
+   ===================================================================== */
 
 :root {
   --fire-yellow: #fff1a8;
@@ -890,618 +11,98 @@ section::before {
   --fire-orange: #ff7a1a;
   --fire-deep: #b45309;
   --fire-base: #0b0301;
+  --cream: #fff4d6;
 }
 
-/* ---------- Flying sparks ---------- */
-.ember {
-  position: absolute;
-  bottom: -6%;
-  left: var(--x);
-  width: var(--w);
-  height: calc(var(--w) * 8);
-  border-radius: 999px;
-  background: linear-gradient(to top, transparent, var(--fire-orange) 35%, var(--fire-yellow));
-  box-shadow: 0 0 8px 2px rgba(255, 140, 0, 0.65);
-  opacity: 0;
-  transform: rotate(-35deg);
-  animation: ember-rise var(--dur) linear var(--delay) infinite;
-  will-change: transform, opacity;
+@theme inline {
+  --font-display: var(--font-yatra);
+  --font-body: var(--font-hind);
+  --color-sand: #e9d6ae;
+  --color-ember: #ff7a18;
+  --color-gold: #f5c518;
+  --color-umber: #1c120c;
 }
-
-@keyframes ember-rise {
-  0%   { transform: translate3d(0, 0, 0) rotate(-35deg) scale(1); opacity: 0; }
-  10%  { opacity: 1; }
-  70%  { opacity: 0.9; }
-  100% { transform: translate3d(var(--drift), -105vh, 0) rotate(-35deg) scale(0.35); opacity: 0; }
-}
-
-/* ---------- Corner fire (bottom-left / bottom-right) ---------- */
-.flame {
-  position: absolute;
-  bottom: -8%;
-  width: 46%;
-  height: 55%;
-  pointer-events: none;
-  filter: blur(22px);
-  background:
-    radial-gradient(ellipse 40% 55% at 30% 100%, rgba(255, 199, 44, 0.85), transparent 70%),
-    radial-gradient(ellipse 55% 70% at 50% 100%, rgba(255, 122, 26, 0.75), transparent 72%),
-    radial-gradient(ellipse 70% 85% at 60% 100%, rgba(180, 83, 9, 0.6), transparent 75%);
-  transform-origin: bottom center;
-  animation: flame-flicker 2.6s ease-in-out infinite;
-}
-.flame-left  { left: -12%; }
-.flame-right { right: -12%; animation-delay: 0.9s; transform: scaleX(-1); }
-
-@keyframes flame-flicker {
-  0%, 100% { opacity: 0.75; transform: scaleY(1); }
-  35%      { opacity: 1;    transform: scaleY(1.12); }
-  65%      { opacity: 0.85; transform: scaleY(0.94); }
-}
-
-.flame-right { animation-name: flame-flicker-flip; }
-@keyframes flame-flicker-flip {
-  0%, 100% { opacity: 0.75; transform: scaleX(-1) scaleY(1); }
-  35%      { opacity: 1;    transform: scaleX(-1) scaleY(1.12); }
-  65%      { opacity: 0.85; transform: scaleX(-1) scaleY(0.94); }
-}
-
-/* ---------- Sun glow behind the temple ---------- */
-.sun-glow {
-  position: absolute;
-  top: -10%;
-  left: 50%;
-  width: 90%;
-  height: 70%;
-  transform: translateX(-50%);
-  background: radial-gradient(ellipse at 50% 30%, rgba(255, 241, 168, 0.75), rgba(255, 160, 30, 0.45) 35%, transparent 70%);
-  animation: sun-pulse 6s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes sun-pulse {
-  0%, 100% { opacity: 0.8; }
-  50%      { opacity: 1; }
-}
-
-/* ---------- Golden carved title letters ---------- */
-.gold-letter {
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  font-weight: 900;
-  letter-spacing: 0.02em;
-  line-height: 0.95;
-  background-image:
-    /* moving sheen (the one animated moment) */
-    linear-gradient(105deg, transparent 40%, rgba(255, 252, 214, 0.95) 50%, transparent 60%),
-    /* carved cracks */
-    repeating-linear-gradient(115deg, transparent 0 26px, rgba(110, 40, 0, 0.35) 26px 27px, transparent 27px 47px),
-    /* gold body */
-    linear-gradient(180deg, #fff3a3 0%, #ffd24a 28%, #f59e0b 58%, #b45309 100%);
-  background-size: 250% 100%, 100% 100%, 100% 100%;
-  background-position: 160% 0, 0 0, 0 0;
-  animation: gold-sheen 5.5s ease-in-out infinite;
-  filter:
-    drop-shadow(0 2px 0 #7a2c00)
-    drop-shadow(0 4px 0 #4a1a00)
-    drop-shadow(0 0 16px rgba(255, 140, 0, 0.65));
-}
-@keyframes gold-sheen {
-  0%, 25%  { background-position: 160% 0, 0 0, 0 0; }
-  75%,100% { background-position: -60% 0, 0 0, 0 0; }
-}
-
-/* ---------- Tamil headline ---------- */
-.tamil-gold {
-  background: linear-gradient(180deg, #ffe27a 0%, #ffa21f 70%, #ff7a1a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 14px rgba(255, 140, 0, 0.55));
-}
-
-/* ---------- Temple-tower silhouette behind the title ---------- */
-.gopuram {
-  clip-path: polygon(
-    42% 100%, 42% 82%, 38% 82%, 38% 66%, 34% 66%, 34% 50%, 38% 50%, 38% 34%, 42% 34%,
-    42% 20%, 46% 20%, 46% 8%, 50% 0, 54% 8%, 54% 20%, 58% 20%, 58% 34%, 62% 34%,
-    62% 50%, 66% 50%, 66% 66%, 62% 66%, 62% 82%, 58% 82%, 58% 100%
-  );
-  background: linear-gradient(180deg, rgba(255, 199, 44, 0.55), rgba(180, 83, 9, 0.25));
-}
-
-/* ---------- Primary button glow ---------- */
-.btn-fire {
-  background: linear-gradient(180deg, #ffa21f, #ffd24a);
-  box-shadow: 0 0 22px rgba(255, 140, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.45);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ember, .flame, .sun-glow, .gold-letter { animation: none; }
-  .ember { opacity: 0.6; }
-}
-
 
 /* =====================================================================
-   ===== NEW ANIMATIONS (v2): rays, sparkles, light, shadow, reveal ====
+   BASE
    ===================================================================== */
 
-/* ---- 1. LIGHT: rotating sun rays from the top centre ---- */
-.rays {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 170%;
-  aspect-ratio: 1;
-  transform: translate(-50%, -50%);
-  background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(255, 214, 90, 0.26) 0deg 5deg, transparent 5deg 17deg);
-  -webkit-mask-image: radial-gradient(circle closest-side, #000 0%, transparent 100%);
-  mask-image: radial-gradient(circle closest-side, #000 0%, transparent 100%);
-  mix-blend-mode: screen;
-  pointer-events: none;
-  animation: rays-spin 70s linear infinite;
-}
-@keyframes rays-spin {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
 }
 
-/* ---- 2. LIGHT: flickering fire light on the whole scene ---- */
-.fire-light {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  mix-blend-mode: screen;
+
+
+
+body {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: clip;
+  color: #fff4d8;
+
+  /* Professional Gold + Orange Theme */
   background:
-    radial-gradient(ellipse 60% 45% at 50% 100%, rgba(255, 140, 0, 0.38), transparent 70%),
-    radial-gradient(ellipse 35% 40% at 12% 100%, rgba(255, 199, 44, 0.3), transparent 70%),
-    radial-gradient(ellipse 35% 40% at 88% 100%, rgba(255, 199, 44, 0.3), transparent 70%);
-  animation: light-flicker 2.8s linear infinite;
-}
-@keyframes light-flicker {
-  0%   { opacity: 0.75; }
-  8%   { opacity: 1; }
-  15%  { opacity: 0.7; }
-  30%  { opacity: 0.95; }
-  42%  { opacity: 0.8; }
-  60%  { opacity: 1; }
-  78%  { opacity: 0.72; }
-  100% { opacity: 0.75; }
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(255, 215, 0, 0.22),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 0% 40%,
+      rgba(255, 121, 0, 0.20),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 100% 80%,
+      rgba(255, 165, 0, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #100701 0%,
+      #281103 40%,
+      #421a03 65%,
+      #100701 100%
+    );
 }
 
-/* ---- 3. SHADOW: dark smoke drifting along the ground ---- */
-.smoke {
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 55%;
-  pointer-events: none;
-  filter: blur(26px);
+/*}
+body {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: clip;
+  color: var(--cream);
   background:
-    radial-gradient(ellipse 28% 55% at 18% 85%, rgba(10, 3, 0, 0.7), transparent 70%),
-    radial-gradient(ellipse 32% 60% at 52% 95%, rgba(10, 3, 0, 0.6), transparent 70%),
-    radial-gradient(ellipse 26% 50% at 84% 85%, rgba(10, 3, 0, 0.7), transparent 70%);
-  animation: smoke-drift 16s ease-in-out infinite alternate;
+    radial-gradient(circle at 50% 0%, rgba(255, 184, 0, 0.35), transparent 28%),
+    radial-gradient(circle at 0% 35%, rgba(255, 106, 0, 0.28), transparent 35%),
+    radial-gradient(circle at 100% 70%, rgba(255, 184, 0, 0.18), transparent 35%),
+    linear-gradient(135deg, #241006 0%, #5a2408 25%, #8a3908 45%, #4a1b06 70%, #241006 100%);
 }
-@keyframes smoke-drift {
-  from { transform: translateX(-4%) scale(1); }
-  to   { transform: translateX(4%) scale(1.08); }
+  */
+
+:focus-visible {
+  outline: 2px solid #ffd84d;
+  outline-offset: 3px;
 }
 
-/* ---- 4. SHADOW: breathing dark vignette around the edges ---- */
-.vignette {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  box-shadow: inset 0 0 180px 50px rgba(0, 0, 0, 0.75);
-  animation: vignette-breathe 7s ease-in-out infinite;
-}
-@keyframes vignette-breathe {
-  0%, 100% { opacity: 0.85; }
-  50%      { opacity: 1; }
-}
-
-/* ---- 5. SPARKLE: twinkling glints (cross star + glow) ---- */
-.sparkle {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  width: var(--s);
-  height: var(--s);
-  opacity: 0;
-  pointer-events: none;
+.bg-umber {
   background:
-    linear-gradient(#fff6b0, #fff6b0) center / 100% 2px no-repeat,
-    linear-gradient(#fff6b0, #fff6b0) center / 2px 100% no-repeat,
-    radial-gradient(circle, #fff 0 12%, rgba(255, 190, 40, 0.85) 28%, transparent 65%);
-  animation: twinkle var(--dur) ease-in-out var(--delay) infinite;
-  will-change: transform, opacity;
-}
-@keyframes twinkle {
-  0%, 100% { transform: scale(0) rotate(0deg);  opacity: 0; }
-  50%      { transform: scale(1) rotate(45deg); opacity: 1; }
+    radial-gradient(circle at 50% 0%, rgba(255, 193, 7, 0.22), transparent 30%),
+    radial-gradient(circle at 15% 80%, rgba(255, 106, 0, 0.18), transparent 35%),
+    linear-gradient(135deg, #241006 0%, #4b1b07 45%, #2d1004 100%);
 }
 
-/* ---- 6. SHADOW + LIGHT: title plaque glow breathes, halo behind letters ---- */
-.plaque-glow {
-  box-shadow: 0 0 50px rgba(255, 140, 0, 0.35), inset 0 0 30px rgba(255, 160, 30, 0.12);
-  animation: plaque-breathe 4s ease-in-out infinite;
+/* Professional glow used on headings */
+.glow-text {
+  text-shadow:
+    0 0 8px rgba(255, 216, 77, 0.65),
+    0 0 20px rgba(255, 106, 0, 0.55),
+    0 0 40px rgba(255, 140, 31, 0.25);
 }
-@keyframes plaque-breathe {
-  0%, 100% { box-shadow: 0 0 40px rgba(255, 140, 0, 0.3),  inset 0 0 24px rgba(255, 160, 30, 0.08); }
-  50%      { box-shadow: 0 0 95px rgba(255, 170, 30, 0.6), inset 0 0 44px rgba(255, 190, 60, 0.2); }
-}
-.title-halo {
-  position: absolute;
-  inset: 10% 5%;
-  pointer-events: none;
-  background: radial-gradient(ellipse at 50% 50%, rgba(255, 190, 40, 0.4), transparent 70%);
-  filter: blur(24px);
-  animation: halo-pulse 3.2s ease-in-out infinite;
-}
-@keyframes halo-pulse {
-  0%, 100% { opacity: 0.45; transform: scale(0.96); }
-  50%      { opacity: 0.95; transform: scale(1.05); }
-}
-
-/* ---- 7. Page-load reveal (one orchestrated sequence, staggered by --d) ---- */
-.reveal {
-  animation: reveal-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s) both;
-}
-@keyframes reveal-up {
-  from { opacity: 0; transform: translateY(26px) scale(0.96); filter: blur(8px); }
-  to   { opacity: 1; transform: none; filter: blur(0); }
-}
-
-/* ---- 8. Button: glow pulse + shine sweep ---- */
-.btn-fire {
-  position: relative;
-  overflow: hidden;
-  animation: btn-glow 2.4s ease-in-out infinite;
-}
-.btn-fire::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.6) 50%, transparent 65%);
-  transform: translateX(-130%);
-  animation: btn-shine 3.6s ease-in-out 2.5s infinite;
-}
-@keyframes btn-glow {
-  0%, 100% { box-shadow: 0 0 16px rgba(255, 140, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.45); }
-  50%      { box-shadow: 0 0 36px rgba(255, 190, 40, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.45); }
-}
-@keyframes btn-shine {
-  0%, 55% { transform: translateX(-130%); }
-  100%    { transform: translateX(130%); }
-}
-
-/* ---- 9. Divider diamond pulse ---- */
-.diamond-pulse {
-  animation: diamond-pulse 2.2s ease-in-out infinite;
-}
-@keyframes diamond-pulse {
-  0%, 100% { transform: rotate(45deg) scale(1);   box-shadow: 0 0 6px rgba(255, 190, 40, 0.5); }
-  50%      { transform: rotate(45deg) scale(1.35); box-shadow: 0 0 18px rgba(255, 220, 90, 0.95); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .rays, .fire-light, .smoke, .vignette, .sparkle, .plaque-glow, .title-halo,
-  .reveal, .btn-fire, .btn-fire::after, .diamond-pulse { animation: none; }
-  .sparkle { opacity: 0.7; transform: scale(0.7); }
-}
-
 
 /* =====================================================================
-   LIGHT + SHADOW EFFECTS (v3)
-   All new classes are prefixed "fx-".
-   ===================================================================== */
-
-/* 1. LIGHT BEAMS */
-.fx-beams {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 4;
-  mix-blend-mode: screen;
-}
-.fx-beams span {
-  position: absolute;
-  top: -20%;
-  width: 16%;
-  height: 150%;
-  transform-origin: top center;
-  background: linear-gradient(to bottom, rgba(255, 220, 120, 0.4), rgba(255, 170, 40, 0.14) 55%, transparent 90%);
-  filter: blur(18px);
-  opacity: 0.4;
-  animation: fx-beam-sway 9s ease-in-out infinite alternate;
-}
-.fx-beams span:nth-child(1) { left: 12%; --r: 14deg; animation-duration: 10s; }
-.fx-beams span:nth-child(2) { left: 42%; --r: 6deg;  animation-duration: 13s; animation-delay: -4s; width: 12%; }
-.fx-beams span:nth-child(3) { left: 70%; --r: 20deg; animation-duration: 11s; animation-delay: -7s; }
-@keyframes fx-beam-sway {
-  0%   { transform: rotate(calc(var(--r, 12deg) - 7deg)); opacity: 0.18; }
-  50%  { opacity: 0.55; }
-  100% { transform: rotate(calc(var(--r, 12deg) + 7deg)); opacity: 0.25; }
-}
-
-/* 2. DRIFTING SHADOW BANDS */
-.fx-cloud-shadow {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 3;
-}
-.fx-cloud-shadow::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -60%;
-  width: 55%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(10, 3, 0, 0.5) 40%, rgba(10, 3, 0, 0.5) 60%, transparent);
-  filter: blur(40px);
-  transform: skewX(-14deg);
-  animation: fx-cloud-pass 22s linear infinite;
-}
-@keyframes fx-cloud-pass {
-  0%   { left: -60%; }
-  100% { left: 120%; }
-}
-
-/* 3. FLOATING GROUND SHADOW */
-.fx-grounded {
-  position: relative;
-}
-.fx-grounded::after {
-  content: "";
-  position: absolute;
-  left: 15%;
-  right: 15%;
-  bottom: -14px;
-  height: 18px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.65), transparent 70%);
-  filter: blur(6px);
-  animation: fx-ground-breathe 4s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes fx-ground-breathe {
-  0%, 100% { transform: scaleX(1);    opacity: 0.8; }
-  50%      { transform: scaleX(0.78); opacity: 0.45; }
-}
-
-/* 4. RIM LIGHT */
-.fx-rim {
-  position: relative;
-  animation: fx-rim-flicker 3.2s linear infinite;
-}
-@keyframes fx-rim-flicker {
-  0%   { box-shadow: 0 0 18px 0 rgba(255, 140, 0, 0.3),  inset 0 0 22px rgba(255, 190, 60, 0.08); }
-  12%  { box-shadow: 0 0 40px 4px rgba(255, 190, 40, 0.6), inset 0 0 36px rgba(255, 210, 90, 0.2); }
-  24%  { box-shadow: 0 0 22px 0 rgba(255, 140, 0, 0.35), inset 0 0 24px rgba(255, 190, 60, 0.1); }
-  47%  { box-shadow: 0 0 34px 3px rgba(255, 170, 30, 0.5), inset 0 0 30px rgba(255, 200, 80, 0.16); }
-  63%  { box-shadow: 0 0 20px 0 rgba(255, 140, 0, 0.3),  inset 0 0 20px rgba(255, 190, 60, 0.08); }
-  81%  { box-shadow: 0 0 44px 5px rgba(255, 200, 60, 0.62), inset 0 0 38px rgba(255, 220, 100, 0.22); }
-  100% { box-shadow: 0 0 18px 0 rgba(255, 140, 0, 0.3),  inset 0 0 22px rgba(255, 190, 60, 0.08); }
-}
-
-/* 5. MOVING SPOTLIGHT */
-.fx-spotlight {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 4;
-  background: radial-gradient(circle 38vmax at var(--lx, 30%) var(--ly, 40%), rgba(255, 200, 80, 0.2), rgba(255, 140, 0, 0.07) 45%, rgba(0, 0, 0, 0.35) 100%);
-  mix-blend-mode: soft-light;
-  animation: fx-spot-wander 16s ease-in-out infinite alternate;
-}
-@property --lx { syntax: "<percentage>"; inherits: false; initial-value: 30%; }
-@property --ly { syntax: "<percentage>"; inherits: false; initial-value: 40%; }
-@keyframes fx-spot-wander {
-  0%   { --lx: 20%; --ly: 35%; }
-  35%  { --lx: 62%; --ly: 55%; }
-  70%  { --lx: 78%; --ly: 30%; }
-  100% { --lx: 35%; --ly: 60%; }
-}
-
-/* 6. GLOWING HEADINGS */
-.fx-glow-title {
-  animation: fx-title-glow 3.6s ease-in-out infinite alternate;
-}
-@keyframes fx-title-glow {
-  0% {
-    text-shadow: 0 2px 0 rgba(60, 20, 0, 0.9), 0 0 10px rgba(255, 140, 0, 0.35);
-  }
-  100% {
-    text-shadow:
-      0 3px 0 rgba(60, 20, 0, 0.9),
-      0 0 14px rgba(255, 216, 77, 0.75),
-      0 0 38px rgba(255, 140, 0, 0.55),
-      0 0 70px rgba(255, 106, 0, 0.3);
-  }
-}
-
-/* 7. CARD LIGHT SWEEP + LIVING SHADOW */
-.fx-card {
-  position: relative;
-  overflow: hidden;
-  animation: fx-card-shadow 5s ease-in-out infinite;
-}
-.fx-card::after {
-  content: "";
-  position: absolute;
-  inset: -40%;
-  pointer-events: none;
-  background: linear-gradient(115deg, transparent 42%, rgba(255, 230, 140, 0.22) 50%, transparent 58%);
-  transform: translateX(-120%);
-  animation: fx-card-sweep 7s ease-in-out infinite;
-}
-@keyframes fx-card-sweep {
-  0%, 40%   { transform: translateX(-120%); }
-  80%, 100% { transform: translateX(120%); }
-}
-@keyframes fx-card-shadow {
-  0%, 100% { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45), 0 0 14px rgba(255, 106, 0, 0.12); }
-  50%      { box-shadow: 0 18px 36px rgba(0, 0, 0, 0.6),  0 0 28px rgba(255, 170, 30, 0.28); }
-}
-
-/* 8. FLOATING DUST MOTES */
-.fx-mote {
-  position: absolute;
-  left: var(--x, 50%);
-  top: var(--y, 50%);
-  width: var(--s, 4px);
-  height: var(--s, 4px);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 240, 170, 0.95), rgba(255, 170, 40, 0.3) 60%, transparent 75%);
-  filter: blur(0.5px);
-  opacity: 0;
-  pointer-events: none;
-  animation: fx-mote-drift var(--dur, 14s) ease-in-out var(--delay, 0s) infinite;
-}
-@keyframes fx-mote-drift {
-  0%   { transform: translate(0, 0);         opacity: 0; }
-  20%  { opacity: 0.85; }
-  50%  { transform: translate(24px, -40px);  opacity: 0.6; }
-  80%  { opacity: 0.8; }
-  100% { transform: translate(-14px, -90px); opacity: 0; }
-}
-
-/* 9. LENS FLARE */
-.fx-flare {
-  position: absolute;
-  top: 8%;
-  left: -20%;
-  width: 22vmax;
-  height: 22vmax;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 5;
-  mix-blend-mode: screen;
-  background: radial-gradient(circle, rgba(255, 245, 190, 0.5) 0%, rgba(255, 190, 60, 0.25) 25%, rgba(255, 120, 0, 0.08) 50%, transparent 70%);
-  filter: blur(6px);
-  animation: fx-flare-travel 18s ease-in-out infinite;
-}
-@keyframes fx-flare-travel {
-  0%   { transform: translate(0, 0) scale(0.8);        opacity: 0; }
-  15%  { opacity: 0.9; }
-  50%  { transform: translate(75vw, 12vh) scale(1.15); opacity: 0.7; }
-  85%  { opacity: 0.8; }
-  100% { transform: translate(130vw, 4vh) scale(0.8);  opacity: 0; }
-}
-
-/* 10. BREATHING DEPTH SHADOW at section edges */
-.fx-edge-shadow::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-  background:
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent 18%),
-    linear-gradient(to top,    rgba(0, 0, 0, 0.55), transparent 18%);
-  animation: fx-edge-breathe 8s ease-in-out infinite;
-}
-@keyframes fx-edge-breathe {
-  0%, 100% { opacity: 0.7; }
-  50%      { opacity: 1; }
-}
-
-/* Reduced motion: stop everything new, keep a static glow */
-@media (prefers-reduced-motion: reduce) {
-  .fx-beams span,
-  .fx-cloud-shadow::before,
-  .fx-grounded::after,
-  .fx-rim,
-  .fx-spotlight,
-  .fx-glow-title,
-  .fx-card,
-  .fx-card::after,
-  .fx-mote,
-  .fx-flare,
-  .fx-edge-shadow::after { animation: none !important; }
-
-  .fx-beams span { opacity: 0.3; }
-  .fx-mote { opacity: 0.5; }
-  .fx-flare { opacity: 0.4; transform: translate(40vw, 10vh); }
-}
-
-/* Phones: lighter effects so scrolling stays smooth */
-@media (max-width: 639px) {
-  .fx-beams span { filter: blur(12px); }
-  .fx-cloud-shadow::before { filter: blur(24px); }
-  .fx-flare { width: 34vmax; height: 34vmax; }
-  .fx-mote:nth-of-type(n + 6) { display: none; }
-}
-
-/* ---- Title light animation ---- */
-
-/* pulsing fire glow around the title */
-.title-glow {
-  animation: title-pulse 3.2s ease-in-out infinite;
-}
-@keyframes title-pulse {
-  0%, 100% { filter: drop-shadow(0 8px 28px rgba(255, 110, 0, 0.35)) brightness(1); }
-  50%      { filter: drop-shadow(0 8px 46px rgba(255, 170, 40, 0.75)) brightness(1.12); }
-}
-
-/* diagonal light that slides across, then rests */
-.title-shine {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  mix-blend-mode: color-dodge;
-  -webkit-mask-image: linear-gradient(#000, #000);
-}
-.title-shine::before {
-  content: "";
-  position: absolute;
-  top: -20%;
-  bottom: -20%;
-  left: 0;
-  width: 22%;
-  background: linear-gradient(100deg, transparent 0%, rgba(255, 220, 140, 0) 20%, rgba(255, 235, 170, 0.75) 50%, rgba(255, 220, 140, 0) 80%, transparent 100%);
-  transform: translateX(-140%) skewX(-18deg);
-  animation: title-sweep 5s ease-in-out infinite;
-}
-@keyframes title-sweep {
-  0%        { transform: translateX(-140%) skewX(-18deg); }
-  45%, 100% { transform: translateX(560%)  skewX(-18deg); }
-}
-
-/* 4-point star sparkle */
-.title-sparkle {
-  position: absolute;
-  width: var(--s, 16px);
-  height: var(--s, 16px);
-  margin: calc(var(--s, 16px) / -2) 0 0 calc(var(--s, 16px) / -2);
-  pointer-events: none;
-  background: radial-gradient(circle, #fff 0%, #ffe9a6 25%, transparent 65%);
-  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
-  filter: drop-shadow(0 0 6px #ffb347);
-  opacity: 0;
-  transform: scale(0) rotate(0deg);
-  animation: title-twinkle 2.6s ease-in-out infinite;
-  animation-delay: var(--d, 0s);
-}
-@keyframes title-twinkle {
-  0%, 100% { opacity: 0; transform: scale(0)   rotate(0deg); }
-  40%      { opacity: 1; transform: scale(1)   rotate(45deg); }
-  60%      { opacity: 1; transform: scale(1.2) rotate(70deg); }
-  80%      { opacity: 0; transform: scale(0.2) rotate(90deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .title-glow, .title-shine::before, .title-sparkle { animation: none; }
-}
-
-
-/* =====================================================================
-   NEW (1): LOADING SCREEN
-   Used by <Loader /> in page.tsx. Full-screen dark intro with the logo,
-   name and a progress bar, then it fades out.
+   LOADING SCREEN
    ===================================================================== */
 
 .loader {
@@ -1516,7 +117,6 @@ section::before {
   animation: loader-failsafe 0.6s ease 5s forwards;
 }
 
-/* warm glow behind the logo */
 .loader-glow {
   position: absolute;
   inset: 0;
@@ -1527,7 +127,6 @@ section::before {
   animation: loader-breathe 2.4s ease-in-out infinite;
 }
 
-/* logo with a pulsing gold ring */
 .loader-logo {
   position: relative;
   display: grid;
@@ -1543,7 +142,6 @@ section::before {
   animation: loader-ring 2s ease-in-out infinite;
 }
 
-/* fade out when loading finishes */
 .loader-out {
   animation: loader-exit 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   pointer-events: none;
@@ -1568,17 +166,8 @@ section::before {
   to { opacity: 0; visibility: hidden; pointer-events: none; }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .loader-glow,
-  .loader-ring { animation: none; }
-}
-
-
 /* =====================================================================
-   NEW (2): HERO SCROLL
-   The hero wrapper is tall and the hero inside is sticky, so it stays
-   pinned while you scroll. Its tagline / buttons / stats start hidden and
-   rise in (opacity is driven by --c1, --c2, --c3 from page.tsx).
+   HERO (pinned on scroll)
    ===================================================================== */
 
 /* content cannot be tapped until it has appeared */
@@ -1586,9 +175,332 @@ section::before {
   pointer-events: none;
 }
 
-/* phones: the pin is a little shorter so you do not scroll for too long */
-@media (max-width: 639px) {
-  .hero-scroll {
-    height: 200svh;
+/* corner fire */
+.flame {
+  position: absolute;
+  bottom: -8%;
+  width: 46%;
+  height: 55%;
+  pointer-events: none;
+  filter: blur(22px);
+  background:
+    radial-gradient(ellipse 40% 55% at 30% 100%, rgba(255, 199, 44, 0.85), transparent 70%),
+    radial-gradient(ellipse 55% 70% at 50% 100%, rgba(255, 122, 26, 0.75), transparent 72%),
+    radial-gradient(ellipse 70% 85% at 60% 100%, rgba(180, 83, 9, 0.6), transparent 75%);
+  transform-origin: bottom center;
+  animation: flame-flicker 2.6s ease-in-out infinite;
+}
+
+.flame-left {
+  left: -12%;
+}
+
+.flame-right {
+  right: -12%;
+  animation-name: flame-flicker-flip;
+  animation-delay: 0.9s;
+}
+
+@keyframes flame-flicker {
+  0%, 100% { opacity: 0.75; transform: scaleY(1); }
+  35%      { opacity: 1;    transform: scaleY(1.12); }
+  65%      { opacity: 0.85; transform: scaleY(0.94); }
+}
+
+@keyframes flame-flicker-flip {
+  0%, 100% { opacity: 0.75; transform: scaleX(-1) scaleY(1); }
+  35%      { opacity: 1;    transform: scaleX(-1) scaleY(1.12); }
+  65%      { opacity: 0.85; transform: scaleX(-1) scaleY(0.94); }
+}
+
+/* sun glow behind the temple */
+.sun-glow {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  width: 90%;
+  height: 70%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 241, 168, 0.75), rgba(255, 160, 30, 0.45) 35%, transparent 70%);
+  animation: sun-pulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes sun-pulse {
+  0%, 100% { opacity: 0.8; }
+  50%      { opacity: 1; }
+}
+
+/* flying embers */
+.ember {
+  position: absolute;
+  bottom: -6%;
+  left: var(--x);
+  width: var(--w);
+  height: calc(var(--w) * 8);
+  border-radius: 999px;
+  background: linear-gradient(to top, transparent, var(--fire-orange) 35%, var(--fire-yellow));
+  box-shadow: 0 0 8px 2px rgba(255, 140, 0, 0.65);
+  opacity: 0;
+  transform: rotate(-35deg);
+  animation: ember-rise var(--dur) linear var(--delay) infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes ember-rise {
+  0%   { transform: translate3d(0, 0, 0) rotate(-35deg) scale(1); opacity: 0; }
+  10%  { opacity: 1; }
+  70%  { opacity: 0.9; }
+  100% { transform: translate3d(var(--drift), -105vh, 0) rotate(-35deg) scale(0.35); opacity: 0; }
+}
+
+/* small rising sparks */
+.hero-sparks {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.hero-spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffd84d;
+  box-shadow: 0 0 6px #ffd84d, 0 0 14px #ff9d00, 0 0 25px rgba(255, 150, 0, 0.8);
+  opacity: 0;
+  animation: spark-rise 5s linear infinite;
+}
+
+@media (max-width: 640px) {
+  .hero-spark {
+    width: 3px;
+    height: 3px;
   }
 }
+
+.hero-spark-1  { left: 8%;  bottom: 15%; animation-delay: 0s; }
+.hero-spark-2  { left: 15%; bottom: 25%; animation-delay: 1.2s; }
+.hero-spark-3  { left: 23%; bottom: 12%; animation-delay: 2.4s; }
+.hero-spark-4  { left: 31%; bottom: 30%; animation-delay: 0.8s; }
+.hero-spark-5  { left: 39%; bottom: 18%; animation-delay: 3s; }
+.hero-spark-6  { left: 48%; bottom: 25%; animation-delay: 1.5s; }
+.hero-spark-7  { left: 57%; bottom: 12%; animation-delay: 2.2s; }
+.hero-spark-8  { left: 64%; bottom: 32%; animation-delay: 0.5s; }
+.hero-spark-9  { left: 72%; bottom: 18%; animation-delay: 3.2s; }
+.hero-spark-10 { left: 80%; bottom: 27%; animation-delay: 1.8s; }
+.hero-spark-11 { left: 87%; bottom: 15%; animation-delay: 2.8s; }
+.hero-spark-12 { left: 94%; bottom: 35%; animation-delay: 0.7s; }
+.hero-spark-13 { left: 12%; bottom: 45%; animation-delay: 3.5s; }
+.hero-spark-14 { left: 37%; bottom: 50%; animation-delay: 2s; }
+.hero-spark-15 { left: 55%; bottom: 45%; animation-delay: 4s; }
+.hero-spark-16 { left: 70%; bottom: 48%; animation-delay: 1.2s; }
+.hero-spark-17 { left: 82%; bottom: 42%; animation-delay: 3.7s; }
+.hero-spark-18 { left: 92%; bottom: 50%; animation-delay: 2.5s; }
+
+@keyframes spark-rise {
+  0%   { opacity: 0;   transform: translate3d(0, 30px, 0) scale(0); }
+  15%  { opacity: 1;   transform: translate3d(8px, 0, 0) scale(1); }
+  45%  { opacity: 0.9; transform: translate3d(-12px, -80px, 0) scale(0.8); }
+  75%  { opacity: 0.5; transform: translate3d(15px, -160px, 0) scale(0.5); }
+  100% { opacity: 0;   transform: translate3d(-10px, -230px, 0) scale(0); }
+}
+
+/* big title banner */
+.title-glow {
+  animation: title-pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes title-pulse {
+  0%, 100% { filter: drop-shadow(0 8px 28px rgba(255, 110, 0, 0.35)) brightness(1); }
+  50%      { filter: drop-shadow(0 8px 46px rgba(255, 170, 40, 0.75)) brightness(1.12); }
+}
+
+.title-shine {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+}
+
+.title-shine::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  width: 22%;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 220, 140, 0) 20%, rgba(255, 235, 170, 0.75) 50%, rgba(255, 220, 140, 0) 80%, transparent 100%);
+  transform: translateX(-140%) skewX(-18deg);
+  animation: title-sweep 5s ease-in-out infinite;
+}
+
+@keyframes title-sweep {
+  0%        { transform: translateX(-140%) skewX(-18deg); }
+  45%, 100% { transform: translateX(560%)  skewX(-18deg); }
+}
+
+.title-sparkle {
+  position: absolute;
+  width: var(--s, 16px);
+  height: var(--s, 16px);
+  margin: calc(var(--s, 16px) / -2) 0 0 calc(var(--s, 16px) / -2);
+  pointer-events: none;
+  background: radial-gradient(circle, #fff 0%, #ffe9a6 25%, transparent 65%);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  filter: drop-shadow(0 0 6px #ffb347);
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+  animation: title-twinkle 2.6s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes title-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0)   rotate(0deg); }
+  40%      { opacity: 1; transform: scale(1)   rotate(45deg); }
+  60%      { opacity: 1; transform: scale(1.2) rotate(70deg); }
+  80%      { opacity: 0; transform: scale(0.2) rotate(90deg); }
+}
+
+/* =====================================================================
+   BUTTONS
+   ===================================================================== */
+
+.btn-fire {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffa21f, #ffd24a);
+  box-shadow: 0 0 22px rgba(255, 140, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  animation: btn-glow 2.4s ease-in-out infinite;
+}
+
+.btn-fire::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.6) 50%, transparent 65%);
+  transform: translateX(-130%);
+  animation: btn-shine 3.6s ease-in-out 2.5s infinite;
+}
+
+@keyframes btn-glow {
+  0%, 100% { box-shadow: 0 0 16px rgba(255, 140, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.45); }
+  50%      { box-shadow: 0 0 36px rgba(255, 190, 40, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.45); }
+}
+
+@keyframes btn-shine {
+  0%, 55% { transform: translateX(-130%); }
+  100%    { transform: translateX(130%); }
+}
+
+/* =====================================================================
+   SECTION BACKGROUNDS (photo + fade)
+   ===================================================================== */
+
+/* phones: keep the fighters visible */
+@media (max-width: 639px) {
+  .achievement-bg {
+    background-position: 78% center !important;
+    background-size: cover !important;
+  }
+
+  #about .about-bg {
+    object-position: 68% center !important;
+  }
+}
+
+/* tablet */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .achievement-bg {
+    background-position: 75% center;
+  }
+
+  #about .about-bg {
+    object-position: 72% center;
+  }
+}
+
+/* laptop and up: move the fighters right and fade the photo under the text */
+@media (min-width: 1024px) {
+  #about .about-bg {
+    object-position: 85% center;
+    -webkit-mask-image: linear-gradient(to right, transparent 15%, #000 55%);
+            mask-image: linear-gradient(to right, transparent 15%, #000 55%);
+  }
+}
+
+/* =====================================================================
+   SCROLL REVEAL
+   Elements marked data-reveal fade and rise as they enter the screen.
+   Browsers without scroll-driven animations just show them normally.
+   ===================================================================== */
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@supports (animation-timeline: view()) {
+  [data-reveal] {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+}
+
+/* =====================================================================
+   PHONES: lighter effects so scrolling stays smooth
+   ===================================================================== */
+
+@media (max-width: 639px) {
+  [class*="backdrop-blur"] {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .flame {
+    filter: blur(14px);
+  }
+}
+
+/* =====================================================================
+   REDUCED MOTION
+   ===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .loader-glow,
+  .loader-ring,
+  .flame,
+  .sun-glow,
+  .ember,
+  .hero-spark,
+  .title-glow,
+  .title-shine::before,
+  .title-sparkle,
+  .btn-fire,
+  .btn-fire::after {
+    animation: none;
+  }
+
+  .ember {
+    opacity: 0.6;
+  }
+
+  .title-sparkle {
+    opacity: 0.7;
+    transform: scale(0.7);
+  }
+
+  [data-reveal] {
+    animation: none;
+  }
+}
+

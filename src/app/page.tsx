@@ -18,10 +18,10 @@ const TEL = `tel:${SITE.phone.replace(/\s/g, "")}`;
 const NAV = [
   ["Home", "#top"],
   ["About", "#about"],
-  ["Training", "#training"],
+  ["Programs", "#training"],
+  ["Virtues", "#virtues"],
+  ["Women", "#women"],
   ["Achievements", "#achievements"],
-  ["Events", "#events"],
-  ["Gallery", "#gallery"],
   ["Contact", "#contact"],
 ];
 
@@ -39,31 +39,20 @@ const HIGHLIGHTS = [
   ["Her Power, Her Legacy", "Let’s empower women with strength, courage, and confidence through Silambam."],
 ];
 
-const WHY = [
-  {
-    title: "Seasoned coaches",
-    desc: "Learn from national medallists with more than twenty years in martial arts.",
-  },
-  {
-    title: "Rooted in tradition",
-    desc: "Lessons follow the Tamil Kalaripayattu line and the old warrior codes.",
-  },
-  {
-    title: "A stronger body",
-    desc: "Full-body drills build strength, flexibility and stamina together.",
-  },
-  {
-    title: "A calmer mind",
-    desc: "Patient, structured practice grows focus and resilience.",
-  },
-  {
-    title: "Every age welcome",
-    desc: "Batches for children, teens, adults and women at any fitness level.",
-  },
-  {
-    title: "Results you can see",
-    desc: "Our students have won district, state and national titles.",
-  },
+const VIRTUES = [
+  { title: "Discipline", desc: "Footwork, timing and form, repeated until they become second nature." },
+  { title: "Strength", desc: "Full-body conditioning that builds the power every drill depends on." },
+  { title: "Focus", desc: "A steady mind, sharpened with every strike and every breath." },
+  { title: "Peace", desc: "Stay calm under pressure and let the tradition guide each step." },
+  { title: "Courage", desc: "Face every opponent and every fear with an open heart." },
+];
+const ROMAN = ["I", "II", "III", "IV", "V"];
+
+const WHY_POINTS = [
+  ["Traditional lineage", "Lessons follow the Tamil Kalaripayattu line and the old warrior codes."],
+  ["Structured training", "Clear levels and steady progress, so every student knows the next step."],
+  ["Whole-body fitness", "Full-body drills build strength, flexibility and stamina together."],
+  ["A calm, focused mind", "Patient practice grows focus and resilience in and out of the arena."],
 ];
 
 const WOMEN_POINTS = [
@@ -97,25 +86,25 @@ const PROGRAMS = [
 ];
 
 const ITEMS = [
-  { title: "Single stick", ta: "ஒற்றைக் கம்பு", img: "/programs/1-single-stick.jpg", pos: "50% 30%",
+  { title: "Single stick", img: "/programs/1-single-stick.jpg",
     desc: "The foundation of Silambam. Learn stance, footwork and the core strikes with a single staff." },
-  { title: "Double stick", ta: "இரட்டைக் கம்பு", img: "/programs/2-double-stick.jpg", pos: "50% 30%",
+  { title: "Double stick", img: "/programs/2-double-stick.jpg",
     desc: "Train both hands together for speed, rhythm and coordination." },
-  { title: "Surulvall", ta: "சுருள் வாள்", img: "/programs/3-surulvall.jpg", pos: "50% 25%",
+  { title: "Surulvall", img: "/programs/3-surulvall.jpg",
     desc: "The flexible coiled blade. It demands control, timing and complete focus." },
-  { title: "Vel Kambu", ta: "வேல் கம்பு", img: "/programs/4-vel-kambu.jpg", pos: "50% 30%",
+  { title: "Vel Kambu", img: "/programs/4-vel-kambu.jpg",
     desc: "Spear-style training with thrusts and reach, built on balance and precision." },
-  { title: "Maan Kombu", ta: "மான் கொம்பு", img: "/programs/5-maan-kombu.jpg", pos: "50% 30%",
+  { title: "Maan Kombu", img: "/programs/5-maan-kombu.jpg",
     desc: "The twin-horn weapon for close defence and sharp counters." },
-  { title: "Kuthuvarisai", ta: "குத்துவரிசை", img: "/programs/6-kuthuvarisai.jpg", pos: "50% 30%",
+  { title: "Kuthuvarisai", img: "/programs/6-kuthuvarisai.jpg",
     desc: "Empty-hand combat built on strikes, blocks and body control." },
-  { title: "Advanced Techniques", ta: "மேம்பட்ட நுட்பங்கள்", img: "/programs/7-advance-equipments-techniques.jpg", pos: "50% 30%",
+  { title: "Advanced Techniques", img: "/programs/7-advance-equipments-techniques.jpg",
     desc: "Higher-level equipment work and technique for experienced students." },
-  { title: "Women's Self Defence", ta: "பெண்கள் தற்காப்புக் கலை", img: "/programs/8-womens-self-defence.jpg", pos: "50% 30%",
+  { title: "Women's Self Defence", img: "/programs/8-womens-self-defence.jpg",
     desc: "Practical self-defence skills that build confidence and awareness." },
-  { title: "Youth Program", ta: "இளைஞர் பயிற்சி", img: "/programs/9-youth-program.jpg", pos: "50% 30%",
+  { title: "Youth Program", img: "/programs/9-youth-program.jpg",
     desc: "A structured path for young students to learn Silambam with discipline." },
-  { title: "Gymnastics", ta: "சீருடற்பயிற்சி", img: "/programs/10-gymnastics.jpg", pos: "50% 30%",
+  { title: "Gymnastics", img: "/programs/10-gymnastics.jpg",
     desc: "Flexibility, balance and strength that support every Silambam skill." },
 ];
 
@@ -134,10 +123,6 @@ const EMBERS = Array.from({ length: 42 }, (_, i) => {
   };
 });
 
-// Tailwind needs these written out in full so it can find them.
-const SELECT =
-  "has-[#p0:checked]:[--sel:0] has-[#p1:checked]:[--sel:1] has-[#p2:checked]:[--sel:2] has-[#p3:checked]:[--sel:3] has-[#p4:checked]:[--sel:4] has-[#p5:checked]:[--sel:5] has-[#p6:checked]:[--sel:6] has-[#p7:checked]:[--sel:7] has-[#p8:checked]:[--sel:8] has-[#p9:checked]:[--sel:9]";
-
 // Orange-to-yellow button look used by every solid button
 const SOLID_BTN =
   "border-2 border-[#FF9A1F] bg-gradient-to-r from-[#FF7A1A] to-[#F5C518] text-[#1C120C] shadow-[0_0_20px_rgba(255,122,26,0.45)] hover:from-[#FF8F3A] hover:to-[#FFD84D]";
@@ -145,16 +130,6 @@ const SOLID_BTN =
 function vars(styles: Record<string, string | number>): CSSProperties {
   return styles as CSSProperties;
 }
-
-// ---------- Circle plot maths (Training section) ----------
-const R = 38; // ring radius, as % of the plot's width
-
-// point on the ring for program i (first one at 12 o'clock, then clockwise)
-const angle = (i: number) => ((i * 36 - 90) * Math.PI) / 180;
-const pt = (i: number, r = R) => ({
-  x: Number((50 + r * Math.cos(angle(i))).toFixed(2)),
-  y: Number((50 + r * Math.sin(angle(i))).toFixed(2)),
-});
 
 // ---------- Kolam divider pieces ----------
 const GOLD = "#F5C518";
@@ -255,7 +230,7 @@ const SPARKLES = [
 ];
 
 /* =====================================================================
-   NEW (1): LOADING SCREEN
+   LOADING SCREEN
    Logo + name + progress bar counting 0 -> 100%, then fades away.
    Styles for it are in globals.css under "LOADING SCREEN".
    ===================================================================== */
@@ -338,7 +313,7 @@ function Loader() {
   );
 }
 
-// ---------- Sections ----------
+// ---------- Nav ----------
 function Nav() {
   return (
     <header className="fixed inset-x-0 top-0 z-30 border-b border-[#FF8A1F]/30 bg-[#1C120C]/90 pt-[env(safe-area-inset-top)] backdrop-blur">
@@ -346,10 +321,7 @@ function Nav() {
         className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-5"
         aria-label="Main"
       >
-        <a
-          href="#top"
-          className="flex min-w-0 items-center gap-2 sm:gap-3"
-        >
+        <a href="#top" className="flex min-w-0 items-center gap-2 sm:gap-3">
           <Logo />
 
           <span className="glow-text font-display text-sm leading-tight text-[#F5C518] sm:text-xl">
@@ -358,7 +330,7 @@ function Nav() {
         </a>
 
         {/* Desktop Menu */}
-        <ul className="hidden items-center gap-5 lg:flex">
+        <ul className="hidden items-center gap-4 xl:flex">
           {NAV.map(([l, h]) => (
             <li key={h}>
               <a
@@ -384,7 +356,7 @@ function Nav() {
         </ul>
 
         {/* Mobile Menu */}
-        <details className="relative shrink-0 lg:hidden">
+        <details className="relative shrink-0 xl:hidden">
           <summary className="group cursor-pointer list-none rounded-lg border border-[#FF8A1F]/50 px-3 py-1.5 text-[#F5C518] transition-all duration-300 hover:border-[#FFD84D] hover:bg-[#FF7A1A]/10 hover:text-[#FFD84D] hover:shadow-[0_0_20px_rgba(255,122,24,0.4)] marker:hidden">
             <span className="font-medium">Menu</span>
           </summary>
@@ -398,7 +370,6 @@ function Nav() {
                 >
                   <span className="relative z-10">{l}</span>
 
-                  {/* Light effect */}
                   <span className="absolute bottom-1 left-3 right-3 h-[2px] origin-left scale-x-0 rounded-full bg-gradient-to-r from-[#FF7A18] via-[#F5C518] to-[#FFD84D] shadow-[0_0_8px_rgba(245,197,24,0.8)] transition-transform duration-300 group-hover:scale-x-100" />
                 </a>
               </li>
@@ -420,11 +391,10 @@ function Nav() {
 }
 
 /* =====================================================================
-   NEW (2): HERO SCROLL
-   - wrapper is now TALL (230svh) so the hero stays pinned while you scroll
-   - tagline / buttons / stats start hidden and RISE IN as you scroll
-     (before, they were visible first and faded out: the opposite)
-   - image zooms + blurs + goes black as you scroll
+   HERO SCROLL
+   The hero wrapper is tall and the hero inside is sticky, so it stays
+   pinned while you scroll. Tagline / buttons / stats rise in as you scroll.
+   The image zooms, blurs and goes black as you scroll.
    ===================================================================== */
 function HeroScroll({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -653,69 +623,96 @@ function Hero() {
   );
 }
 
+// ---------- About ----------
 function About() {
   return (
     <section
       id="about"
-      className="relative scroll-mt-20 overflow-hidden py-16 sm:py-20"
+      className="relative scroll-mt-20 overflow-hidden py-16 sm:py-24"
     >
+      {/* Background image */}
       <Image
         src="/why.png"
         alt=""
         fill
         sizes="100vw"
-        //className="object-cover object-[75%_center] brightness-[0.5] sm:object-right"
         className="about-bg object-cover brightness-[0.5] sm:object-right"
       />
 
-      {/* Dark overlay - makes text clear */}
+      {/* Dark overlay: keeps the text clear */}
       <div className="absolute inset-0 bg-[#1C120C]/75" />
 
       {/* Orange cinematic overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#5A2408]/80 via-[#2A1308]/75 to-[#120805]/90" />
 
-      {/* Soft center glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,166,0,0.16),transparent_60%)]" />
+      {/* Soft glow behind the text column */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_40%,rgba(255,166,0,0.16),transparent_60%)]" />
 
-      {/* Content */}
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
-        <div className="max-w-4xl">
-          <Heading className="glow-text">
-            Old Tradition...! New Warriors...!
-          </Heading>
+        <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+          {/* Left: story */}
+          <div>
+            <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#FFD84D]">
+              <span className="h-px w-10 bg-[#FFD84D]/70" />
+              Our roots
+            </p>
 
-          <p className="mt-5 max-w-3xl text-base font-medium leading-8 text-white drop-shadow-[0_2px_5px_rgba(0,0,0,0.9)] sm:text-lg">
-            Padaivedu Yudhakalam carries the ancient Tamil art of Silambam
-            to future generations through training, strength and tradition.
-          </p>
+            <Heading className="glow-text mt-4">
+              Old Tradition...!
+              <span className="block text-[#FFD84D]">New Warriors...!</span>
+            </Heading>
 
-          <div className="mt-7">
-            <Btn href="#why" solid>
-              Read our story
-            </Btn>
-          </div>
-        </div>
+            <p className="mt-6 max-w-xl text-base font-medium leading-8 text-white drop-shadow-[0_2px_5px_rgba(0,0,0,0.9)] sm:text-lg">
+              Padaivedu Yudhakalam carries the ancient Tamil art of Silambam
+              to future generations through training, strength and tradition.
+            </p>
 
-        {/* Highlight Cards */}
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          {HIGHLIGHTS.map(([t, d], i) => (
-            <article
-              key={t}
-              data-reveal
-              style={vars({ "--i": i })}
-              className={`rounded-xl border border-[#FF9A1F]/50 bg-[#1C120C]/80 p-5 shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#FFD84D]/80 hover:bg-[#241006]/90 hover:shadow-[0_0_30px_rgba(255,122,24,0.2)] ${
-                i === 2 ? "sm:col-span-2" : ""
-              }`}
-            >
-              <h3 className="font-display text-xl text-[#FFD84D] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
-                {t}
-              </h3>
+            <p className="mt-4 max-w-xl leading-7 text-white/85 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+              Whether you are taking your first step or refining advanced
+              forms, every session builds discipline, strength and pride in
+              our heritage, one step at a time.
+            </p>
 
-              <p className="mt-2 leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                {d}
+            <blockquote className="mt-7 border-l-2 border-[#FF9A1F] pl-4">
+              <p className="text-lg font-semibold text-[#FFD84D] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
+                வீரம் பயிற்சியில் பிறக்கும்
               </p>
-            </article>
-          ))}
+              <p className="mt-1 text-xs uppercase tracking-[0.2em] text-white/70">
+                Courage is born in practice
+              </p>
+            </blockquote>
+
+            <div className="mt-8">
+              <Btn href="#training" solid>
+                Read our story
+              </Btn>
+            </div>
+          </div>
+
+          {/* Right: numbered highlights */}
+          <ol className="divide-y divide-[#FFD84D]/25 lg:border-l lg:border-[#FFD84D]/25 lg:pl-12">
+            {HIGHLIGHTS.map(([t, d], i) => (
+              <li
+                key={t}
+                data-reveal
+                style={vars({ "--i": i })}
+                className="group flex gap-5 py-6 transition-transform duration-300 first:pt-0 last:pb-0 hover:translate-x-1"
+              >
+                <span className="font-display text-3xl leading-none text-[#FF9A1F] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)] transition-colors duration-300 group-hover:text-[#FFD84D]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                <div>
+                  <h3 className="font-display text-xl text-[#FFD84D] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
+                    {t}
+                  </h3>
+                  <p className="mt-2 leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                    {d}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
 
@@ -725,515 +722,482 @@ function About() {
   );
 }
 
-function Why() {
-  return (
-    <section
-      id="why"
-      className="relative scroll-mt-20 overflow-hidden bg-[#1C0D05] py-20 sm:py-24"
-    >
-      {/* Background image: banner, dimmed, focused on the fighter (right side) */}
-      <Image
-        src="/why.png"
-        alt=""
-        fill
-        sizes="100vw"
-        className="about-bg object-cover brightness-[0.5] sm:object-right"
-        //className="object-cover object-[75%_center] brightness-[0.5] sm:object-right"
-      />
-
-      {/* Dark overlay so the cards and text stay clear */}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-[#1C0D05]/90 via-[#1C0D05]/75 to-[#1C0D05]/95"
-      />
-
-      {/* Background glow */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-[#FF7A18]/10 blur-3xl" />
-        <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-[#F5C518]/5 blur-3xl" />
-        <div className="absolute right-0 top-1/2 h-72 w-72 rounded-full bg-[#FF7A18]/5 blur-3xl" />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
-        {/* Section heading */}
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.35em] text-[#FF9A1F]">
-            Why Padaivedu
-          </p>
-
-          <Heading center className="glow-text">
-            What Sets Us Apart
-          </Heading>
-
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#E9D6AE]/85 sm:text-base">
-            More than martial arts — we build discipline, strength,
-            confidence and a deeper connection to Tamil warrior heritage.
-          </p>
-
-          {/* Decorative line */}
-          <div className="mx-auto mt-7 flex items-center justify-center gap-3">
-            <span className="h-px w-16 bg-gradient-to-r from-transparent to-[#FF7A18]" />
-            <span className="h-2 w-2 rotate-45 border border-[#FFD84D] bg-[#FF7A18]" />
-            <span className="h-px w-16 bg-gradient-to-l from-transparent to-[#FF7A18]" />
-          </div>
-        </div>
-
-        {/* Cards */}
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {WHY.map(({ title, desc }, i) => (
-            <article
-              key={title}
-              data-reveal
-              className="group relative overflow-hidden rounded-2xl border border-[#FF8A1F]/30 bg-gradient-to-br from-[#3A1607]/85 to-[#1E0D06]/90 p-6 shadow-[0_10px_35px_rgba(0,0,0,0.35)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:border-[#FFD84D]/60 hover:shadow-[0_15px_45px_rgba(255,122,24,0.18)] active:border-[#FFD84D]/60"
-              style={vars({ "--i": i })}
-            >
-              {/* Top glow */}
-              <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF9A1F] to-transparent opacity-40 transition-opacity duration-500 group-hover:opacity-100" />
-
-              {/* Number */}
-              <div className="mb-5 flex items-center justify-between">
-                <span className="font-display text-3xl text-[#FF7A18]/30 transition-colors duration-300 group-hover:text-[#FF7A18]/55">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#FF9A1F]/30 bg-[#FF7A18]/10 text-lg text-[#FFD84D] transition-all duration-300 group-hover:border-[#FFD84D]/60 group-hover:bg-[#FF7A18]/20 group-hover:shadow-[0_0_18px_rgba(255,122,24,0.25)]">
-                  ✦
-                </span>
-              </div>
-
-              {/* Title */}
-              <h3 className="font-display text-xl text-[#FFD84D] transition-colors duration-300 group-hover:text-[#FFE58A]">
-                {title}
-              </h3>
-
-              {/* Description */}
-              <p className="mt-3 leading-7 text-[#E9D6AE]/85">
-                {desc}
-              </p>
-
-              {/* Bottom accent */}
-              <div className="absolute bottom-0 left-6 right-6 h-px origin-left scale-x-0 bg-gradient-to-r from-[#FF7A18] to-[#FFD84D] transition-transform duration-500 group-hover:scale-x-100" />
-            </article>
-          ))}
-        </div>
-
-        {/* Bottom statement */}
-        <div className="mx-auto mt-12 max-w-3xl text-center">
-          <p className="font-display text-lg text-[#FFD84D]/90 [text-shadow:0_2px_8px_rgba(0,0,0,0.8)] sm:text-xl">
-            “Train the body. Sharpen the mind. Carry the tradition.”
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
+// ---------- Choose your weapon (programs) ----------
 function Training() {
+  const [active, setActive] = useState(0);
+  const item = ITEMS[active];
+
+  useEffect(() => {
+  const timer = setInterval(() => {
+    setActive((prev) => (prev + 1) % ITEMS.length);
+  }, 3000);
+
+  return () => clearInterval(timer);
+}, []);
+
   return (
     <section
       id="training"
       className="relative scroll-mt-20 overflow-hidden bg-[#160A04] py-20 sm:py-24"
     >
-      {/* Dark overlay */}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-[#160A04]/90 via-[#160A04]/80 to-[#160A04]/95"
-      />
-      {/* Background image: banner, dimmed */}
+      {/* Background image, dimmed */}
       <Image
         src="/coming-up.png"
         alt=""
         fill
         sizes="100vw"
-        //className="training-bg object-cover brightness-[0.1] sm:object-right"
         className="object-cover object-[75%_center] brightness-[0.1] sm:object-right"
       />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-b from-[#160A04]/90 via-[#160A04]/80 to-[#160A04]/95"
+      />
 
-      {/* Background atmosphere */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-20 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-[#FF7A18]/8 blur-[60px] sm:blur-[120px]" />
-
-        <div className="absolute -left-32 bottom-0 h-80 w-80 rounded-full bg-[#F5C518]/5 blur-[50px] sm:blur-[100px]" />
-
-        <div className="absolute -right-32 top-1/3 h-96 w-96 rounded-full bg-[#FF7A18]/5 blur-[55px] sm:blur-[110px]" />
-
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,166,0,0.06),transparent_45%)]" />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-5">
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
         {/* Heading */}
         <div className="mx-auto max-w-3xl text-center">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#FF9A1F]">
             Training at Padaivedu
           </p>
           <Heading center className="glow-text">
-            Programs We Teach
+            Choose your weapon
           </Heading>
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#E9D6AE]/85 sm:text-base">
-            Explore the traditional arts, combat techniques and physical
-            disciplines that shape every Padaivedu warrior.
-          </p>
-
-          {/* Decorative divider */}
-          <div className="mx-auto mt-6 flex items-center justify-center gap-3">
-            <span className="h-px w-16 bg-gradient-to-r from-transparent to-[#FF8A1F]" />
-            <span className="h-2.5 w-2.5 rotate-45 border border-[#FFD84D] bg-[#FF7A18]" />
-            <span className="h-px w-16 bg-gradient-to-l from-transparent to-[#FF8A1F]" />
-          </div>
-
-          <p className="mt-5 text-xs font-medium uppercase tracking-[0.25em] text-[#E9D6AE]/60">
-            10 disciplines · One warrior journey
+          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#E9D6AE]/85 sm:text-base">
+            Traditional weapons and techniques of Silambam. Pick one to see what it teaches.
           </p>
         </div>
 
-        {/* Orbit */}
-        <div className="relative mx-auto mt-12 aspect-square w-full max-w-[700px] sm:mt-16">
-          {/* Outer atmospheric glow */}
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[68%] w-[68%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FF7A18]/5 blur-3xl" />
-
-          {/* Outer ring */}
-          <div className="pointer-events-none absolute inset-[9%] rounded-full border border-[#FF9A1F]/20" />
-
-          {/* Dashed rotating ring */}
-          <div className="pointer-events-none absolute inset-[14%]">
-            <div className="spin-ring h-full w-full rounded-full border border-dashed border-[#FF9A1F]/35" />
-          </div>
-
-          {/* Inner ring */}
-          <div className="pointer-events-none absolute inset-[27%] rounded-full border border-[#FFD84D]/15" />
-
-          {/* Inner glow */}
-          <div className="pointer-events-none absolute left-1/2 top-1/2 h-[32%] w-[32%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FF7A18]/10 blur-2xl" />
-
-          {/* Connecting branches */}
-          <svg
-            viewBox="0 0 100 100"
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 h-full w-full"
-            fill="none"
-          >
+        <div className="mt-12 grid gap-6 lg:mt-14 lg:grid-cols-[300px_1fr] lg:gap-8">
+          {/* Weapon list */}
+         {/* <ul className="grid grid-cols-2 gap-2 sm:grid-cols-5 lg:grid-cols-1">
             {ITEMS.map((it, i) => {
-              const end = pt(i);
-              const a = angle(i) + 0.3;
-
-              const cx = Number((50 + R * 0.55 * Math.cos(a)).toFixed(2));
-              const cy = Number((50 + R * 0.55 * Math.sin(a)).toFixed(2));
-
+              const selected = i === active;
               return (
-                <g key={it.title}>
-                  <path
-                    d={`M50 50 Q ${cx} ${cy} ${end.x} ${end.y}`}
-                    stroke="#FF8A1F"
-                    strokeOpacity="0.18"
-                    strokeWidth="1"
-                  />
-
-                  <path
-                    d={`M50 50 Q ${cx} ${cy} ${end.x} ${end.y}`}
-                    stroke="#FFD84D"
-                    strokeOpacity="0.28"
-                    strokeWidth="0.25"
-                    strokeLinecap="round"
-                  />
-                </g>
+                <li key={it.title}>
+                  <button
+                    type="button" 
+                    onClick={() => setActive(i)}
+                    aria-pressed={selected}
+                    className={`flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-300 sm:flex-col sm:justify-center sm:text-center lg:flex-row lg:justify-start lg:text-left ${
+                      selected
+                        ? "border-[#FFD84D] bg-[#FF7A18]/15 shadow-[0_0_25px_rgba(255,122,24,0.3)]"
+                        : "border-[#FF9A1F]/25 bg-[#211006]/70 hover:border-[#FF9A1F]/60 hover:bg-[#211006]"
+                    }`}
+                  >
+                    <span
+                      className={`font-display text-sm transition-colors ${
+                        selected ? "text-[#FFD84D]" : "text-[#FF9A1F]"
+                      }`}
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-sm font-medium leading-tight text-[#F5E5C5]">
+                      {it.title}
+                    </span>
+                  </button>
+                </li>
               );
             })}
-          </svg>
+          </ul>*/}
 
-          {/* Center logo */}
-          <a
-            href="#logo-popup"
-            aria-label="Show academy logo"
-            className="group absolute left-1/2 top-1/2 z-20 w-[27%] -translate-x-1/2 -translate-y-1/2"
-          >
-            {/* Outer glow */}
-            <div className="absolute -inset-4 rounded-full bg-[#FF7A18]/15 blur-xl transition-all duration-500 group-hover:bg-[#FF7A18]/30" />
+          
+<ul
+  className="grid grid-cols-2 gap-2 sm:grid-cols-5 lg:grid-cols-1"
+  onTouchStart={(e) => {
+    e.currentTarget.dataset.touchX = String(
+      e.touches[0].clientX
+    );
+  }}
+  onTouchEnd={(e) => {
+    const start = Number(e.currentTarget.dataset.touchX);
+    const end = e.changedTouches[0].clientX;
 
-            {/* Gold ring */}
-            <div className="relative rounded-full border border-[#FFD84D]/50 bg-[#120804] p-2 shadow-[0_0_35px_rgba(255,122,24,0.25)] transition-all duration-500 group-hover:scale-105 group-hover:border-[#FFD84D] group-hover:shadow-[0_0_55px_rgba(255,122,24,0.45)] group-active:scale-105">
-              <Image
-                src="/logo.jpeg"
-                alt="Padaivedu Yudhakalam"
-                width={240}
-                height={240}
-                className="h-auto w-full rounded-full"
-              />
-            </div>
+    if (Math.abs(end - start) > 50) {
+      setActive((prev) =>
+        end < start
+          ? (prev + 1) % ITEMS.length
+          : (prev - 1 + ITEMS.length) % ITEMS.length
+      );
+    }
+  }}
+>
+  {ITEMS.map((it, i) => {
+    const selected = i === active;
 
-            {/* Center label */}
-            <span className="absolute left-1/2 top-full mt-3 -translate-x-1/2 whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.2em] text-[#FFD84D]/80 sm:text-[10px]">
-              Our Warrior Path
-            </span>
-          </a>
-
-          {/* Program circles */}
-          {ITEMS.map((it, i) => {
-            const { x, y } = pt(i);
-
-            return (
-              <div
-                key={it.title}
-                className="absolute w-[18%] -translate-x-1/2 -translate-y-1/2 sm:w-[13.5%]"
-                style={{
-                  left: `${x}%`,
-                  top: `${y}%`,
-                }}
-              >
-                <a
-                  href={`#prog-${i}`}
-                  aria-label={`Watch ${it.title}`}
-                  data-reveal
-                  style={vars({ "--i": i })}
-                  className="group relative block active:scale-95"
-                >
-                  {/* Circle */}
-                  <span className="relative block aspect-square overflow-hidden rounded-full border border-[#FF9A1F]/70 bg-[#211006] p-[3px] shadow-[0_0_0_3px_rgba(255,122,24,0.06)] transition-all duration-500 group-hover:scale-110 group-hover:border-[#FFD84D] group-hover:shadow-[0_0_30px_rgba(255,122,24,0.45)] group-active:scale-110 group-active:border-[#FFD84D]">
-                    <span className="relative block h-full w-full overflow-hidden rounded-full">
-                      <Image
-                        src={it.img}
-                        alt={it.title}
-                        fill
-                        sizes="(min-width:640px) 90px, 18vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
-
-                      {/* Image darkening */}
-                      <span className="absolute inset-0 bg-black/20 transition-all duration-300 group-hover:bg-black/5" />
-                    </span>
-                  </span>
-
-                  {/* Number */}
-                  <span className="absolute -left-1 -top-1 grid h-5 w-5 place-items-center rounded-full border border-[#FFD84D]/50 bg-[#211006] text-[8px] font-bold text-[#FFD84D] shadow-lg">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-
-                  {/* Program name (desktop only; mobile uses the list below) */}
-                  <span className="pointer-events-none absolute left-1/2 top-full mt-2 hidden -translate-x-1/2 whitespace-nowrap rounded-md border border-[#FF9A1F]/20 bg-[#160A04]/90 px-2.5 py-1 text-[10px] font-medium text-[#F5E5C5] shadow-lg backdrop-blur-md sm:block sm:text-xs">
-                    {it.title}
-                  </span>
-                </a>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Mobile program list */}
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:hidden">
-          {ITEMS.map((it, i) => (
-            <a
-              key={it.title}
-              href={`#prog-${i}`}
-              data-reveal
-              style={vars({ "--i": i })}
-              className="flex items-center gap-3 rounded-xl border border-[#FF9A1F]/30 bg-[#211006]/80 p-3 active:scale-95 active:border-[#FFD84D]"
-            >
-              <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-[#FF9A1F]/60 font-display text-sm text-[#FFD84D]">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <span className="text-sm font-medium leading-tight text-[#F5E5C5]">
-                {it.title}
-              </span>
-            </a>
-          ))}
-        </div>
-
-        {/* Bottom instruction */}
-        <div className="mx-auto mt-8 flex max-w-xl items-center justify-center gap-3 text-center">
-          <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[#FF8A1F]/30" />
-
-          <p className="text-xs uppercase tracking-[0.2em] text-[#E9D6AE]/60">
-            Select a discipline to explore
-          </p>
-
-          <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[#FF8A1F]/30" />
-        </div>
-      </div>
-
-      {/* Program popups */}
-      {ITEMS.map((it, i) => (
-        <div
-          key={it.title}
-          id={`prog-${i}`}
-          className="fixed inset-0 z-50 hidden items-center justify-center p-4 target:flex"
+    return (
+      <li key={it.title}>
+        <button
+          type="button"
+          onClick={() => setActive(i)}
+          aria-pressed={selected}
+          className={`flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-300 sm:flex-col sm:justify-center sm:text-center lg:flex-row lg:justify-start lg:text-left ${
+            selected
+              ? "border-[#FFD84D] bg-[#FF7A18]/15 shadow-[0_0_25px_rgba(255,122,24,0.3)]"
+              : "border-[#FF9A1F]/25 bg-[#211006]/70 hover:border-[#FF9A1F]/60 hover:bg-[#211006]"
+          }`}
         >
-          {/* Backdrop */}
-          <a
-            href="#training"
-            aria-label="Close"
-            className="absolute inset-0 bg-black/85 backdrop-blur-sm"
-          />
+          <span
+            className={`font-display text-sm ${
+              selected ? "text-[#FFD84D]" : "text-[#FF9A1F]"
+            }`}
+          >
+            {String(i + 1).padStart(2, "0")}
+          </span>
 
-          {/* Popup */}
-          <div className="popup-card relative max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-3xl border border-[#FF9A1F]/40 bg-[#1A0C05] p-4 shadow-[0_0_60px_rgba(255,122,24,0.25)] sm:p-5">
-            {/* Top accent */}
-            <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-[#FF7A18] via-[#FFD84D] to-[#FF7A18]" />
+          <span className="text-sm font-medium leading-tight text-[#F5E5C5]">
+            {it.title}
+          </span>
+        </button>
+      </li>
+    );
+  })}
+</ul>
 
-            {/* Media */}
-            <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
+
+          {/* Detail card */}
+          <div className="grid overflow-hidden rounded-[2rem] border border-[#FF9A1F]/30 bg-[#1A0C05]/90 shadow-[0_30px_80px_rgba(0,0,0,0.5)] md:grid-cols-2">
+            <div className="relative aspect-[4/3] bg-black md:aspect-auto md:min-h-[420px]">
               <Image
-                src={it.img}
-                alt={it.title}
+                key={item.img}
+                src={item.img}
+                alt={item.title}
                 fill
-                sizes="(min-width:448px) 448px, 90vw"
-                className="object-contain"
+                sizes="(min-width:768px) 40vw, 100vw"
+                className="object-contain p-4 transition-opacity duration-500"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             </div>
 
-            {/* Content */}
-            <div className="px-2 pb-1 pt-5 text-center">
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF9A1F]">
-                Training Discipline
-              </p>
+            <div className="flex flex-col justify-center p-7 sm:p-10">
+              <span className="font-display text-6xl leading-none text-[#FF7A18]/35">
+                {String(active + 1).padStart(2, "0")}
+              </span>
 
-              <h3 className="mt-2 font-display text-2xl text-[#FFD84D]">
-                {it.title}
+              <h3 className="mt-3 font-display text-3xl leading-tight text-[#FFD84D] sm:text-4xl">
+                {item.title}
               </h3>
 
-              <a
-                href="#training"
-                className="mt-5 inline-flex items-center rounded-lg border border-[#FF9A1F]/50 bg-[#FF7A18]/10 px-6 py-2.5 text-sm font-bold text-[#FFD84D] transition-all duration-300 hover:border-[#FFD84D] hover:bg-[#FF7A18]/20 active:scale-95"
-              >
-                Close
-              </a>
+              <div className="my-6 h-px w-20 bg-gradient-to-r from-[#FF7A18] to-transparent" />
+
+              <p className="leading-8 text-[#E9D6AE]/85">{item.desc}</p>
+
+              <div className="mt-8">
+                <Btn href="#join" solid>
+                  Begin training
+                </Btn>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
-
-      {/* Logo popup */}
-      <div
-        id="logo-popup"
-        className="fixed inset-0 z-50 hidden items-center justify-center p-4 target:flex"
-      >
-        <a
-          href="#training"
-          aria-label="Close"
-          className="absolute inset-0 bg-black/85 backdrop-blur-sm"
-        />
-
-        <div className="popup-card relative max-h-[90dvh] w-full max-w-sm overflow-y-auto rounded-3xl border border-[#FF9A1F]/40 bg-[#1A0C05] p-6 text-center shadow-[0_0_60px_rgba(255,122,24,0.25)]">
-          <div className="absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-[#FF7A18] via-[#FFD84D] to-[#FF7A18]" />
-
-          <Image
-            src="/logo.jpeg"
-            alt="Padaivedu Yudhakalam logo"
-            width={320}
-            height={320}
-            className="mx-auto h-auto w-full max-w-[260px] rounded-full"
-          />
-
-          <p className="mt-5 text-[10px] font-bold uppercase tracking-[0.3em] text-[#FF9A1F]">
-            Our Identity
-          </p>
-
-          <h3 className="mt-2 font-display text-xl text-[#FFD84D]">
-            {SITE.name}
-          </h3>
-
-          <p className="mt-2 text-sm text-[#E9D6AE]/70">
-            Tradition • Discipline • Strength
-          </p>
-
-          <a
-            href="#training"
-            className="mt-5 inline-flex rounded-lg border border-[#FF9A1F]/50 px-6 py-2.5 text-sm font-bold text-[#FFD84D] transition-all duration-300 hover:border-[#FFD84D] hover:bg-[#FF7A18]/10 active:scale-95"
-          >
-            Close
-          </a>
         </div>
       </div>
     </section>
   );
 }
 
+// ---------- Five virtues (rotating card carousel) ----------
+function Virtues() {
+  const n = VIRTUES.length;
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  // advance automatically, pause while the pointer is over the carousel
+  useEffect(() => {
+    if (paused) return;
+    const id = setInterval(() => setActive((a) => (a + 1) % n), 4000);
+    return () => clearInterval(id);
+  }, [paused, n]);
+
+  const next = () => setActive((a) => (a + 1) % n);
+  const prev = () => setActive((a) => (a - 1 + n) % n);
+
+  return (
+    <section
+      id="virtues"
+      className="relative scroll-mt-20 overflow-hidden bg-[#0d0503] py-20 sm:py-24"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
+      {/* Warm glow */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-1/2 h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FF7A18]/10 blur-[80px] sm:blur-[120px]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF9A1F]/50 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#FF9A1F]/50 to-transparent" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#FF9A1F]">
+            The warrior’s code
+          </p>
+          <Heading center className="glow-text">
+            Five virtues of a warrior
+          </Heading>
+        </div>
+
+        {/* Carousel */}
+        <div
+          className="relative mx-auto mt-14 h-[330px] w-full max-w-4xl sm:h-[380px]"
+          style={{ perspective: "1200px" }}
+        >
+          {VIRTUES.map((v, i) => {
+            // position of this card relative to the active one, wrapped to -n/2..n/2
+            let offset = i - active;
+            if (offset > n / 2) offset -= n;
+            if (offset < -n / 2) offset += n;
+            const abs = Math.abs(offset);
+            const isActive = offset === 0;
+
+            return (
+              <article
+                key={v.title}
+                onClick={() => setActive(i)}
+                aria-hidden={!isActive}
+                className={`absolute left-1/2 top-1/2 w-[230px] rounded-2xl border p-6 text-center transition-all duration-700 ease-out sm:w-[270px] ${
+                  isActive
+                    ? "cursor-default border-[#FFD84D]/70 bg-gradient-to-br from-[#4A1E08]/95 to-[#1E0D06]/98 shadow-[0_20px_60px_rgba(255,122,24,0.35)]"
+                    : "cursor-pointer border-[#FF9A1F]/30 bg-gradient-to-br from-[#3A1607]/80 to-[#1E0D06]/85 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+                }`}
+                style={{
+                  transform: `translate(-50%, -50%) translateX(${offset * 130}px) translateZ(${-abs * 120}px) rotateY(${-offset * 16}deg) scale(${1 - abs * 0.1})`,
+                  opacity: 1 - abs * 0.28,
+                  zIndex: 10 - abs,
+                }}
+              >
+                {/* Roman numeral badge */}
+                <div className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-[#FFD84D]/50 bg-[#120804] font-display text-lg text-[#FFD84D] shadow-[0_0_25px_rgba(255,122,24,0.3)]">
+                  {ROMAN[i]}
+                </div>
+
+                <h3 className="mt-5 font-display text-2xl text-[#FFD84D]">{v.title}</h3>
+
+                <p className="mt-3 text-sm leading-6 text-[#F5E5C5]/85">{v.desc}</p>
+
+                {/* Bottom accent, only on the active card */}
+                <div
+                  className={`mx-auto mt-5 h-px w-16 bg-gradient-to-r from-[#FF7A18] to-[#FFD84D] transition-opacity duration-500 ${
+                    isActive ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              </article>
+            );
+          })}
+        </div>
+
+        {/* Controls */}
+        <div className="mt-10 flex items-center justify-center gap-6">
+          <button
+            type="button"
+            onClick={prev}
+            aria-label="Previous virtue"
+            className="grid h-11 w-11 place-items-center rounded-full border border-[#FF9A1F]/50 text-lg text-[#FFD84D] transition hover:border-[#FFD84D] hover:bg-[#FF7A18]/15 active:scale-95"
+          >
+            ←
+          </button>
+
+          <div className="flex items-center gap-2">
+            {VIRTUES.map((v, i) => (
+              <button
+                key={v.title}
+                type="button"
+                onClick={() => setActive(i)}
+                aria-label={`Show ${v.title}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === active ? "w-10 bg-[#FFD84D]" : "w-2 bg-[#FF9A1F]/40 hover:bg-[#FF9A1F]"
+                }`}
+              />
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={next}
+            aria-label="Next virtue"
+            className="grid h-11 w-11 place-items-center rounded-full border border-[#FF9A1F]/50 text-lg text-[#FFD84D] transition hover:border-[#FFD84D] hover:bg-[#FF7A18]/15 active:scale-95"
+          >
+            →
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------- Women ----------
 function Women() {
   return (
     <section
       id="women"
-      className="relative scroll-mt-20 overflow-hidden bg-umber py-16 sm:py-20"
+      className="relative scroll-mt-20 overflow-hidden bg-[#140803] py-20 sm:py-24"
     >
-      {/* Background photo: she stays on the right side */}
-      <Image
-        src="/women-bg.jpg"
-        alt="A woman practising Silambam with a bamboo staff on the beach at sunset"
-        fill
-        sizes="100vw"
-        className="women-bg object-cover md:object-right"
-        //className="object-cover object-[75%_center] md:object-right"
-      />
-
-      {/* Overlay: dark on the left where the text is, clear on the right where she stands.
-          On phones (no space beside the text) it is darker all over. */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-[#1C120C]/85 via-[#1C120C]/75 to-[#1C120C]/85 md:bg-gradient-to-r md:from-[#1C120C]/95 md:via-[#1C120C]/70 md:to-[#1C120C]/0"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,166,0,0.12),transparent_50%)]"
       />
 
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
-        <div className="md:max-w-[52%]">
-          <h2 className="glow-text font-display text-3xl leading-tight text-sand sm:text-5xl">
-            She Learns. She Leads. She Protects.
-          </h2>
-          <p className="mt-6 text-base leading-8 text-[#FFF3D6] [text-shadow:0_2px_8px_rgba(0,0,0,0.7)] sm:text-lg">
-            Silambam does not create courage in her; it brings out the courage that is already there.
+      <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-14 px-4 sm:px-5 lg:grid-cols-2 lg:gap-16">
+        {/* Photo card with the 40% badge */}
+        <div className="relative mx-auto w-full max-w-md pb-6">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-[#FFD84D]/40 shadow-[0_0_50px_rgba(255,122,24,0.25)]">
+            <Image
+              src="/womens.jpg"
+              alt="A woman practising Silambam with a bamboo staff at sunset"
+              fill
+              sizes="(min-width:1024px) 40vw, 90vw"
+              className="object-cover object-[70%_center] transition-transform duration-[1200ms] ease-out hover:scale-105"
+            />
+            {/* sliding light sweep */}
+            <span aria-hidden className="title-shine" />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-[#140803] via-transparent to-transparent"
+            />
+          </div>
+
+          <div className="absolute -bottom-2 right-3 rounded-xl border border-[#FFD84D]/50 bg-[#160A04]/95 px-5 py-4 text-center shadow-lg sm:right-6">
+            <p className="font-display text-3xl leading-none text-[#FFD84D]">40%</p>
+            <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#F5E5C5]">
+              Women in our classes
+            </p>
+          </div>
+        </div>
+
+        {/* Text */}
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#FF9A1F]">
+            For women
           </p>
 
-          <ul className="mt-6 space-y-3">
+          <h2 className="glow-text mt-3 font-display text-3xl leading-tight text-sand sm:text-5xl">
+            Strength has
+            <span className="block text-[#FFD84D]">no gender</span>
+          </h2>
+
+          <p className="mt-6 text-base leading-8 text-[#F5E5C5]/90">
+            Silambam does not create courage in her. It brings out the courage that is already there.
+          </p>
+
+          <ul className="mt-7 space-y-3">
             {WOMEN_POINTS.map((p) => (
               <li
                 key={p}
-                className="flex items-center gap-3 border-b border-ember/25 pb-3 text-[#FFF3D6] [text-shadow:0_1px_6px_rgba(0,0,0,0.7)]"
+                className="flex items-center gap-3 border-b border-[#FF9A1F]/25 pb-3 text-[#FFF3D6]"
               >
-                {/* SVG tick, so it always matches the theme (the ✔ character turns purple as an emoji) */}
-                <svg
-                  viewBox="0 0 20 20"
-                  aria-hidden="true"
-                  className="h-5 w-5 shrink-0"
-                  fill="none"
-                  stroke="#FF9A1F"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+                <span
+                  aria-hidden
+                  className="grid h-5 w-5 shrink-0 place-items-center rounded-[4px] border border-[#FFD84D]/70 bg-[#FF7A18]/15"
                 >
-                  <path d="M4 10.5l4 4 8-9" />
-                </svg>
+                  <svg
+                    viewBox="0 0 20 20"
+                    className="h-3.5 w-3.5"
+                    fill="none"
+                    stroke="#FFD84D"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M4 10.5l4 4 8-9" />
+                  </svg>
+                </span>
+                {p}
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-9">
+            <Btn href="#join" solid>
+              Register free
+            </Btn>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ---------- Why choose ----------
+function Why() {
+  return (
+    <section
+      id="why"
+      className="relative scroll-mt-20 overflow-hidden bg-[#1C0D05] py-20 sm:py-24"
+    >
+      <Image
+        src="/why.png"
+        alt=""
+        fill
+        sizes="100vw"
+        className="about-bg object-cover brightness-[0.45] sm:object-right"
+      />
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-r from-[#1C0D05]/95 via-[#1C0D05]/80 to-[#1C0D05]/70"
+      />
+
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-4 sm:px-5 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
+        {/* Left: big number + programs */}
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#FF9A1F]">
+            Why Padaivedu
+          </p>
+
+          <p className="glow-text mt-4 font-display text-7xl leading-none text-[#FFD84D] sm:text-8xl">
+            10+
+          </p>
+
+          <h2 className="glow-text mt-4 font-display text-3xl leading-tight text-white sm:text-5xl">
+            Ten disciplines,
+            <span className="block text-[#FFD84D]">one academy</span>
+          </h2>
+
+          <p className="mt-5 max-w-xl text-base leading-8 text-[#F5E5C5]/90">
+            More than martial arts. We build discipline, strength, confidence and a
+            deeper connection to Tamil warrior heritage.
+          </p>
+
+          <ul className="mt-6 flex flex-wrap gap-2">
+            {PROGRAMS.map((p) => (
+              <li
+                key={p}
+                className="rounded-full border border-[#FF9A1F]/40 bg-[#FF7A18]/10 px-3 py-1 text-xs text-[#F5E5C5]"
+              >
                 {p}
               </li>
             ))}
           </ul>
 
           <div className="mt-8">
-            <Btn href="#join" solid>Register free</Btn>
-          </div>
-
-          {/* Stats card */}
-          <div
-            data-reveal
-            className="mt-10 rounded-2xl border border-ember/40 bg-[#1C120C]/70 p-6 text-center backdrop-blur-sm sm:p-8"
-          >
-            <h3 className="font-display text-2xl text-gold sm:text-3xl">Fearless Women</h3>
-            <p className="mt-1 text-sand/90">Ancient Art, Modern Defence</p>
-            <dl className="mt-8 grid grid-cols-3 gap-4 border-t border-ember/25 pt-6">
-              {[
-                ["40%", "of our students"],
-                ["Free", "kit and classes"],
-                ["3 months", "starter course"],
-              ].map(([n, l]) => (
-                <div key={n}>
-                  <dt className="bg-gradient-to-b from-[#FFD84D] to-[#FF7A18] bg-clip-text font-display text-xl font-bold text-transparent sm:text-2xl">
-                    {n}
-                  </dt>
-                  <dd className="mt-1 text-sm text-[#E9D6AE]/85">{l}</dd>
-                </div>
-              ))}
-            </dl>
+            <Btn href="#training" solid>
+              View all programs
+            </Btn>
           </div>
         </div>
+
+        {/* Right: feature list */}
+        <ol className="divide-y divide-[#FFD84D]/25 self-center">
+          {WHY_POINTS.map(([t, d], i) => (
+            <li
+              key={t}
+              data-reveal
+              style={vars({ "--i": i })}
+              className="group flex gap-5 py-6 first:pt-0 last:pb-0"
+            >
+              <span className="font-display text-2xl leading-none text-[#FF7A18]/60 transition-colors duration-300 group-hover:text-[#FFD84D]">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+
+              <div>
+                <h3 className="font-display text-xl text-[#FFD84D]">{t}</h3>
+                <p className="mt-2 leading-7 text-[#E9D6AE]/85">{d}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );
 }
 
+// ---------- Achievements ----------
 function Achievements() {
   return (
     <section
@@ -1242,7 +1206,6 @@ function Achievements() {
     >
       {/* Background image – anchor the trophy to the right */}
       <div
-        //className="absolute inset-0 bg-cover bg-[70%_center] lg:bg-right"
         className="achievement-bg absolute inset-0 bg-cover lg:bg-right"
         style={{ backgroundImage: "url('/win.png')" }}
       />
@@ -1283,6 +1246,7 @@ function Achievements() {
   );
 }
 
+// ---------- Events ----------
 function Events() {
   return (
     <section
@@ -1291,7 +1255,7 @@ function Events() {
     >
       {/* Background Image */}
       <div
-        className="achievement-bg absolute inset-0 bg-cover lg:bg-right "
+        className="achievement-bg absolute inset-0 bg-cover lg:bg-right"
         style={{
           backgroundImage: "url('/coming-up.png')",
         }}
@@ -1354,264 +1318,7 @@ function Events() {
   );
 }
 
-function Gallery() {
-  const n = ITEMS.length;
-
-  return (
-    <section
-      id="gallery"
-      className="relative scroll-mt-20 overflow-hidden bg-[#160d08] py-20 sm:py-28"
-    >
-      {/* Background image: banner, dimmed */}
-      <Image
-        src="/coming-up.png"
-        alt=""
-        fill
-        sizes="100vw"
-        className="object-cover object-[75%_center] brightness-[0.1] sm:object-right"
-      />
-
-      {/* Background glow */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-orange-600/10 blur-[70px] sm:blur-[140px]" />
-
-      {/* Decorative lines */}
-      <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-400/40 to-transparent" />
-      <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-orange-400/30 to-transparent" />
-
-      <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8">
-        {/* Header */}
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.4em] text-orange-400">
-            The Art of Silambam
-          </p>
-
-          <Heading center className="glow-text">
-            Choose your path
-          </Heading>
-
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-7 text-stone-300 sm:text-base">
-            Ten disciplines. One ancient tradition. Discover the path that
-            matches your skill, discipline and ambition.
-          </p>
-        </div>
-
-        {/* Main showcase */}
-        <div className="mx-auto mt-14 max-w-6xl">
-          {/* Program selector */}
-          <div
-            role="radiogroup"
-            aria-label="Silambam programs"
-            className={`relative ${SELECT}`}
-          >
-            {/* Hidden radios */}
-            {ITEMS.map((it, i) => (
-              <div key={it.title} className="contents">
-                <input
-                  type="radio"
-                  name="programs"
-                  id={`p${i}`}
-                  defaultChecked={i === 0}
-                  aria-label={it.title}
-                  className="peer sr-only"
-                />
-
-                {/* Main panel */}
-                <div
-                  className="
-                    invisible
-                    absolute
-                    inset-0
-                    opacity-0
-                    transition-all
-                    duration-700
-                    peer-checked:visible
-                    peer-checked:relative
-                    peer-checked:opacity-100
-                  "
-                >
-                  <div className="grid min-h-[520px] overflow-hidden rounded-[2rem] border border-orange-300/20 bg-[#21150e] shadow-[0_30px_100px_rgba(0,0,0,0.45)] lg:grid-cols-2">
-                    {/* IMAGE */}
-                    <div className="group relative min-h-[360px] overflow-hidden lg:min-h-[520px]">
-                      {/* Blurred copy (desktop only, heavy on phones) */}
-                      <Image
-                        src={it.img}
-                        alt={it.title}
-                        fill
-                        aria-hidden
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        style={{ objectPosition: it.pos ?? "center" }}
-                        className="hidden scale-125 object-cover opacity-50 blur-2xl sm:block"
-                      />
-
-                      {/* Main image: auto-fits fully, never cropped */}
-                      <Image
-                        src={it.img}
-                        alt={it.title}
-                        fill
-                        priority={i === 0}
-                        sizes="(max-width: 1024px) 100vw, 50vw"
-                        className="object-contain p-2 transition-transform duration-[1.5s] group-hover:scale-105 sm:p-4"
-                      />
-
-                      {/* Image overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-                      {/* Orange cinematic light */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/15 via-transparent to-black/30" />
-
-                      {/* Image label */}
-                      <div className="absolute bottom-7 left-7">
-                        <span className="rounded-full border border-white/20 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.25em] text-white backdrop-blur-md">
-                          Silambam Academy
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* CONTENT */}
-                    <div className="relative flex flex-col justify-center p-8 sm:p-12 lg:p-14">
-                      {/* Number */}
-                      <div className="mb-7 flex items-center gap-4">
-                        <span className="text-xs tracking-[0.4em] text-orange-400">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-
-                        <span className="h-px w-16 bg-orange-400/50" />
-
-                        <span className="text-xs tracking-[0.3em] text-stone-500">
-                          {String(n).padStart(2, "0")}
-                        </span>
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="font-display text-4xl leading-tight text-amber-300 sm:text-5xl">
-                        {it.title}
-                      </h3>
-
-                      {/* Tamil */}
-                      <p className="mt-3 text-lg text-orange-300/80">
-                        {it.ta}
-                      </p>
-
-                      {/* Description */}
-                      <div className="my-7 h-px w-20 bg-gradient-to-r from-orange-500 to-transparent" />
-
-                      <p className="max-w-md text-base leading-8 text-stone-300">
-                        {it.desc}
-                      </p>
-
-                      {/* Features */}
-                      <div className="mt-8 grid grid-cols-2 gap-4 text-sm">
-                        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                          <span className="block text-orange-400">
-                            Discipline
-                          </span>
-                          <span className="mt-1 block text-stone-300">
-                            Traditional
-                          </span>
-                        </div>
-
-                        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
-                          <span className="block text-orange-400">
-                            Training
-                          </span>
-                          <span className="mt-1 block text-stone-300">
-                            Progressive
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Actions */}
-                      <div className="mt-9 flex flex-wrap items-center gap-3">
-                        <label
-                          htmlFor={`p${(i + n - 1) % n}`}
-                          className="
-                            grid h-11 w-11 cursor-pointer
-                            place-items-center rounded-full
-                            border border-orange-400/40
-                            text-lg text-amber-300
-                            transition hover:border-orange-400
-                            hover:bg-orange-400/10
-                            active:scale-95
-                          "
-                        >
-                          ←
-                        </label>
-
-                        <a
-                          href="#contact"
-                          className="
-                            rounded-full
-                            bg-gradient-to-r
-                            from-orange-500
-                            to-amber-400
-                            px-7 py-3
-                            text-sm font-bold
-                            text-[#24150b]
-                            shadow-lg
-                            shadow-orange-500/20
-                            transition
-                            hover:scale-105
-                            hover:shadow-orange-500/40
-                            active:scale-95
-                          "
-                        >
-                          Begin Training
-                        </a>
-
-                        <label
-                          htmlFor={`p${(i + 1) % n}`}
-                          className="
-                            grid h-11 w-11 cursor-pointer
-                            place-items-center rounded-full
-                            border border-orange-400/40
-                            text-lg text-amber-300
-                            transition hover:border-orange-400
-                            hover:bg-orange-400/10
-                            active:scale-95
-                          "
-                        >
-                          →
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Program dots */}
-                  <div className="mt-7 flex justify-center gap-2">
-                    {ITEMS.map((d, j) => (
-                      <label
-                        key={d.title}
-                        htmlFor={`p${j}`}
-                        aria-label={`Go to ${d.title}`}
-                        className={`
-                          h-1.5 cursor-pointer rounded-full
-                          transition-all duration-300
-                          ${
-                            j === i
-                              ? "w-10 bg-orange-400"
-                              : "w-2 bg-stone-600 hover:bg-orange-300"
-                          }
-                        `}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Bottom text */}
-        <div className="mt-10 text-center">
-          <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
-            Select a discipline to explore
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
+// ---------- Join ----------
 function Join() {
   return (
     <section
@@ -1651,15 +1358,6 @@ function Join() {
         }}
       />
 
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[520px] w-[1100px] max-w-[200%] -translate-x-1/2 -translate-y-[40%] opacity-30 [mask-image:radial-gradient(circle,black_20%,transparent_70%)]"
-        style={{
-          background:
-            "repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,200,60,0.55) 0deg 2deg, transparent 2deg 12deg)",
-        }}
-      />
-
       {/* Embers */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <span className="absolute left-[10%] top-[30%] h-1.5 w-1.5 rounded-full bg-[#FFB020] shadow-[0_0_12px_4px_rgba(255,160,30,0.7)]" />
@@ -1695,6 +1393,7 @@ function Join() {
   );
 }
 
+// ---------- Footer ----------
 function Footer() {
   return (
     <footer
@@ -1803,7 +1502,7 @@ function Footer() {
         <div className="mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FF9A1F]/25 px-4 py-6 text-sm text-[#F5E5C5]/65 sm:px-5">
           <p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p>
           <p className="text-xs uppercase tracking-[0.3em] text-[#FFB020]/70">
-            Tradition · Discipline · Strength
+            Tradition • Discipline • Strength
           </p>
         </div>
       </div>
@@ -1833,17 +1532,17 @@ export default function Home() {
         <Divider />
         <About />
         <Divider />
-        <Why />
-        <Divider />
         <Training />
         <Divider />
+        <Virtues />
+        <Divider />
         <Women />
+        <Divider />
+        <Why />
         <Divider />
         <Achievements />
         <Divider />
         <Events />
-        <Divider />
-        <Gallery />
         <Divider />
         <Join />
       </main>
