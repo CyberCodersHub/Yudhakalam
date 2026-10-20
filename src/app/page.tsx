@@ -131,48 +131,6 @@ function vars(styles: Record<string, string | number>): CSSProperties {
   return styles as CSSProperties;
 }
 
-// ---------- Kolam divider pieces ----------
-const GOLD = "#F5C518";
-const ORANGE = "#FF8A1F";
-
-const kolamTile = (d: string, w: number, h: number) =>
-  `url("data:image/svg+xml;utf8,${encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}' viewBox='0 0 ${w} ${h}' fill='none' stroke='${GOLD}' stroke-width='1.2'>${d}</svg>`
-  )}")`;
-
-const KOLAM_H = kolamTile(
-  `<path d='M0 9Q6 0 12 9T24 9'/><path d='M0 9Q6 18 12 9T24 9'/><circle cx='6' cy='9' r='1.3' fill='${ORANGE}'/><circle cx='18' cy='9' r='1.3' fill='${ORANGE}'/>`,
-  24, 18
-);
-
-function KolamKnot({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 44 32" aria-hidden="true" className={className} fill="none" stroke={GOLD} strokeWidth="1.2">
-      <polygon points="22,2 42,16 22,30 2,16" stroke={ORANGE} />
-      <circle cx="12" cy="16" r="7" />
-      <circle cx="22" cy="16" r="7" />
-      <circle cx="32" cy="16" r="7" />
-      <circle cx="22" cy="16" r="1.6" fill={ORANGE} />
-      <circle cx="12" cy="16" r="1" fill={GOLD} />
-      <circle cx="32" cy="16" r="1" fill={GOLD} />
-      <circle cx="22" cy="6" r="1" fill={GOLD} />
-      <circle cx="22" cy="26" r="1" fill={GOLD} />
-    </svg>
-  );
-}
-
-function Divider() {
-  return (
-    <div aria-hidden className="bg-umber py-3">
-      <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 sm:px-5">
-        <div className="h-[18px] flex-1 opacity-70" style={{ backgroundImage: KOLAM_H, backgroundRepeat: "repeat-x" }} />
-        <KolamKnot className="h-8 w-12 shrink-0" />
-        <div className="h-[18px] flex-1 opacity-70" style={{ backgroundImage: KOLAM_H, backgroundRepeat: "repeat-x" }} />
-      </div>
-    </div>
-  );
-}
-
 // ---------- Small pieces ----------
 const Heading = ({
   children,
@@ -461,6 +419,7 @@ function HeroScroll({ children }: { children: ReactNode }) {
   );
 }
 
+
 function Hero() {
   const reveal = (v: string): CSSProperties => ({
     opacity: `var(${v})`,
@@ -472,15 +431,18 @@ function Hero() {
       <div className="sticky top-0 flex h-[100svh] w-full flex-col overflow-hidden">
         {/* 1. Background art (text-free warriors image at /public/hero.png) */}
         <div
-          aria-hidden
-          className="absolute inset-0 -z-40 bg-cover bg-[center_top] bg-no-repeat will-change-transform"
-          style={{
-            backgroundImage: "url('/hero.png')",
-            filter: "blur(var(--blur))",
-            transform: "scale(var(--scale))",
+        aria-hidden
+        className="absolute inset-0 z-0 bg-no-repeat will-change-transform hero-bg"
+        style={{
+          backgroundImage: "url('/hero.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "60% top",
+          backgroundRepeat: "no-repeat",
+          filter: "blur(var(--blur, 0px))",
+          transform: "scale(var(--scale, 1))",
           }}
-        />
-
+          />
+          <span aria-hidden className="title-shine" />
         {/* Dark overlay that grows as you scroll */}
         <div
           aria-hidden
@@ -511,71 +473,10 @@ function Hero() {
             <span key={index} className={`hero-spark hero-spark-${index + 1}`} />
           ))}
         </div>
-
-        {/* Flying embers */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-          {EMBERS.map((e, i) => (
-            <span
-              key={i}
-              className="ember"
-              style={
-                {
-                  "--x": e.x,
-                  "--w": e.w,
-                  "--dur": e.dur,
-                  "--delay": e.delay,
-                  "--drift": e.drift,
-                } as CSSProperties
-              }
-            />
-          ))}
-        </div>
-
-        {/* ===== Big title banner (fades & lifts away on scroll) ===== */}
-        <div
-          className="absolute inset-x-0 top-0 z-10 flex justify-center px-2 pt-16 sm:pt-20"
-          style={{
-            opacity: "var(--title-o)",
-            transform: "translateY(var(--title-y))",
-            pointerEvents: "none",
-          }}
-        >
-          <div className="title-fx relative w-full max-w-[1400px]">
-            <img
-              src="/heros.gif"
-              alt="Padaivedu Silambam warriors in front of a Tamil temple at sunset"
-              className="title-glow block w-full object-contain"
-            />
-            {/* sliding light sweep */}
-            <span aria-hidden className="title-shine" />
-            {/* twinkling sparkles */}
-            {SPARKLES.map((s, i) => (
-              <span
-                key={i}
-                aria-hidden
-                className="title-sparkle"
-                style={
-                  {
-                    left: s.x,
-                    top: s.y,
-                    "--s": s.size,
-                    "--d": s.delay,
-                  } as CSSProperties
-                }
-              />
-            ))}
-          </div>
-        </div>
-
         {/* ===== Content that rises in over the dark background ===== */}
         <div className="hero-rise relative z-20 mx-auto mt-auto flex w-full max-w-6xl flex-col items-center px-4 pb-10 text-center sm:pb-14">
           {/* Tagline (plain text, no box) */}
           <div style={reveal("--c1")} className="will-change-transform">
-            <div aria-hidden className="mx-auto flex w-full max-w-md items-center gap-3 pb-5">
-              <span className="h-px flex-1 bg-gradient-to-r from-transparent to-[#ffc72c]" />
-              <span className="h-2 w-2 rotate-45 border border-[#ffd24a] bg-[#ff9a1f]" />
-              <span className="h-px flex-1 bg-gradient-to-l from-transparent to-[#ffc72c]" />
-            </div>
             <p className="mx-auto max-w-2xl font-display text-xs uppercase leading-6 tracking-[0.16em] text-[#F5E5C5] [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] sm:text-base sm:leading-8">
               Discover the ancient Tamil art of Silambam. Build strength, sharpen your focus and carry a
               proud warrior tradition into the future.
@@ -622,6 +523,10 @@ function Hero() {
     </HeroScroll>
   );
 }
+
+
+
+
 
 // ---------- About ----------
 function About() {
@@ -1529,21 +1434,21 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
-        <Divider />
+        
         <About />
-        <Divider />
+        
         <Training />
-        <Divider />
+        
         <Virtues />
-        <Divider />
+        
         <Women />
-        <Divider />
+        
         <Why />
-        <Divider />
+        
         <Achievements />
-        <Divider />
+        
         <Events />
-        <Divider />
+        
         <Join />
       </main>
       <Footer />

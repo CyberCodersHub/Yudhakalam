@@ -33,8 +33,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body className="font-body antialiased">
+    <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+      <body className="font-body antialiased" suppressHydrationWarning>
         {children}
         <MobileFx />
       </body>

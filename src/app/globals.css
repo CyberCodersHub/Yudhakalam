@@ -175,6 +175,8 @@ body {
   pointer-events: none;
 }
 
+
+
 /* corner fire */
 .flame {
   position: absolute;
@@ -231,6 +233,7 @@ body {
   50%      { opacity: 1; }
 }
 
+
 /* flying embers */
 .ember {
   position: absolute;
@@ -253,6 +256,7 @@ body {
   70%  { opacity: 0.9; }
   100% { transform: translate3d(var(--drift), -105vh, 0) rotate(-35deg) scale(0.35); opacity: 0; }
 }
+ 
 
 /* small rising sparks */
 .hero-sparks {
@@ -295,7 +299,7 @@ body {
 .hero-spark-12 { left: 94%; bottom: 35%; animation-delay: 0.7s; }
 .hero-spark-13 { left: 12%; bottom: 45%; animation-delay: 3.5s; }
 .hero-spark-14 { left: 37%; bottom: 50%; animation-delay: 2s; }
-.hero-spark-15 { left: 55%; bottom: 45%; animation-delay: 4s; }
+.hero-spark-15 { left: 55%; bottom: 45%; animation-delay: 2s; }
 .hero-spark-16 { left: 70%; bottom: 48%; animation-delay: 1.2s; }
 .hero-spark-17 { left: 82%; bottom: 42%; animation-delay: 3.7s; }
 .hero-spark-18 { left: 92%; bottom: 50%; animation-delay: 2.5s; }
@@ -503,4 +507,7 @@ body {
     animation: none;
   }
 }
+
+
+
 
