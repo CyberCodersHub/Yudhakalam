@@ -524,7 +524,7 @@ body {
 
 
 /* tablet */
-@media (min-width: 640px) and (max-width: 1023px) {
+@media (min-width: 640px) and (max-width: 1024px) {
   .hero-bg {
     background-size: cover;
     background-position: 65% top;

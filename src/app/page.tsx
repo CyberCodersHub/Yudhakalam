@@ -109,8 +109,6 @@ const ITEMS = [
 ];
 
 
-
-
 /* ---- Sparks: fixed values (no Math.random) so server and browser always match ---- */
 const EMBERS = Array.from({ length: 42 }, (_, i) => {
   const r = (n: number) => {
@@ -149,6 +147,59 @@ const Heading = ({
     <div className={`mt-4 h-1 w-16 bg-gradient-to-r from-ember to-gold ${center ? "mx-auto" : ""}`} />
   </div>
 );
+
+function Reveal({
+  children,
+  as = "div",
+  delay = 0,
+  direction = "up",
+  className,
+}: {
+  children: ReactNode;
+  as?: string;
+  delay?: number;
+  direction?: "up" | "down" | "left" | "right";
+  className?: string;
+}) {
+  const ref = useRef<HTMLElement | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setVisible(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.1 });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  const Tag: any = as;
+  const offset = {
+    up: "translateY(20px)",
+    down: "translateY(-20px)",
+    left: "translateX(20px)",
+    right: "translateX(-20px)",
+  }[direction];
+
+  return (
+    <Tag
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translate(0, 0)" : offset,
+        transition: `opacity 600ms ease ${delay}ms, transform 600ms ease ${delay}ms`,
+      }}
+    >
+      {children}
+    </Tag>
+  );
+}
 
 const Btn = ({
   href,
@@ -543,7 +594,6 @@ function About() {
       id="about"
       className="relative scroll-mt-20 overflow-hidden py-16 sm:py-24"
     >
-      {/* Background image */}
       <Image
         src="/why.png"
         alt=""
@@ -551,90 +601,90 @@ function About() {
         sizes="100vw"
         className="about-bg object-cover brightness-[0.5] sm:object-right"
       />
-
-      {/* Dark overlay: keeps the text clear */}
       <div className="absolute inset-0 bg-[#1C120C]/75" />
-
-      {/* Orange cinematic overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#5A2408]/80 via-[#2A1308]/75 to-[#120805]/90" />
-
-      {/* Soft glow behind the text column */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_40%,rgba(255,166,0,0.16),transparent_60%)]" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-          {/* Left: story */}
+          {/* Left: story, one after another */}
           <div>
-            <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#FFD84D]">
-              <span className="h-px w-10 bg-[#FFD84D]/70" />
-              Our roots
-            </p>
-
-            <Heading className="glow-text mt-4">
-              Old Tradition...!
-              <span className="block text-[#FFD84D]">New Warriors...!</span>
-            </Heading>
-
-            <p className="mt-6 max-w-xl text-base font-medium leading-8 text-white drop-shadow-[0_2px_5px_rgba(0,0,0,0.9)] sm:text-lg">
-              Padaivedu Yudhakalam carries the ancient Tamil art of Silambam
-              to future generations through training, strength and tradition.
-            </p>
-
-            <p className="mt-4 max-w-xl leading-7 text-white/85 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-              Whether you are taking your first step or refining advanced
-              forms, every session builds discipline, strength and pride in
-              our heritage, one step at a time.
-            </p>
-
-            <blockquote className="mt-7 border-l-2 border-[#FF9A1F] pl-4">
-              <p className="text-lg font-semibold text-[#FFD84D] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
-                வீரம் பயிற்சியில் பிறக்கும்
+            <Reveal delay={0}>
+              <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#FFD84D]">
+                <span className="h-px w-10 bg-[#FFD84D]/70" />
+                Our roots
               </p>
-              <p className="mt-1 text-xs uppercase tracking-[0.2em] text-white/70">
-                Courage is born in practice
-              </p>
-            </blockquote>
+            </Reveal>
 
-            <div className="mt-8">
-              <Btn href="#training" solid>
-                Read our story
-              </Btn>
-            </div>
+            <Reveal delay={150}>
+              <Heading className="glow-text mt-4">
+                Old Tradition...!
+                <span className="block text-[#FFD84D]">New Warriors...!</span>
+              </Heading>
+            </Reveal>
+
+            <Reveal delay={300}>
+              <p className="mt-6 max-w-xl text-base font-medium leading-8 text-white drop-shadow-[0_2px_5px_rgba(0,0,0,0.9)] sm:text-lg">
+                Padaivedu Yudhakalam carries the ancient Tamil art of Silambam
+                to future generations through training, strength and tradition.
+              </p>
+            </Reveal>
+
+            <Reveal delay={400}>
+              <p className="mt-4 max-w-xl leading-7 text-white/85 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                Whether you are taking your first step or refining advanced
+                forms, every session builds discipline, strength and pride in
+                our heritage, one step at a time.
+              </p>
+            </Reveal>
+
+            <Reveal delay={500}>
+              <blockquote className="mt-7 border-l-2 border-[#FF9A1F] pl-4">
+                <p className="text-lg font-semibold text-[#FFD84D] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
+                  வீரம் பயிற்சியில் பிறக்கும்
+                </p>
+                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-white/70">
+                  Courage is born in practice
+                </p>
+              </blockquote>
+            </Reveal>
+
+            <Reveal delay={600}>
+              <div className="mt-8">
+                <Btn href="#training" solid>
+                  Read our story
+                </Btn>
+              </div>
+            </Reveal>
           </div>
 
-          {/* Right: numbered highlights */}
+          {/* Right: highlights, one by one */}
           <ol className="divide-y divide-[#FFD84D]/25 lg:border-l lg:border-[#FFD84D]/25 lg:pl-12">
             {HIGHLIGHTS.map(([t, d], i) => (
-              <li
-                key={t}
-                data-reveal
-                style={vars({ "--i": i })}
-                className="group flex gap-5 py-6 transition-transform duration-300 first:pt-0 last:pb-0 hover:translate-x-1"
-              >
-                <span className="font-display text-3xl leading-none text-[#FF9A1F] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)] transition-colors duration-300 group-hover:text-[#FFD84D]">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-
-                <div>
-                  <h3 className="font-display text-xl text-[#FFD84D] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
-                    {t}
-                  </h3>
-                  <p className="mt-2 leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                    {d}
-                  </p>
+              <Reveal key={t} as="li" delay={300 + i * 200} direction="right" className="first:pt-0 last:pb-0">
+                <div className="group flex gap-5 py-6 transition-transform duration-300 hover:translate-x-1">
+                  <span className="font-display text-3xl leading-none text-[#FF9A1F] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)] transition-colors duration-300 group-hover:text-[#FFD84D]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-xl text-[#FFD84D] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
+                      {t}
+                    </h3>
+                    <p className="mt-2 leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+                      {d}
+                    </p>
+                  </div>
                 </div>
-              </li>
+              </Reveal>
             ))}
           </ol>
         </div>
       </div>
 
-      {/* Bottom golden line */}
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
     </section>
   );
 }
-
 // ---------- Choose your weapon (programs) ----------
 function Training() {
   const [active, setActive] = useState(0);
@@ -1085,26 +1135,21 @@ function Why() {
           </div>
         </div>
 
-        {/* Right: feature list */}
-        <ol className="divide-y divide-[#FFD84D]/25 self-center">
-          {WHY_POINTS.map(([t, d], i) => (
-            <li
-              key={t}
-              data-reveal
-              style={vars({ "--i": i })}
-              className="group flex gap-5 py-6 first:pt-0 last:pb-0"
-            >
-              <span className="font-display text-2xl leading-none text-[#FF7A18]/60 transition-colors duration-300 group-hover:text-[#FFD84D]">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-
-              <div>
-                <h3 className="font-display text-xl text-[#FFD84D]">{t}</h3>
-                <p className="mt-2 leading-7 text-[#E9D6AE]/85">{d}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
+<ol className="divide-y divide-[#FFD84D]/25 self-center">
+  {WHY_POINTS.map(([t, d], i) => (
+    <Reveal key={t} as="li" delay={i * 200} direction="right" className="first:pt-0 last:pb-0">
+      <div className="group flex gap-5 py-6">
+        <span className="font-display text-2xl leading-none text-[#FF7A18]/60 transition-colors duration-300 group-hover:text-[#FFD84D]">
+          {String(i + 1).padStart(2, "0")}
+        </span>
+        <div>
+          <h3 className="font-display text-xl text-[#FFD84D]">{t}</h3>
+          <p className="mt-2 leading-7 text-[#E9D6AE]/85">{d}</p>
+        </div>
+      </div>
+    </Reveal>
+  ))}
+</ol>        
       </div>
     </section>
   );
@@ -1137,18 +1182,13 @@ function Achievements() {
           <Heading className="glow-text text-white">Our proudest wins</Heading>
 
           <div className="mt-10 grid gap-5">
-            {ACHIEVEMENTS.map(([t, d], i) => (
-              <article
-                key={t}
-                data-reveal
-                style={vars({ "--i": i })}
-                className="border-l-4 border-amber-400 bg-black/60 p-6 transition-colors duration-300 hover:bg-black/75"
-              >
-                <h3 className="text-xl font-bold text-amber-300">{t}</h3>
-                <p className="mt-2 text-white/90">{d}</p>
-              </article>
-            ))}
-          </div>
+  {ACHIEVEMENTS.map(([t, d], i) => (
+    <Reveal key={t} as="article" delay={i * 200} className="border-l-4 border-amber-400 bg-black/60 p-6 transition-colors duration-300 hover:bg-black/75">
+      <h3 className="text-xl font-bold text-amber-300">{t}</h3>
+      <p className="mt-2 text-white/90">{d}</p>
+    </Reveal>
+  ))}
+</div>
 
           <div className="mt-8">
             <Btn href="#achievements">See all achievements</Btn>
