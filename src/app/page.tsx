@@ -444,9 +444,9 @@ function Hero() {
         className="absolute inset-0 z-0 bg-no-repeat will-change-transform hero-bg"
         style={{
           backgroundImage: "url('/hero.png')",
-          backgroundSize: "cover",
-          backgroundPosition: "60% top",
-          backgroundRepeat: "no-repeat",
+          //backgroundSize: "cover",
+          //backgroundPosition: "60% top",
+          //backgroundRepeat: "no-repeat",
           filter: "blur(var(--blur, 0px))",
           transform: "scale(var(--scale, 1))",
           }}

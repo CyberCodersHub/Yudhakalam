@@ -67,19 +67,6 @@ body {
     );
 }
 
-/*}
-body {
-  margin: 0;
-  max-width: 100%;
-  overflow-x: clip;
-  color: var(--cream);
-  background:
-    radial-gradient(circle at 50% 0%, rgba(255, 184, 0, 0.35), transparent 28%),
-    radial-gradient(circle at 0% 35%, rgba(255, 106, 0, 0.28), transparent 35%),
-    radial-gradient(circle at 100% 70%, rgba(255, 184, 0, 0.18), transparent 35%),
-    linear-gradient(135deg, #241006 0%, #5a2408 25%, #8a3908 45%, #4a1b06 70%, #241006 100%);
-}
-  */
 
 :focus-visible {
   outline: 2px solid #ffd84d;
@@ -511,3 +498,37 @@ body {
 
 
 
+/* =====================================================================
+   HERO BACKGROUND (full image on phones, cropped on bigger screens)
+   ===================================================================== */
+
+.hero-bg {
+  background-color: #0b0301;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+}
+
+/* phones: show the whole image, no cropping */
+@media (max-width: 639px) {
+  .hero-bg {
+    background-size: contain;
+    background-position: center top;
+  }
+}
+
+/* tablet */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .hero-bg {
+    background-size: cover;
+    background-position: 65% top;
+  }
+}
+
+/* laptop and up */
+@media (min-width: 1024px) {
+  .hero-bg {
+    background-size: cover;
+    background-position: 60% top;
+  }
+}
