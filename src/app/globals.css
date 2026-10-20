@@ -509,13 +509,19 @@ body {
   background-position: center top;
 }
 
-/* phones: fill the width, keep the title visible */
-@media (max-width: 639px) {
+/* Mobile hero: image at top, fades into dark background */
+@media (max-width: 1023px) {
   .hero-bg {
+    top: 0;
+    bottom: auto;
+    height: 56svh;
     background-size: cover;
     background-position: 50% 0%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
   }
 }
+
 
 /* tablet */
 @media (min-width: 640px) and (max-width: 1023px) {

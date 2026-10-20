@@ -438,7 +438,7 @@ function Hero() {
 
   return (
     <HeroScroll>
-      <div className="sticky top-0 flex h-[100svh] w-full flex-col overflow-hidden">
+      <div className="sticky top-0 flex h-[100svh] w-full flex-col overflow-hidden bg-[#0b0301] pt-[60px] lg:pt-0">
         {/* 1. Background art (text-free warriors image at /public/hero.png) */}
         <div
         aria-hidden
