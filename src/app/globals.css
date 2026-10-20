@@ -15,7 +15,7 @@
 }
 
 @theme inline {
-  --font-display: var(--font-yatra);
+  --font-display: var(--font-cinzel);
   --font-body: var(--font-hind);
   --color-sand: #e9d6ae;
   --color-ember: #ff7a18;

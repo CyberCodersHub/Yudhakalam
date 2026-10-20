@@ -1,14 +1,8 @@
 import "./globals.css";
 import type { Metadata, Viewport } from "next";
-import { Poppins, Noto_Sans_Tamil } from "next/font/google";
+import { Poppins, Noto_Sans_Tamil, Cinzel } from "next/font/google";
 import MobileFx from "./components/MobileFx";
 
-const display = Poppins({
-  weight: ["600", "700"],
-  subsets: ["latin"],
-  variable: "--font-yatra",
-  display: "swap",
-});
 
 const body = Noto_Sans_Tamil({
   weight: ["400", "500", "700"],
@@ -16,6 +10,15 @@ const body = Noto_Sans_Tamil({
   variable: "--font-hind",
   display: "swap",
 });
+
+
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  weight: ["400", "600", "700", "900"],
+  variable: "--font-cinzel",
+  display: "swap",
+});
+
 
 export const metadata: Metadata = {
   title: "Padaivedu Yudhakalam",
@@ -33,7 +36,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`} suppressHydrationWarning>
+    <html lang="en" className={` ${body.variable} ${cinzel.variable}`} suppressHydrationWarning>
       <body className="font-body antialiased" suppressHydrationWarning>
         {children}
         <MobileFx />

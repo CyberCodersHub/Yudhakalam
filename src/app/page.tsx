@@ -108,6 +108,9 @@ const ITEMS = [
     desc: "Flexibility, balance and strength that support every Silambam skill." },
 ];
 
+
+
+
 /* ---- Sparks: fixed values (no Math.random) so server and browser always match ---- */
 const EMBERS = Array.from({ length: 42 }, (_, i) => {
   const r = (n: number) => {
@@ -315,8 +318,14 @@ function Nav() {
 
         {/* Mobile Menu */}
         <details className="relative shrink-0 xl:hidden">
-          <summary className="group cursor-pointer list-none rounded-lg border border-[#FF8A1F]/50 px-3 py-1.5 text-[#F5C518] transition-all duration-300 hover:border-[#FFD84D] hover:bg-[#FF7A1A]/10 hover:text-[#FFD84D] hover:shadow-[0_0_20px_rgba(255,122,24,0.4)] marker:hidden">
-            <span className="font-medium">Menu</span>
+          <summary 
+              aria-label="Open menu"
+              className="group flex h-10 w-10 cursor-pointer list-none flex-col items-center justify-center gap-[5px] rounded-lg border border-[#FF8A1F]/50 transition-all duration-300 hover:border-[#FFD84D] hover:bg-[#FF7A1A]/10 hover:shadow-[0_0_20px_rgba(255,122,26,0.4)] marker:hidden [&::-webkit-details-marker]:hidden"
+          >
+            <span className="block h-[2px] w-5 rounded-full bg-[#F5C518] transition-transform duration-300 group-open:translate-y-[7px] group-open:rotate-45" />
+            <span className="block h-[2px] w-5 rounded-full bg-[#F5C518] transition-opacity duration-300 group-open:opacity-0" />
+            <span className="block h-[2px] w-5 rounded-full bg-[#F5C518] transition-transform duration-300 group-open:-translate-y-[7px] group-open:-rotate-45" />
+
           </summary>
 
           <ul className="absolute right-0 z-50 mt-3 w-56 space-y-1 rounded-xl border border-[#FF8A1F]/50 bg-gradient-to-br from-[#3A1C0B] to-[#1C120C] p-3 shadow-2xl shadow-black/70">
@@ -412,7 +421,7 @@ function HeroScroll({ children }: { children: ReactNode }) {
         ["--c2" as any]: "0",
         ["--c3" as any]: "0",
       }}
-      className="hero-scroll relative h-[230svh]"
+      className="hero-scroll relative h-[230svh] lg:h-[170svh]"
     >
       {children}
     </div>
@@ -523,8 +532,6 @@ function Hero() {
     </HeroScroll>
   );
 }
-
-
 
 
 
@@ -1314,16 +1321,16 @@ function Footer() {
       {/* Rising sun: molten gold arc from the top edge */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[420px] w-[900px] max-w-[160%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,#FFE27A_0%,#FFB020_22%,#FF7A18_45%,transparent_70%)] opacity-80 blur-2xl"
+        className="pointer-events-none absolute bottom-0 left-1/2 h-[420px] w-[900px] max-w-[160%] -translate-x-1/2 rounded-t-full bg-[radial-gradient(ellipse_at_50%_100%,#FFE27A_0%,#FFB020_15%,#FF7A18_22%,transparent_50%)] opacity-80 blur-2xl"
       />
 
       {/* Rays fanning out like a spinning staff */}
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 h-[520px] w-[1100px] max-w-[200%] -translate-x-1/2 -translate-y-[40%] opacity-30 [mask-image:radial-gradient(circle,black_20%,transparent_70%)]"
+        className="pointer-events-none absolute bottom-0 left-1/2 h-[520px] w-[1100px] max-w-[200%] -translate-x-1/2 translate-y-[10%] opacity-30 [mask-image:radial-gradient(circle_at_50%_100%,black_20%,transparent_70%)]"
         style={{
           background:
-            "repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,200,60,0.55) 0deg 2deg, transparent 2deg 12deg)",
+            "repeating-conic-gradient(from 0deg at 50% 100%, rgba(255,200,60,0.55) 0deg 2deg, transparent 2deg 12deg)",
         }}
       />
 
