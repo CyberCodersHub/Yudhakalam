@@ -538,7 +538,8 @@ function Hero() {
         <div className="hero-rise relative z-20 mx-auto mt-auto flex w-full max-w-6xl flex-col items-center px-4 pb-10 text-center sm:pb-14">
           {/* Tagline (plain text, no box) */}
           <div style={reveal("--c1")} className="will-change-transform">
-            <p className="mx-auto max-w-sm font-display text-sm uppercase leading-7 tracking-[0.12em] text-[#F5E5C5] [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] sm:max-w-2xl sm:text-base sm:leading-8 sm:tracking-[0.16em]">
+            <p className="mx-auto max-w-sm font-display text-sm uppercase leading-7 tracking-[0.12em] text-[#F5E5C5] [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] sm:max-w-2xl sm:text-base sm:leading-8 sm:tracking-[0.16em]
+            ">
               Discover the ancient Tamil art of Silambam. Build strength, sharpen your focus and carry a
               proud warrior tradition into the future.
             </p>
@@ -685,22 +686,29 @@ function About() {
     </section>
   );
 }
+
+
 // ---------- Choose your weapon (programs) ----------
 function Training() {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
   const item = ITEMS[active];
 
+  // Slow auto-change: 6 seconds per weapon, pauses while the pointer is over the section
   useEffect(() => {
-  const timer = setInterval(() => {
-    setActive((prev) => (prev + 1) % ITEMS.length);
-  }, 3000);
+    if (paused) return;
+    const timer = setInterval(() => {
+      setActive((prev) => (prev + 1) % ITEMS.length);
+    }, 6000);
 
-  return () => clearInterval(timer);
-}, []);
+    return () => clearInterval(timer);
+  }, [paused]);
 
   return (
     <section
       id="training"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
       className="relative scroll-mt-20 overflow-hidden bg-[#160A04] py-20 sm:py-24"
     >
       {/* Background image, dimmed */}
@@ -732,13 +740,31 @@ function Training() {
 
         <div className="mt-12 grid gap-6 lg:mt-14 lg:grid-cols-[300px_1fr] lg:gap-8">
           {/* Weapon list */}
-         {/* <ul className="grid grid-cols-2 gap-2 sm:grid-cols-5 lg:grid-cols-1">
+          <ul
+            className="grid grid-cols-2 gap-2 sm:grid-cols-5 lg:grid-cols-1"
+            onTouchStart={(e) => {
+              e.currentTarget.dataset.touchX = String(e.touches[0].clientX);
+            }}
+            onTouchEnd={(e) => {
+              const start = Number(e.currentTarget.dataset.touchX);
+              const end = e.changedTouches[0].clientX;
+
+              if (Math.abs(end - start) > 50) {
+                setActive((prev) =>
+                  end < start
+                    ? (prev + 1) % ITEMS.length
+                    : (prev - 1 + ITEMS.length) % ITEMS.length
+                );
+              }
+            }}
+          >
             {ITEMS.map((it, i) => {
               const selected = i === active;
+
               return (
                 <li key={it.title}>
                   <button
-                    type="button" 
+                    type="button"
                     onClick={() => setActive(i)}
                     aria-pressed={selected}
                     className={`flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-300 sm:flex-col sm:justify-center sm:text-center lg:flex-row lg:justify-start lg:text-left ${
@@ -748,12 +774,13 @@ function Training() {
                     }`}
                   >
                     <span
-                      className={`font-display text-sm transition-colors ${
+                      className={`font-display text-sm ${
                         selected ? "text-[#FFD84D]" : "text-[#FF9A1F]"
                       }`}
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
+
                     <span className="text-sm font-medium leading-tight text-[#F5E5C5]">
                       {it.title}
                     </span>
@@ -761,61 +788,7 @@ function Training() {
                 </li>
               );
             })}
-          </ul>*/}
-
-          
-<ul
-  className="grid grid-cols-2 gap-2 sm:grid-cols-5 lg:grid-cols-1"
-  onTouchStart={(e) => {
-    e.currentTarget.dataset.touchX = String(
-      e.touches[0].clientX
-    );
-  }}
-  onTouchEnd={(e) => {
-    const start = Number(e.currentTarget.dataset.touchX);
-    const end = e.changedTouches[0].clientX;
-
-    if (Math.abs(end - start) > 50) {
-      setActive((prev) =>
-        end < start
-          ? (prev + 1) % ITEMS.length
-          : (prev - 1 + ITEMS.length) % ITEMS.length
-      );
-    }
-  }}
->
-  {ITEMS.map((it, i) => {
-    const selected = i === active;
-
-    return (
-      <li key={it.title}>
-        <button
-          type="button"
-          onClick={() => setActive(i)}
-          aria-pressed={selected}
-          className={`flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-300 sm:flex-col sm:justify-center sm:text-center lg:flex-row lg:justify-start lg:text-left ${
-            selected
-              ? "border-[#FFD84D] bg-[#FF7A18]/15 shadow-[0_0_25px_rgba(255,122,24,0.3)]"
-              : "border-[#FF9A1F]/25 bg-[#211006]/70 hover:border-[#FF9A1F]/60 hover:bg-[#211006]"
-          }`}
-        >
-          <span
-            className={`font-display text-sm ${
-              selected ? "text-[#FFD84D]" : "text-[#FF9A1F]"
-            }`}
-          >
-            {String(i + 1).padStart(2, "0")}
-          </span>
-
-          <span className="text-sm font-medium leading-tight text-[#F5E5C5]">
-            {it.title}
-          </span>
-        </button>
-      </li>
-    );
-  })}
-</ul>
-
+          </ul>
 
           {/* Detail card */}
           <div className="grid overflow-hidden rounded-[2rem] border border-[#FF9A1F]/30 bg-[#1A0C05]/90 shadow-[0_30px_80px_rgba(0,0,0,0.5)] md:grid-cols-2">
@@ -856,6 +829,7 @@ function Training() {
     </section>
   );
 }
+
 
 // ---------- Five virtues (rotating card carousel) ----------
 function Virtues() {
@@ -1486,22 +1460,14 @@ export default function Home() {
       <Loader />
       <Nav />
       <main>
-        <Hero />
-        
-        <About />
-        
-        <Training />
-        
-        <Virtues />
-        
-        <Women />
-        
-        <Why />
-        
-        <Achievements />
-        
-        <Events />
-        
+        <Hero />       
+        <About />       
+        <Training />       
+        <Virtues />       
+        <Women />       
+        <Why />       
+        <Achievements />       
+        <Events />       
         <Join />
       </main>
       <Footer />
