@@ -538,3 +538,17 @@ body {
     background-position: 60% top;
   }
 }
+
+
+/* Weapon detail: soft fade + small slide when the selected weapon changes */
+@keyframes fade-swap {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-swap {
+  animation: fade-swap 0.6s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-swap { animation: none; }
+}

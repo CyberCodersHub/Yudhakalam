@@ -86,25 +86,25 @@ const PROGRAMS = [
 ];
 
 const ITEMS = [
-  { title: "Single stick", img: "/programs/1-single-stick.jpg",
+  { title: "Single stick", img: "/programs/1-single-stick.png",
     desc: "The foundation of Silambam. Learn stance, footwork and the core strikes with a single staff." },
-  { title: "Double stick", img: "/programs/2-double-stick.jpg",
+  { title: "Double stick", img: "/programs/2-double-stick.png",
     desc: "Train both hands together for speed, rhythm and coordination." },
-  { title: "Surulvall", img: "/programs/3-surulvall.jpg",
+  { title: "Surulvall", img: "/programs/3-surulvall.png",
     desc: "The flexible coiled blade. It demands control, timing and complete focus." },
-  { title: "Vel Kambu", img: "/programs/4-vel-kambu.jpg",
+  { title: "Vel Kambu", img: "/programs/4-vel-kambu.png",
     desc: "Spear-style training with thrusts and reach, built on balance and precision." },
-  { title: "Maan Kombu", img: "/programs/5-maan-kombu.jpg",
+  { title: "Maan Kombu", img: "/programs/5-maan-kombu.png",
     desc: "The twin-horn weapon for close defence and sharp counters." },
-  { title: "Kuthuvarisai", img: "/programs/6-kuthuvarisai.jpg",
+  { title: "Kuthuvarisai", img: "/programs/6-kuthuvarisai.png",
     desc: "Empty-hand combat built on strikes, blocks and body control." },
-  { title: "Advanced Techniques", img: "/programs/7-advance-equipments-techniques.jpg",
+  { title: "Advanced Techniques", img: "/programs/7-advance-equipments-techniques.png",
     desc: "Higher-level equipment work and technique for experienced students." },
-  { title: "Women's Self Defence", img: "/programs/8-womens-self-defence.jpg",
+  { title: "Women's Self Defence", img: "/programs/8-womens-self-defence.png",
     desc: "Practical self-defence skills that build confidence and awareness." },
-  { title: "Youth Program", img: "/programs/9-youth-program.jpg",
+  { title: "Youth Program", img: "/programs/9-youth-program.png",
     desc: "A structured path for young students to learn Silambam with discipline." },
-  { title: "Gymnastics", img: "/programs/10-gymnastics.jpg",
+  { title: "Gymnastics", img: "/programs/10-gymnastics.png",
     desc: "Flexibility, balance and strength that support every Silambam skill." },
 ];
 
@@ -586,53 +586,46 @@ function Hero() {
   );
 }
 
-
-
 // ---------- About ----------
 function About() {
   return (
     <section
       id="about"
-      className="relative scroll-mt-20 overflow-hidden py-16 sm:py-24"
+      className="relative scroll-mt-20 overflow-hidden bg-gradient-to-br from-[#FFE94D] via-[#FFC233] to-[#FF8A00] py-16 sm:py-24 [&_h2]:text-[#3A1607]"
     >
-      <Image
-        src="/why.png"
-        alt=""
-        fill
-        sizes="100vw"
-        className="about-bg object-cover brightness-[0.5] sm:object-right"
+      {/* Soft light glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_25%_40%,rgba(255,255,255,0.45),transparent_60%)]"
       />
-      <div className="absolute inset-0 bg-[#1C120C]/75" />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#5A2408]/80 via-[#2A1308]/75 to-[#120805]/90" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_40%,rgba(255,166,0,0.16),transparent_60%)]" />
 
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
         <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
           {/* Left: story, one after another */}
           <div>
             <Reveal delay={0}>
-              <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#FFD84D]">
-                <span className="h-px w-10 bg-[#FFD84D]/70" />
+              <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.3em] text-[#7A2E06]">
+                <span className="h-px w-10 bg-[#7A2E06]/70" />
                 Our roots
               </p>
             </Reveal>
 
             <Reveal delay={150}>
-              <Heading className="glow-text mt-4">
+              <Heading className="mt-4">
                 Old Tradition...!
-                <span className="block text-[#FFD84D]">New Warriors...!</span>
+                <span className="block text-[#7A2E06]">New Warriors...!</span>
               </Heading>
             </Reveal>
 
             <Reveal delay={300}>
-              <p className="mt-6 max-w-xl text-base font-medium leading-8 text-white drop-shadow-[0_2px_5px_rgba(0,0,0,0.9)] sm:text-lg">
+              <p className="mt-6 max-w-xl text-base font-medium leading-8 text-[#3A1607] sm:text-lg">
                 Padaivedu Yudhakalam carries the ancient Tamil art of Silambam
                 to future generations through training, strength and tradition.
               </p>
             </Reveal>
 
             <Reveal delay={400}>
-              <p className="mt-4 max-w-xl leading-7 text-white/85 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+              <p className="mt-4 max-w-xl leading-7 text-[#4A2208]/90">
                 Whether you are taking your first step or refining advanced
                 forms, every session builds discipline, strength and pride in
                 our heritage, one step at a time.
@@ -640,11 +633,11 @@ function About() {
             </Reveal>
 
             <Reveal delay={500}>
-              <blockquote className="mt-7 border-l-2 border-[#FF9A1F] pl-4">
-                <p className="text-lg font-semibold text-[#FFD84D] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
+              <blockquote className="mt-7 border-l-2 border-[#B45309] pl-4">
+                <p className="text-lg font-semibold text-[#7A2E06]">
                   வீரம் பயிற்சியில் பிறக்கும்
                 </p>
-                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-white/70">
+                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-[#4A2208]/80">
                   Courage is born in practice
                 </p>
               </blockquote>
@@ -660,20 +653,16 @@ function About() {
           </div>
 
           {/* Right: highlights, one by one */}
-          <ol className="divide-y divide-[#FFD84D]/25 lg:border-l lg:border-[#FFD84D]/25 lg:pl-12">
+          <ol className="divide-y divide-[#B45309]/35 lg:border-l lg:border-[#B45309]/35 lg:pl-12">
             {HIGHLIGHTS.map(([t, d], i) => (
               <Reveal key={t} as="li" delay={300 + i * 200} direction="right" className="first:pt-0 last:pb-0">
                 <div className="group flex gap-5 py-6 transition-transform duration-300 hover:translate-x-1">
-                  <span className="font-display text-3xl leading-none text-[#FF9A1F] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)] transition-colors duration-300 group-hover:text-[#FFD84D]">
+                  <span className="font-display text-3xl leading-none text-[#B45309] transition-colors duration-300 group-hover:text-[#7A2E06]">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <div>
-                    <h3 className="font-display text-xl text-[#FFD84D] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
-                      {t}
-                    </h3>
-                    <p className="mt-2 leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
-                      {d}
-                    </p>
+                    <h3 className="font-display text-xl text-[#3A1607]">{t}</h3>
+                    <p className="mt-2 leading-7 text-[#4A2208]/90">{d}</p>
                   </div>
                 </div>
               </Reveal>
@@ -682,7 +671,7 @@ function About() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#7A2E06]/60 to-transparent" />
     </section>
   );
 }
@@ -697,9 +686,10 @@ function Training() {
   // Slow auto-change: 6 seconds per weapon, pauses while the pointer is over the section
   useEffect(() => {
     if (paused) return;
+
     const timer = setInterval(() => {
       setActive((prev) => (prev + 1) % ITEMS.length);
-    }, 6000);
+    }, 7000);
 
     return () => clearInterval(timer);
   }, [paused]);
@@ -709,7 +699,9 @@ function Training() {
       id="training"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      className="relative scroll-mt-20 overflow-hidden bg-[#160A04] py-20 sm:py-24"
+      className="relative scroll-mt-20 overflow-hidden bg-gradient-to-br from-[#FFE94D] via-[#FFC233] to-[#FF8A00] py-20 sm:py-24 [&_h2]:text-[#3A1607]"
+
+      // className="relative scroll-mt-20 overflow-hidden bg-[#160A04] py-20 sm:py-24"
     >
       {/* Background image, dimmed */}
       <Image
@@ -719,23 +711,38 @@ function Training() {
         sizes="100vw"
         className="object-cover object-[75%_center] brightness-[0.1] sm:object-right"
       />
+      
       <div
         aria-hidden
         className="absolute inset-0 bg-gradient-to-b from-[#160A04]/90 via-[#160A04]/80 to-[#160A04]/95"
       />
 
+
+      {/* Soft light glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.45),transparent_55%)]"
+      />
+
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
-        {/* Heading */}
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#FF9A1F]">
-            Training at Padaivedu
-          </p>
-          <Heading center className="glow-text">
-            Choose your weapon
-          </Heading>
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#E9D6AE]/85 sm:text-base">
-            Traditional weapons and techniques of Silambam. Pick one to see what it teaches.
-          </p>
+          <Reveal>
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#7A2E06]">
+              Training at Padaivedu
+            </p>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <Heading center className="glow-text">
+              Choose your weapon
+            </Heading>
+          </Reveal>
+
+          <Reveal delay={240}>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#4A2208]/90 sm:text-base">
+              Traditional weapons and techniques of Silambam. Pick one to see what it teaches.
+            </p>
+          </Reveal>
         </div>
 
         <div className="mt-12 grid gap-6 lg:mt-14 lg:grid-cols-[300px_1fr] lg:gap-8">
@@ -762,7 +769,7 @@ function Training() {
               const selected = i === active;
 
               return (
-                <li key={it.title}>
+                <Reveal key={it.title} as="li" delay={i * 60}>
                   <button
                     type="button"
                     onClick={() => setActive(i)}
@@ -780,12 +787,11 @@ function Training() {
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
-
                     <span className="text-sm font-medium leading-tight text-[#F5E5C5]">
                       {it.title}
                     </span>
                   </button>
-                </li>
+                </Reveal>
               );
             })}
           </ul>
@@ -830,7 +836,6 @@ function Training() {
   );
 }
 
-
 // ---------- Five virtues (rotating card carousel) ----------
 function Virtues() {
   const n = VIRTUES.length;
@@ -850,7 +855,8 @@ function Virtues() {
   return (
     <section
       id="virtues"
-      className="relative scroll-mt-20 overflow-hidden bg-[#0d0503] py-20 sm:py-24"
+      className="relative scroll-mt-20 overflow-hidden bg-gradient-to-br from-[#FFF1B8] via-[#FFD25A] to-[#FF9A1F] py-20 sm:py-24 [&_h2]:text-[#3A1607]"
+      // className="relative scroll-mt-20 overflow-hidden bg-[#0d0503] py-20 sm:py-24"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -863,12 +869,16 @@ function Virtues() {
 
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#FF9A1F]">
+          <Reveal>
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#5C2506]">
             The warrior’s code
           </p>
+          </Reveal>
+          <Reveal delay={120}>
           <Heading center className="glow-text">
             Five virtues of a warrior
           </Heading>
+          </Reveal>
         </div>
 
         {/* Carousel */}
@@ -926,7 +936,8 @@ function Virtues() {
             type="button"
             onClick={prev}
             aria-label="Previous virtue"
-            className="grid h-11 w-11 place-items-center rounded-full border border-[#FF9A1F]/50 text-lg text-[#FFD84D] transition hover:border-[#FFD84D] hover:bg-[#FF7A18]/15 active:scale-95"
+            className="grid h-11 w-11 place-items-center rounded-full border-2 border-[#5C2506] bg-white/30 text-lg font-bold text-[#5C2506] transition hover:bg-[#5C2506] hover:text-[#FFE94D] active:scale-95"
+            // className="grid h-11 w-11 place-items-center rounded-full border border-[#FF9A1F]/50 text-lg text-[#FFD84D] transition hover:border-[#FFD84D] hover:bg-[#FF7A18]/15 active:scale-95"
           >
             ←
           </button>
@@ -939,7 +950,7 @@ function Virtues() {
                 onClick={() => setActive(i)}
                 aria-label={`Show ${v.title}`}
                 className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === active ? "w-10 bg-[#FFD84D]" : "w-2 bg-[#FF9A1F]/40 hover:bg-[#FF9A1F]"
+                  i === active ? "w-10 bg-[#5C2506]" : "w-2 bg-[#5C2506]/40 hover:bg-[#5C2506]"
                 }`}
               />
             ))}
@@ -949,7 +960,9 @@ function Virtues() {
             type="button"
             onClick={next}
             aria-label="Next virtue"
-            className="grid h-11 w-11 place-items-center rounded-full border border-[#FF9A1F]/50 text-lg text-[#FFD84D] transition hover:border-[#FFD84D] hover:bg-[#FF7A18]/15 active:scale-95"
+            className="grid h-11 w-11 place-items-center rounded-full border-2 border-[#5C2506] bg-white/30 text-lg font-bold text-[#5C2506] transition hover:bg-[#5C2506] hover:text-[#FFE94D] active:scale-95"
+
+            // className="grid h-11 w-11 place-items-center rounded-full border border-[#FF9A1F]/50 text-lg text-[#FFD84D] transition hover:border-[#FFD84D] hover:bg-[#FF7A18]/15 active:scale-95"
           >
             →
           </button>
@@ -964,17 +977,21 @@ function Women() {
   return (
     <section
       id="women"
-      className="relative scroll-mt-20 overflow-hidden bg-[#140803] py-20 sm:py-24"
+      className="relative scroll-mt-20 overflow-hidden bg-gradient-to-br from-[#FFE94D] via-[#FFC233] to-[#FF8A00] py-20 sm:py-24 [&_h2]:text-[#3A1607]"
+
+      //className="relative scroll-mt-20 overflow-hidden bg-[#140803] py-20 sm:py-24"
     >
+
+      {/* Soft light glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,166,0,0.12),transparent_50%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,255,255,0.45),transparent_50%)]"
       />
 
       <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-14 px-4 sm:px-5 lg:grid-cols-2 lg:gap-16">
         {/* Photo card with the 40% badge */}
-        <div className="relative mx-auto w-full max-w-md pb-6">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-[#FFD84D]/40 shadow-[0_0_50px_rgba(255,122,24,0.25)]">
+        <Reveal direction="left" className="relative mx-auto w-full max-w-md pb-6">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border-2 border-[#B45309]/60 shadow-[0_20px_50px_rgba(180,83,9,0.3)]">
             <Image
               src="/womens.jpg"
               alt="A woman practising Silambam with a bamboo staff at sunset"
@@ -982,52 +999,60 @@ function Women() {
               sizes="(min-width:1024px) 40vw, 90vw"
               className="object-cover object-[70%_center] transition-transform duration-[1200ms] ease-out hover:scale-105"
             />
-            {/* sliding light sweep */}
             <span aria-hidden className="title-shine" />
             <div
               aria-hidden
-              className="absolute inset-0 bg-gradient-to-t from-[#140803] via-transparent to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-[#FFE94D]/40 via-transparent to-transparent"
             />
           </div>
 
-          <div className="absolute -bottom-2 right-3 rounded-xl border border-[#FFD84D]/50 bg-[#160A04]/95 px-5 py-4 text-center shadow-lg sm:right-6">
-            <p className="font-display text-3xl leading-none text-[#FFD84D]">40%</p>
-            <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#F5E5C5]">
+          <div className="absolute -bottom-2 right-3 rounded-xl border border-[#B45309]/50 bg-[#FFF8E1]/95 px-5 py-4 text-center shadow-lg sm:right-6">
+            <p className="font-display text-3xl leading-none text-[#7A2E06]">40%</p>
+            <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#3A1607]">
               Women in our classes
             </p>
           </div>
-        </div>
+        </Reveal>
 
-        {/* Text */}
+        {/* Text: slides in from the right */}
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#FF9A1F]">
-            For women
-          </p>
+          <Reveal>
+            <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#7A2E06]">
+              For women
+            </p>
+          </Reveal>
 
-          <h2 className="glow-text mt-3 font-display text-3xl leading-tight text-sand sm:text-5xl">
-            Strength has
-            <span className="block text-[#FFD84D]">no gender</span>
-          </h2>
+          <Reveal delay={120}>
+            <h2 className="mt-3 font-display text-3xl leading-tight text-[#3A1607] sm:text-5xl">
+              Strength has
+              <span className="block text-[#7A2E06]">no gender</span>
+            </h2>
+          </Reveal>
 
-          <p className="mt-6 text-base leading-8 text-[#F5E5C5]/90">
-            Silambam does not create courage in her. It brings out the courage that is already there.
-          </p>
+          <Reveal delay={240}>
+            <p className="mt-6 text-base leading-8 font-medium text-[#3A1607]">
+              Silambam does not create courage in her. It brings out the courage that is already there.
+            </p>
+          </Reveal>
+
 
           <ul className="mt-7 space-y-3">
-            {WOMEN_POINTS.map((p) => (
-              <li
+            {WOMEN_POINTS.map((p, i) => (
+              <Reveal
                 key={p}
-                className="flex items-center gap-3 border-b border-[#FF9A1F]/25 pb-3 text-[#FFF3D6]"
+                as="li"
+                delay={360 + i * 90}
+                className="flex items-center gap-3 border-b border-[#B45309]/35 pb-3 font-medium text-[#3A1607]"
               >
                 <span
                   aria-hidden
-                  className="grid h-5 w-5 shrink-0 place-items-center rounded-[4px] border border-[#FFD84D]/70 bg-[#FF7A18]/15"
+                  className="grid h-5 w-5 shrink-0 place-items-center rounded-[4px] border border-[#7A2E06]/70 bg-white/50"
                 >
                   <svg
                     viewBox="0 0 20 20"
                     className="h-3.5 w-3.5"
                     fill="none"
-                    stroke="#FFD84D"
+                    stroke="#7A2E06"
                     strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -1036,15 +1061,18 @@ function Women() {
                   </svg>
                 </span>
                 {p}
-              </li>
+              </Reveal>
             ))}
           </ul>
 
-          <div className="mt-9">
-            <Btn href="#join" solid>
-              Register free
-            </Btn>
-          </div>
+
+          <Reveal delay={360 + WOMEN_POINTS.length * 90}>
+            <div className="mt-9">
+              <Btn href="#join" solid>
+                Register free
+              </Btn>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -1056,37 +1084,31 @@ function Why() {
   return (
     <section
       id="why"
-      className="relative scroll-mt-20 overflow-hidden bg-[#1C0D05] py-20 sm:py-24"
+      className="relative scroll-mt-20 overflow-hidden bg-gradient-to-br from-[#FFE94D] via-[#FFC233] to-[#FF8A00] py-20 sm:py-24 [&_h2]:text-[#3A1607]"
     >
-      <Image
-        src="/why.png"
-        alt=""
-        fill
-        sizes="100vw"
-        className="about-bg object-cover brightness-[0.45] sm:object-right"
-      />
+      {/* Soft light glow */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-r from-[#1C0D05]/95 via-[#1C0D05]/80 to-[#1C0D05]/70"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.45),transparent_55%)]"
       />
 
       <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-4 sm:px-5 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
         {/* Left: big number + programs */}
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#FF9A1F]">
+          <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#7A2E06]">
             Why Padaivedu
           </p>
 
-          <p className="glow-text mt-4 font-display text-7xl leading-none text-[#FFD84D] sm:text-8xl">
+          <p className="mt-4 font-display text-7xl leading-none text-[#7A2E06] sm:text-8xl">
             10+
           </p>
 
-          <h2 className="glow-text mt-4 font-display text-3xl leading-tight text-white sm:text-5xl">
+          <h2 className="mt-4 font-display text-3xl leading-tight text-[#3A1607] sm:text-5xl">
             Ten disciplines,
-            <span className="block text-[#FFD84D]">one academy</span>
+            <span className="block text-[#7A2E06]">one academy</span>
           </h2>
 
-          <p className="mt-5 max-w-xl text-base leading-8 text-[#F5E5C5]/90">
+          <p className="mt-5 max-w-xl text-base font-medium leading-8 text-[#3A1607]">
             More than martial arts. We build discipline, strength, confidence and a
             deeper connection to Tamil warrior heritage.
           </p>
@@ -1095,7 +1117,7 @@ function Why() {
             {PROGRAMS.map((p) => (
               <li
                 key={p}
-                className="rounded-full border border-[#FF9A1F]/40 bg-[#FF7A18]/10 px-3 py-1 text-xs text-[#F5E5C5]"
+                className="rounded-full border border-[#B45309]/50 bg-white/50 px-3 py-1 text-xs font-medium text-[#3A1607]"
               >
                 {p}
               </li>
@@ -1109,141 +1131,173 @@ function Why() {
           </div>
         </div>
 
-<ol className="divide-y divide-[#FFD84D]/25 self-center">
-  {WHY_POINTS.map(([t, d], i) => (
-    <Reveal key={t} as="li" delay={i * 200} direction="right" className="first:pt-0 last:pb-0">
-      <div className="group flex gap-5 py-6">
-        <span className="font-display text-2xl leading-none text-[#FF7A18]/60 transition-colors duration-300 group-hover:text-[#FFD84D]">
-          {String(i + 1).padStart(2, "0")}
-        </span>
-        <div>
-          <h3 className="font-display text-xl text-[#FFD84D]">{t}</h3>
-          <p className="mt-2 leading-7 text-[#E9D6AE]/85">{d}</p>
-        </div>
-      </div>
-    </Reveal>
-  ))}
-</ol>        
+        {/* Right: feature list, one by one */}
+        <ol className="divide-y divide-[#B45309]/35 self-center">
+          {WHY_POINTS.map(([t, d], i) => (
+            <Reveal key={t} as="li" delay={i * 200} direction="right" className="first:pt-0 last:pb-0">
+              <div className="group flex gap-5 py-6">
+                <span className="font-display text-2xl leading-none text-[#B45309] transition-colors duration-300 group-hover:text-[#7A2E06]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="font-display text-xl text-[#3A1607]">{t}</h3>
+                  <p className="mt-2 leading-7 text-[#4A2208]/90">{d}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </ol>
       </div>
     </section>
   );
 }
+
+
 
 // ---------- Achievements ----------
 function Achievements() {
   return (
     <section
       id="achievements"
-      className="relative scroll-mt-20 overflow-hidden py-20 sm:py-28 lg:min-h-[640px]"
+      className="relative scroll-mt-20 overflow-hidden bg-gradient-to-br from-[#FFE94D] via-[#FFC233] to-[#FF8A00] py-20 sm:py-28 lg:min-h-[640px] [&_h2]:text-[#3A1607]"
     >
-      {/* Background image – anchor the trophy to the right */}
+      {/* Soft light glow */}
       <div
-        className="achievement-bg absolute inset-0 bg-cover lg:bg-right"
-        style={{ backgroundImage: "url('/win.png')" }}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_40%,rgba(255,255,255,0.45),transparent_55%)]"
       />
 
-      {/* Extra darkening on phones so the text stays readable */}
-      <div className="absolute inset-0 bg-black/45 lg:bg-transparent" />
-
-      {/* Dark only on the text side, fading to clear over the trophy */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/60 to-transparent lg:via-black/50" />
-
-      {/* Light edge vignette instead of a full dark wash */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_50%,transparent_40%,rgba(0,0,0,0.5)_100%)]" />
-
-      <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
+      <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-5 lg:grid-cols-2 lg:gap-16">
+        {/* Left: heading and achievement cards */}
         <div className="max-w-xl">
-          <Heading className="glow-text text-white">Our proudest wins</Heading>
+          <Reveal>
+            <Heading>Our proudest wins</Heading>
+          </Reveal>
 
           <div className="mt-10 grid gap-5">
-  {ACHIEVEMENTS.map(([t, d], i) => (
-    <Reveal key={t} as="article" delay={i * 200} className="border-l-4 border-amber-400 bg-black/60 p-6 transition-colors duration-300 hover:bg-black/75">
-      <h3 className="text-xl font-bold text-amber-300">{t}</h3>
-      <p className="mt-2 text-white/90">{d}</p>
-    </Reveal>
-  ))}
-</div>
-
-          <div className="mt-8">
-            <Btn href="#achievements">See all achievements</Btn>
+            {ACHIEVEMENTS.map(([t, d], i) => (
+              <Reveal
+                key={t}
+                as="article"
+                delay={i * 200}
+                className="border-l-4 border-[#B45309] bg-white/50 p-6 shadow-[0_10px_30px_rgba(180,83,9,0.2)] transition-colors duration-300 hover:bg-white/70"
+              >
+                <h3 className="text-xl font-bold text-[#7A2E06]">{t}</h3>
+                <p className="mt-2 font-medium text-[#3A1607]">{d}</p>
+              </Reveal>
+            ))}
           </div>
+
+          <Reveal delay={ACHIEVEMENTS.length * 200}>
+            <div className="mt-8">
+              <Btn href="#achievements" solid>
+                See all achievements
+              </Btn>
+            </div>
+          </Reveal>
         </div>
+
+        {/* Right: trophy image */}
+        <Reveal direction="right" delay={200} className="relative mx-auto w-full max-w-md">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border-2 border-[#B45309]/60 shadow-[0_20px_50px_rgba(180,83,9,0.3)]">
+            <Image
+              src="/win.png"
+              alt="Silambam championship trophy"
+              fill
+              sizes="(min-width:1024px) 40vw, 90vw"
+              className="object-cover transition-transform duration-[1200ms] ease-out hover:scale-105"
+            />
+            <span aria-hidden className="title-shine" />
+
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-[#FFE94D]/30 via-transparent to-transparent"
+            />
+          </div>
+        </Reveal>
       </div>
     </section>
   );
 }
+
+
+
 
 // ---------- Events ----------
 function Events() {
   return (
     <section
       id="events"
-      className="relative scroll-mt-20 overflow-hidden py-16 sm:py-20"
+      className="relative scroll-mt-20 overflow-hidden bg-gradient-to-br from-[#FFE94D] via-[#FFC233] to-[#FF8A00] py-16 sm:py-20 [&_h2]:text-[#3A1607]"
     >
-      {/* Background Image */}
+      {/* Soft light glow */}
       <div
-        className="achievement-bg absolute inset-0 bg-cover lg:bg-right"
-        style={{
-          backgroundImage: "url('/coming-up.png')",
-        }}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,255,255,0.45),transparent_55%)]"
       />
 
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/55" />
+      <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-5 lg:grid-cols-2 lg:gap-16">
+        {/* Left: image, slides in from the left */}
+        <Reveal direction="left" className="relative mx-auto w-full max-w-md">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border-2 border-[#B45309]/60 shadow-[0_20px_50px_rgba(180,83,9,0.3)]">
+            <Image
+               src="/women-bg.png"
+               alt="A woman practising Silambam with a bamboo staff on the beach at sunset"
+               fill
+               sizes="(min-width:1024px) 40vw, 90vw"
+               className="object-cover object-[50%_center] transition-transform duration-[1200ms] ease-out hover:scale-105"
+            />
+            <span aria-hidden className="title-shine" />
 
-      {/* Orange/gold cinematic overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-amber-950/30 via-orange-950/20 to-black/70" />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-gradient-to-t from-[#FFE94D]/30 via-transparent to-transparent"
+            />
+          </div>
+        </Reveal>
 
-      {/* Content */}
-      <div className="relative z-10 mx-auto max-w-4xl px-4 sm:px-5">
-        <Heading center className="glow-text text-white">
-          Coming up
-        </Heading>
+        {/* Right: heading, events and button */}
+        <div className="max-w-xl">
+          <Reveal>
+            <Heading center={false}>Coming up</Heading>
+          </Reveal>
 
-        {EVENTS.length ? (
-          <ul className="mt-10 space-y-4">
-            {EVENTS.map(([t, d], i) => (
-              <li
-                key={t}
-                data-reveal
-                style={vars({ "--i": i })}
-                className="rounded-xl border border-amber-300/40 bg-black/40 p-5 text-white backdrop-blur-sm transition-all duration-300 hover:bg-black/55"
-              >
-                <b className="text-amber-300">{t}</b>
+          {EVENTS.length ? (
+            <ul className="mt-10 space-y-4">
+              {EVENTS.map(([t, d], i) => (
+                <Reveal
+                  key={t}
+                  as="li"
+                  delay={120 + i * 120}
+                  className="rounded-xl border border-[#B45309]/40 bg-white/50 p-5 shadow-[0_10px_30px_rgba(180,83,9,0.15)] transition-all duration-300 hover:bg-white/70"
+                >
+                  <b className="text-[#7A2E06]">{t}</b>
+                  <p className="mt-1 font-medium text-[#3A1607]">{d}</p>
+                </Reveal>
+              ))}
+            </ul>
+          ) : (
+            <Reveal delay={150}>
+              <p className="mt-10 rounded-xl border border-[#B45309]/50 bg-white/50 p-6 text-base font-medium leading-7 text-[#3A1607] shadow-[0_10px_30px_rgba(180,83,9,0.15)] sm:text-lg">
+                No events are scheduled right now. Join the academy and we will
+                tell you the moment a date is set.
+              </p>
+            </Reveal>
+          )}
 
-                <p className="mt-1 text-white/80">
-                  {d}
-                </p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p
-            data-reveal
-            className="
-              mx-auto mt-10 max-w-xl rounded-xl
-              border border-amber-300/50
-              bg-black/45
-              p-6 text-center
-              text-base text-white/90
-              backdrop-blur-sm
-              sm:p-8 sm:text-lg
-            "
-          >
-            No events are scheduled right now. Join the academy and we will
-            tell you the moment a date is set.
-          </p>
-        )}
-
-        <div className="mt-8 text-center">
-          <Btn href="#events">
-            See all events
-          </Btn>
+          <Reveal delay={300}>
+            <div className="mt-8">
+              <Btn href="#events" solid>
+                See all events
+              </Btn>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
   );
 }
+
 
 // ---------- Join ----------
 function Join() {
