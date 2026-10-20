@@ -499,7 +499,7 @@ body {
 
 
 /* =====================================================================
-   HERO BACKGROUND (full image on phones, cropped on bigger screens)
+   HERO BACKGROUND
    ===================================================================== */
 
 .hero-bg {
@@ -509,11 +509,11 @@ body {
   background-position: center top;
 }
 
-/* phones: show the whole image, no cropping */
+/* phones: fill the width, keep the title visible */
 @media (max-width: 639px) {
   .hero-bg {
-    background-size: contain;
-    background-position: center top;
+    background-size: cover;
+    background-position: 50% 0%;
   }
 }
 

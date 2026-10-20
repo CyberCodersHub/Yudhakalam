@@ -375,12 +375,13 @@ function HeroScroll({ children }: { children: ReactNode }) {
     const apply = () => {
       const rect = node.getBoundingClientRect();
       const vh = window.innerHeight || 1;
-      const progress = clamp(-rect.top / (vh * 1.15));
+      const progress = clamp(-rect.top / (vh * 0.7));
+      const isMobile = window.innerWidth < 1024;
 
       // image: zoom, blur, dim to black
       node.style.setProperty("--blur", `${(progress * 9).toFixed(2)}px`);
       node.style.setProperty("--scale", (1 + progress * 0.22).toFixed(3));
-      node.style.setProperty("--dim", progress.toFixed(3));
+      node.style.setProperty("--dim", (isMobile ? progress * 0.4 : progress).toFixed(3));
 
       // title: lifts away and fades
       node.style.setProperty("--title-o", clamp(1 - progress * 1.25).toFixed(3));
@@ -388,9 +389,9 @@ function HeroScroll({ children }: { children: ReactNode }) {
 
       // content: rises in one after another (0 = hidden, 1 = fully shown)
       const rise = (from: number, to: number) => clamp((progress - from) / (to - from));
-      node.style.setProperty("--c1", rise(0.2, 0.55).toFixed(3));
-      node.style.setProperty("--c2", rise(0.35, 0.7).toFixed(3));
-      node.style.setProperty("--c3", rise(0.5, 0.85).toFixed(3));
+      node.style.setProperty("--c1", isMobile ? "1" : rise(0.2, 0.55).toFixed(3));
+      node.style.setProperty("--c2", isMobile ? "1" : rise(0.35, 0.7).toFixed(3));
+      node.style.setProperty("--c3", isMobile ? "1" : rise(0.5, 0.85).toFixed(3));
 
       // buttons can be tapped only once they have appeared
       node.dataset.live = progress > 0.4 ? "1" : "0";
