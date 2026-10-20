@@ -1362,62 +1362,67 @@ function Footer() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-5 md:grid-cols-4">
-          <div>
-            <div className="flex items-center gap-3">
-              <Logo />
-              <span className="glow-text font-display text-xl text-[#FFD84D]">
-                {SITE.name}
-              </span>
-            </div>
-            <p className="mt-4 text-[#F5E5C5]/85">
-              Tamil staff fighting, taught with discipline, strength and heritage.
-            </p>
-          </div>
-
-          <div>
-            <h3 className="glow-text font-display text-lg text-[#FFB020]">Quick links</h3>
-            <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
-              {NAV.map(([l, h]) => (
-                <li key={h}>
-                  <a href={h} className="transition hover:text-[#FFD84D]">{l}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="glow-text font-display text-lg text-[#FFB020]">Programs</h3>
-            <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
-              {PROGRAMS.map((p) => <li key={p}>{p}</li>)}
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="glow-text font-display text-lg text-[#FFB020]">Contact us</h3>
-            <ul className="mt-3 space-y-3 text-[#F5E5C5]/85">
-              <li>{SITE.place}</li>
-              <li>
-                <a className="transition hover:text-[#FFD84D]" href={TEL}>{SITE.phone}</a>
-              </li>
-              <li className="break-words">
-                <a className="transition hover:text-[#FFD84D]" href={`mailto:${SITE.email}`}>
-                  {SITE.email}
-                </a>
-              </li>
-              <li>{SITE.hours}</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FF9A1F]/25 px-4 py-6 text-sm text-[#F5E5C5]/65 sm:px-5">
-          <p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p>
-          <p className="text-xs uppercase tracking-[0.3em] text-[#FFB020]/70">
-            Tradition • Discipline • Strength
-          </p>
-        </div>
+      {/* Content */}
+<div className="relative z-10">
+  <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 sm:px-5 md:grid-cols-4">
+    {/* Brand: full width on mobile */}
+    <div className="col-span-2 md:col-span-1">
+      <div className="flex items-center gap-3">
+        <Logo />
+        <span className="glow-text font-display text-xl text-[#FFD84D]">
+          {SITE.name}
+        </span>
       </div>
+      <p className="mt-4 text-[#F5E5C5]/85">
+        Tamil staff fighting, taught with discipline, strength and heritage.
+      </p>
+    </div>
+
+    {/* Quick links: left column on mobile */}
+    <div>
+      <h3 className="glow-text font-display text-lg text-[#FFB020]">Quick links</h3>
+      <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
+        {NAV.map(([l, h]) => (
+          <li key={h}>
+            <a href={h} className="transition hover:text-[#FFD84D]">{l}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    {/* Programs: right column on mobile */}
+    <div>
+      <h3 className="glow-text font-display text-lg text-[#FFB020]">Programs</h3>
+      <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
+        {PROGRAMS.map((p) => <li key={p}>{p}</li>)}
+      </ul>
+    </div>
+
+    {/* Contact: full width on mobile */}
+    <div className="col-span-2 md:col-span-1">
+      <h3 className="glow-text font-display text-lg text-[#FFB020]">Contact us</h3>
+      <ul className="mt-3 space-y-3 text-[#F5E5C5]/85">
+        <li>{SITE.place}</li>
+        <li>
+          <a className="transition hover:text-[#FFD84D]" href={TEL}>{SITE.phone}</a>
+        </li>
+        <li className="break-words">
+          <a className="transition hover:text-[#FFD84D]" href={`mailto:${SITE.email}`}>
+            {SITE.email}
+          </a>
+        </li>
+        <li>{SITE.hours}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div className="mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FF9A1F]/25 px-4 py-6 text-sm text-[#F5E5C5]/65 sm:px-5">
+    <p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p>
+    <p className="text-xs uppercase tracking-[0.3em] text-[#FFB020]/70">
+      Tradition • Discipline • Strength
+    </p>
+  </div>
+</div>
     </footer>
   );
 }
