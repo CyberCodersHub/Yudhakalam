@@ -473,7 +473,7 @@ function HeroScroll({ children }: { children: ReactNode }) {
         ["--c2" as any]: "0",
         ["--c3" as any]: "0",
       }}
-      className="hero-scroll relative h-[230svh] lg:h-[170svh]"
+      className="hero-scroll relative h-[170svh] lg:h-[170svh]"
     >
       {children}
     </div>
@@ -538,7 +538,7 @@ function Hero() {
         <div className="hero-rise relative z-20 mx-auto mt-auto flex w-full max-w-6xl flex-col items-center px-4 pb-10 text-center sm:pb-14">
           {/* Tagline (plain text, no box) */}
           <div style={reveal("--c1")} className="will-change-transform">
-            <p className="mx-auto max-w-2xl font-display text-xs uppercase leading-6 tracking-[0.16em] text-[#F5E5C5] [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] sm:text-base sm:leading-8">
+            <p className="mx-auto max-w-sm font-display text-sm uppercase leading-7 tracking-[0.12em] text-[#F5E5C5] [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] sm:max-w-2xl sm:text-base sm:leading-8 sm:tracking-[0.16em]">
               Discover the ancient Tamil art of Silambam. Build strength, sharpen your focus and carry a
               proud warrior tradition into the future.
             </p>
