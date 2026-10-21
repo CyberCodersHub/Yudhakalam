@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
 // ---------- Edit all content here ----------
@@ -713,6 +714,7 @@ function About() {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
+      
     </section>
   );
 }
@@ -863,6 +865,8 @@ function Training() {
           </div>
         </div>
       </div>
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
+   
     </section>
   );
 }
@@ -892,7 +896,7 @@ function Virtues() {
     >
       {/* Warm glow */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/2 h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FF7A18]/10 blur-[80px] sm:blur-[120px]" />
+        <div className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FF7A18]/20 blur-[90px] sm:blur-[130px]" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF9A1F]/50 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#FF9A1F]/50 to-transparent" />
       </div>
@@ -932,14 +936,16 @@ function Virtues() {
                 className={`absolute left-1/2 top-1/2 w-[230px] rounded-2xl border p-6 text-center transition-all duration-700 ease-out sm:w-[270px] ${
                   isActive
                     ? "cursor-default border-[#FFD84D]/70 bg-gradient-to-br from-[#4A1E08]/95 to-[#1E0D06]/98 shadow-[0_20px_60px_rgba(255,122,24,0.35)]"
-                    : "cursor-pointer border-[#FF9A1F]/30 bg-gradient-to-br from-[#3A1607]/80 to-[#1E0D06]/85 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+                    : "cursor-pointer border-[#FF9A1F]/35 bg-gradient-to-br from-[#4A1E08]/85 to-[#24100A]/90 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+                    //"cursor-pointer border-[#FF9A1F]/30 bg-gradient-to-br from-[#3A1607]/80 to-[#1E0D06]/85 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
                 }`}
                 style={{
                   transform: `translate(-50%, -50%) translateX(${offset * 130}px) translateZ(${-abs * 120}px) rotateY(${-offset * 16}deg) scale(${1 - abs * 0.1})`,
-                  opacity: 1 - abs * 0.28,
+                  opacity: 1 - abs * 0.12,
                   zIndex: 10 - abs,
                 }}
               >
+                
                 {/* Roman numeral badge */}
                 <div className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-[#FFD84D]/50 bg-[#120804] font-display text-lg text-[#FFD84D] shadow-[0_0_25px_rgba(255,122,24,0.3)]">
                   {ROMAN[i]}
@@ -995,6 +1001,8 @@ function Virtues() {
           </button>
         </div>
       </div>
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
+   
     </section>
   );
 }
@@ -1090,6 +1098,8 @@ function Women() {
           </div>
         </div>
       </div>
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
+   
     </section>
   );
 }
@@ -1169,6 +1179,8 @@ function Why() {
           ))}
         </ol>
       </div>
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
+   
     </section>
   );
 }
@@ -1213,6 +1225,8 @@ function Achievements() {
           </div>
         </div>
       </div>
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
+   
     </section>
   );
 }
@@ -1285,6 +1299,8 @@ function Events() {
           </Btn>
         </div>
       </div>
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
+   
     </section>
   );
 }
@@ -1360,6 +1376,9 @@ function Join() {
           <Btn href="#training">Browse programs</Btn>
         </div>
       </div>
+
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]"/>
+  
     </section>
   );
 }
@@ -1380,7 +1399,7 @@ function Footer() {
       {/* Rising sun: molten gold arc from the top edge */}
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[420px] w-[900px] max-w-[160%] -translate-x-1/2 rounded-t-full bg-[radial-gradient(ellipse_at_50%_100%,#FFE27A_0%,#FFB020_15%,#FF7A18_22%,transparent_50%)] opacity-80 blur-2xl"
+        className="pointer-events-none absolute bottom-0 left-1/2 h-[420px] w-[900px] max-w-[160%] -translate-x-1/2 rounded-t-full bg-[radial-gradient(ellipse_at_50%_100%,#FFE27A_0%,#FFB020_15%,#FF7A18_22%,transparent_50%)] opacity-50 blur-3xl"
       />
 
       {/* Rays fanning out like a spinning staff */}
@@ -1410,15 +1429,9 @@ function Footer() {
         <span className="absolute left-[30%] top-[62%] h-1 w-1 rounded-full bg-[#FFD84D] shadow-[0_0_10px_3px_rgba(255,216,77,0.7)]" />
         <span className="absolute left-[58%] top-[30%] h-1 w-1 rounded-full bg-[#FF7A18] shadow-[0_0_10px_3px_rgba(255,122,24,0.7)]" />
         <span className="absolute left-[78%] top-[55%] h-1.5 w-1.5 rounded-full bg-[#FFB020] shadow-[0_0_12px_4px_rgba(255,160,30,0.7)]" />
-        <span className="absolute left-[92%] top-[25%] h-1 w-1 rounded-full bg-[#FFD84D] shadow-[0_0_10px_3px_rgba(255,216,77,0.7)]" />
+        <span className="absolute left-[80%] top-[25%] h-1 w-1 rounded-full bg-[#FFD84D] shadow-[0_0_10px_3px_rgba(255,216,77,0.7)]" />
       </div>
 
-      {/* Glowing gold divider with diamond */}
-      <div className="absolute left-0 right-0 top-0 flex items-center justify-center">
-        <span className="h-px flex-1 bg-gradient-to-r from-transparent via-[#FFD84D] to-[#FF8A1F]" />
-        <span className="mx-3 h-3 w-3 rotate-45 border border-[#FFF3B0] bg-[#FF7A18] shadow-[0_0_18px_6px_rgba(255,160,30,0.8)]" />
-        <span className="h-px flex-1 bg-gradient-to-l from-transparent via-[#FFD84D] to-[#FF8A1F]" />
-      </div>
 
       {/* Content */}
       <div className="relative z-10">
