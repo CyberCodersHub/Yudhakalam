@@ -108,7 +108,6 @@ const ITEMS = [
     desc: "Flexibility, balance and strength that support every Silambam skill." },
 ];
 
-
 /* ---- Sparks: fixed values (no Math.random) so server and browser always match ---- */
 const EMBERS = Array.from({ length: 42 }, (_, i) => {
   const r = (n: number) => {
@@ -147,6 +146,18 @@ const Heading = ({
     <div className={`mt-4 h-1 w-16 bg-gradient-to-r from-ember to-gold ${center ? "mx-auto" : ""}`} />
   </div>
 );
+
+/* Thin glowing gold divider (used between Hero and About) */
+function GoldLine({ className = "" }: { className?: string }) {
+  return (
+    <div aria-hidden className={`relative h-px w-full ${className}`}>
+      {/* Main line: fades out at both ends */}
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFE94D] to-transparent" />
+      {/* Soft glow around the line */}
+      <div className="absolute inset-x-0 -top-1 h-3 bg-gradient-to-r from-transparent via-[#FFC233]/50 to-transparent blur-sm" />
+    </div>
+  );
+}
 
 function Reveal({
   children,
@@ -369,14 +380,13 @@ function Nav() {
 
         {/* Mobile Menu */}
         <details className="relative shrink-0 xl:hidden">
-          <summary 
+          <summary
               aria-label="Open menu"
               className="group flex h-10 w-10 cursor-pointer list-none flex-col items-center justify-center gap-[5px] rounded-lg border border-[#FF8A1F]/50 transition-all duration-300 hover:border-[#FFD84D] hover:bg-[#FF7A1A]/10 hover:shadow-[0_0_20px_rgba(255,122,26,0.4)] marker:hidden [&::-webkit-details-marker]:hidden"
           >
             <span className="block h-[2px] w-5 rounded-full bg-[#F5C518] transition-transform duration-300 group-open:translate-y-[7px] group-open:rotate-45" />
             <span className="block h-[2px] w-5 rounded-full bg-[#F5C518] transition-opacity duration-300 group-open:opacity-0" />
             <span className="block h-[2px] w-5 rounded-full bg-[#F5C518] transition-transform duration-300 group-open:-translate-y-[7px] group-open:-rotate-45" />
-
           </summary>
 
           <ul className="absolute right-0 z-50 mt-3 w-56 space-y-1 rounded-xl border border-[#FF8A1F]/50 bg-gradient-to-br from-[#3A1C0B] to-[#1C120C] p-3 shadow-2xl shadow-black/70">
@@ -413,9 +423,11 @@ function Nav() {
    The hero wrapper is tall and the hero inside is sticky, so it stays
    pinned while you scroll. Tagline / buttons / stats rise in as you scroll.
    The image zooms, blurs and goes black as you scroll.
+   The gold line shows only where Hero meets About, and fades away after.
    ===================================================================== */
 function HeroScroll({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement | null>(null);
+  const lineRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const node = ref.current;
@@ -438,7 +450,7 @@ function HeroScroll({ children }: { children: ReactNode }) {
       node.style.setProperty("--title-o", clamp(1 - progress * 1.25).toFixed(3));
       node.style.setProperty("--title-y", `${(-progress * 80).toFixed(2)}px`);
 
-      // content: rises in one after another (0 = hidden, 1 = fully shown)
+      // content: rises in one after another
       const rise = (from: number, to: number) => clamp((progress - from) / (to - from));
       node.style.setProperty("--c1", isMobile ? "1" : rise(0.2, 0.55).toFixed(3));
       node.style.setProperty("--c2", isMobile ? "1" : rise(0.35, 0.7).toFixed(3));
@@ -446,6 +458,14 @@ function HeroScroll({ children }: { children: ReactNode }) {
 
       // buttons can be tapped only once they have appeared
       node.dataset.live = progress > 0.4 ? "1" : "0";
+
+      // gold line: visible only while the hero-About boundary crosses the screen
+      if (lineRef.current) {
+        const bottom = rect.bottom;
+        const fadeIn = clamp((vh - bottom) / (vh * 0.3));
+        const fadeOut = clamp((bottom - vh * 0.12) / (vh * 0.12));
+        lineRef.current.style.opacity = String(Math.min(fadeIn, fadeOut));
+      }
     };
 
     apply();
@@ -473,13 +493,27 @@ function HeroScroll({ children }: { children: ReactNode }) {
         ["--c2" as any]: "0",
         ["--c3" as any]: "0",
       }}
-      className="hero-scroll relative h-[170svh] lg:h-[170svh]"
+      className="hero-scroll relative h-[150svh] lg:h-[170svh]"
     >
       {children}
+
+      {/* Bottom fade: hero melts into the dark About section */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-40 h-44 bg-gradient-to-b from-transparent to-[#1C120C]"
+      />
+      {/* Gold line: opacity is set by scroll position (see apply above) */}
+      <div
+        ref={lineRef}
+        aria-hidden
+        style={{ opacity: 0 }}
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-40 translate-y-1/2"
+      >
+        <GoldLine />
+      </div>
     </div>
   );
 }
-
 
 function Hero() {
   const reveal = (v: string): CSSProperties => ({
@@ -492,18 +526,16 @@ function Hero() {
       <div className="sticky top-0 flex h-[100svh] w-full flex-col overflow-hidden bg-[#0b0301] pt-[60px] lg:pt-0">
         {/* 1. Background art (text-free warriors image at /public/hero.png) */}
         <div
-        aria-hidden
-        className="absolute inset-0 z-0 bg-no-repeat will-change-transform hero-bg"
-        style={{
-          backgroundImage: "url('/hero.png')",
-          //backgroundSize: "cover",
-          //backgroundPosition: "60% top",
-          //backgroundRepeat: "no-repeat",
-          filter: "blur(var(--blur, 0px))",
-          transform: "scale(var(--scale, 1))",
+          aria-hidden
+          className="absolute inset-0 z-0 bg-no-repeat will-change-transform hero-bg"
+          style={{
+            backgroundImage: "url('/hero.png')",
+            filter: "blur(var(--blur, 0px))",
+            transform: "scale(var(--scale, 1))",
           }}
-          />
-          <span aria-hidden className="title-shine" />
+        />
+        <span aria-hidden className="title-shine" />
+
         {/* Dark overlay that grows as you scroll */}
         <div
           aria-hidden
@@ -534,12 +566,12 @@ function Hero() {
             <span key={index} className={`hero-spark hero-spark-${index + 1}`} />
           ))}
         </div>
+
         {/* ===== Content that rises in over the dark background ===== */}
         <div className="hero-rise relative z-20 mx-auto mt-auto flex w-full max-w-6xl flex-col items-center px-4 pb-10 text-center sm:pb-14">
           {/* Tagline (plain text, no box) */}
           <div style={reveal("--c1")} className="will-change-transform">
-            <p className="mx-auto max-w-sm font-display text-sm uppercase leading-7 tracking-[0.12em] text-[#F5E5C5] [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] sm:max-w-2xl sm:text-base sm:leading-8 sm:tracking-[0.16em]
-            ">
+            <p className="mx-auto max-w-sm font-display text-sm uppercase leading-7 tracking-[0.12em] text-[#F5E5C5] [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] sm:max-w-2xl sm:text-base sm:leading-8 sm:tracking-[0.16em]">
               Discover the ancient Tamil art of Silambam. Build strength, sharpen your focus and carry a
               proud warrior tradition into the future.
             </p>
@@ -586,14 +618,12 @@ function Hero() {
   );
 }
 
-
-
 // ---------- About ----------
 function About() {
   return (
     <section
       id="about"
-      className="relative scroll-mt-20 overflow-hidden py-16 sm:py-24"
+      className="relative z-30 -mt-10 scroll-mt-20 overflow-hidden rounded-t-[2.5rem] bg-[#1C120C] py-16 pt-24 shadow-[0_-30px_60px_rgba(0,0,0,0.8)] sm:py-24 sm:pt-28"
     >
       <Image
         src="/why.png"
@@ -687,14 +717,13 @@ function About() {
   );
 }
 
-
 // ---------- Choose your weapon (programs) ----------
 function Training() {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const item = ITEMS[active];
 
-  // Slow auto-change: 6 seconds per weapon, pauses while the pointer is over the section
+  // Slow auto-change: 7 seconds per weapon, pauses while the pointer is over the section
   useEffect(() => {
     if (paused) return;
 
@@ -871,14 +900,14 @@ function Virtues() {
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#FF9A1F]">
-            The warrior’s code
-          </p>
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#FF9A1F]">
+              The warrior’s code
+            </p>
           </Reveal>
           <Reveal delay={120}>
-          <Heading center className="glow-text">
-            Five virtues of a warrior
-          </Heading>
+            <Heading center className="glow-text">
+              Five virtues of a warrior
+            </Heading>
           </Reveal>
         </div>
 
@@ -1028,12 +1057,15 @@ function Women() {
             {WOMEN_POINTS.map((p) => (
               <li
                 key={p}
-                className="flex items-center gap-3 border-b border-[#FF9A1F]/25 pb-3 text-[#FFF3D6]"
+                className="group flex cursor-default items-center gap-3 border-b border-[#FF9A1F]/25 pb-3 text-[#FFF3D6] transition-colors duration-300 hover:text-[#FFD84D]"
               >
                 <span
                   aria-hidden
-                  className="grid h-5 w-5 shrink-0 place-items-center rounded-[4px] border border-[#FFD84D]/70 bg-[#FF7A18]/15"
+                  className="relative grid h-5 w-5 shrink-0 place-items-center rounded-[4px] border border-[#FFD84D]/70 bg-[#FF7A18]/15 transition-all duration-300 group-hover:border-[#FFF3B0] group-hover:bg-[#FFD84D]/30 group-hover:animate-[check-blink_0.9s_ease-in-out_infinite]"
                 >
+                  {/* spark burst on hover */}
+                  <span className="pointer-events-none absolute -inset-1.5 rounded-md border border-[#FFD84D] opacity-0 group-hover:animate-[check-spark_0.9s_ease-out_infinite]" />
+
                   <svg
                     viewBox="0 0 20 20"
                     className="h-3.5 w-3.5"
@@ -1120,21 +1152,22 @@ function Why() {
           </div>
         </div>
 
-<ol className="divide-y divide-[#FFD84D]/25 self-center">
-  {WHY_POINTS.map(([t, d], i) => (
-    <Reveal key={t} as="li" delay={i * 200} direction="right" className="first:pt-0 last:pb-0">
-      <div className="group flex gap-5 py-6">
-        <span className="font-display text-2xl leading-none text-[#FF7A18]/60 transition-colors duration-300 group-hover:text-[#FFD84D]">
-          {String(i + 1).padStart(2, "0")}
-        </span>
-        <div>
-          <h3 className="font-display text-xl text-[#FFD84D]">{t}</h3>
-          <p className="mt-2 leading-7 text-[#E9D6AE]/85">{d}</p>
-        </div>
-      </div>
-    </Reveal>
-  ))}
-</ol>        
+        {/* Right: feature list */}
+        <ol className="divide-y divide-[#FFD84D]/25 self-center">
+          {WHY_POINTS.map(([t, d], i) => (
+            <Reveal key={t} as="li" delay={i * 200} direction="right" className="first:pt-0 last:pb-0">
+              <div className="group flex gap-5 py-6">
+                <span className="font-display text-2xl leading-none text-[#FF7A18]/60 transition-colors duration-300 group-hover:text-[#FFD84D]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="font-display text-xl text-[#FFD84D]">{t}</h3>
+                  <p className="mt-2 leading-7 text-[#E9D6AE]/85">{d}</p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </ol>
       </div>
     </section>
   );
@@ -1167,13 +1200,13 @@ function Achievements() {
           <Heading className="glow-text text-white">Our proudest wins</Heading>
 
           <div className="mt-10 grid gap-5">
-  {ACHIEVEMENTS.map(([t, d], i) => (
-    <Reveal key={t} as="article" delay={i * 200} className="border-l-4 border-amber-400 bg-black/60 p-6 transition-colors duration-300 hover:bg-black/75">
-      <h3 className="text-xl font-bold text-amber-300">{t}</h3>
-      <p className="mt-2 text-white/90">{d}</p>
-    </Reveal>
-  ))}
-</div>
+            {ACHIEVEMENTS.map(([t, d], i) => (
+              <Reveal key={t} as="article" delay={i * 200} className="border-l-4 border-amber-400 bg-black/60 p-6 transition-colors duration-300 hover:bg-black/75">
+                <h3 className="text-xl font-bold text-amber-300">{t}</h3>
+                <p className="mt-2 text-white/90">{d}</p>
+              </Reveal>
+            ))}
+          </div>
 
           <div className="mt-8">
             <Btn href="#achievements">See all achievements</Btn>
@@ -1388,67 +1421,66 @@ function Footer() {
       </div>
 
       {/* Content */}
-      {/* Content */}
-<div className="relative z-10">
-  <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 sm:px-5 md:grid-cols-4">
-    {/* Brand: full width on mobile */}
-    <div className="col-span-2 md:col-span-1">
-      <div className="flex items-center gap-3">
-        <Logo />
-        <span className="glow-text font-display text-xl text-[#FFD84D]">
-          {SITE.name}
-        </span>
+      <div className="relative z-10">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 sm:px-5 md:grid-cols-4">
+          {/* Brand: full width on mobile */}
+          <div className="col-span-2 md:col-span-1">
+            <div className="flex items-center gap-3">
+              <Logo />
+              <span className="glow-text font-display text-xl text-[#FFD84D]">
+                {SITE.name}
+              </span>
+            </div>
+            <p className="mt-4 text-[#F5E5C5]/85">
+              Tamil staff fighting, taught with discipline, strength and heritage.
+            </p>
+          </div>
+
+          {/* Quick links */}
+          <div>
+            <h3 className="glow-text font-display text-lg text-[#FFB020]">Quick links</h3>
+            <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
+              {NAV.map(([l, h]) => (
+                <li key={h}>
+                  <a href={h} className="transition hover:text-[#FFD84D]">{l}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Programs */}
+          <div>
+            <h3 className="glow-text font-display text-lg text-[#FFB020]">Programs</h3>
+            <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
+              {PROGRAMS.map((p) => <li key={p}>{p}</li>)}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="col-span-2 md:col-span-1">
+            <h3 className="glow-text font-display text-lg text-[#FFB020]">Contact us</h3>
+            <ul className="mt-3 space-y-3 text-[#F5E5C5]/85">
+              <li>{SITE.place}</li>
+              <li>
+                <a className="transition hover:text-[#FFD84D]" href={TEL}>{SITE.phone}</a>
+              </li>
+              <li className="break-words">
+                <a className="transition hover:text-[#FFD84D]" href={`mailto:${SITE.email}`}>
+                  {SITE.email}
+                </a>
+              </li>
+              <li>{SITE.hours}</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FF9A1F]/25 px-4 py-6 text-sm text-[#F5E5C5]/65 sm:px-5">
+          <p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-[#FFB020]/70">
+            Tradition • Discipline • Strength
+          </p>
+        </div>
       </div>
-      <p className="mt-4 text-[#F5E5C5]/85">
-        Tamil staff fighting, taught with discipline, strength and heritage.
-      </p>
-    </div>
-
-    {/* Quick links: left column on mobile */}
-    <div>
-      <h3 className="glow-text font-display text-lg text-[#FFB020]">Quick links</h3>
-      <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
-        {NAV.map(([l, h]) => (
-          <li key={h}>
-            <a href={h} className="transition hover:text-[#FFD84D]">{l}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    {/* Programs: right column on mobile */}
-    <div>
-      <h3 className="glow-text font-display text-lg text-[#FFB020]">Programs</h3>
-      <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
-        {PROGRAMS.map((p) => <li key={p}>{p}</li>)}
-      </ul>
-    </div>
-
-    {/* Contact: full width on mobile */}
-    <div className="col-span-2 md:col-span-1">
-      <h3 className="glow-text font-display text-lg text-[#FFB020]">Contact us</h3>
-      <ul className="mt-3 space-y-3 text-[#F5E5C5]/85">
-        <li>{SITE.place}</li>
-        <li>
-          <a className="transition hover:text-[#FFD84D]" href={TEL}>{SITE.phone}</a>
-        </li>
-        <li className="break-words">
-          <a className="transition hover:text-[#FFD84D]" href={`mailto:${SITE.email}`}>
-            {SITE.email}
-          </a>
-        </li>
-        <li>{SITE.hours}</li>
-      </ul>
-    </div>
-  </div>
-
-  <div className="mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FF9A1F]/25 px-4 py-6 text-sm text-[#F5E5C5]/65 sm:px-5">
-    <p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p>
-    <p className="text-xs uppercase tracking-[0.3em] text-[#FFB020]/70">
-      Tradition • Discipline • Strength
-    </p>
-  </div>
-</div>
     </footer>
   );
 }
@@ -1471,14 +1503,14 @@ export default function Home() {
       <Loader />
       <Nav />
       <main>
-        <Hero />       
-        <About />       
-        <Training />       
-        <Virtues />       
-        <Women />       
-        <Why />       
-        <Achievements />       
-        <Events />       
+        <Hero />
+        <About />
+        <Training />
+        <Virtues />
+        <Women />
+        <Why />
+        <Achievements />
+        <Events />
         <Join />
       </main>
       <Footer />
