@@ -1,0 +1,554 @@
+@import "tailwindcss";
+
+/* =====================================================================
+   THEME TOKENS
+   ===================================================================== */
+
+:root {
+  --fire-yellow: #fff1a8;
+  --fire-gold: #ffc72c;
+  --fire-amber: #f59e0b;
+  --fire-orange: #ff7a1a;
+  --fire-deep: #b45309;
+  --fire-base: #0b0301;
+  --cream: #fff4d6;
+}
+
+@theme inline {
+  --font-display: var(--font-cinzel);
+  --font-body: var(--font-hind);
+  --color-sand: #e9d6ae;
+  --color-ember: #ff7a18;
+  --color-gold: #f5c518;
+  --color-umber: #1c120c;
+}
+
+/* =====================================================================
+   BASE
+   ===================================================================== */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
+}
+
+
+
+
+body {
+  margin: 0;
+  max-width: 100%;
+  overflow-x: clip;
+  color: #fff4d8;
+
+  /* Professional Gold + Orange Theme */
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(255, 215, 0, 0.22),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 0% 40%,
+      rgba(255, 121, 0, 0.20),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 100% 80%,
+      rgba(255, 165, 0, 0.12),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #100701 0%,
+      #281103 40%,
+      #421a03 65%,
+      #100701 100%
+    );
+}
+
+
+:focus-visible {
+  outline: 2px solid #ffd84d;
+  outline-offset: 3px;
+}
+
+.bg-umber {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 193, 7, 0.22), transparent 30%),
+    radial-gradient(circle at 15% 80%, rgba(255, 106, 0, 0.18), transparent 35%),
+    linear-gradient(135deg, #241006 0%, #4b1b07 45%, #2d1004 100%);
+}
+
+/* Professional glow used on headings */
+.glow-text {
+  text-shadow:
+    0 0 8px rgba(255, 216, 77, 0.65),
+    0 0 20px rgba(255, 106, 0, 0.55),
+    0 0 40px rgba(255, 140, 31, 0.25);
+}
+
+/* =====================================================================
+   LOADING SCREEN
+   ===================================================================== */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0b0301;
+  /* safety net: if JavaScript fails, the loader still goes away after 5s */
+  animation: loader-failsafe 0.6s ease 5s forwards;
+}
+
+.loader-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 42%, rgba(255, 140, 0, 0.28), transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(180, 83, 9, 0.22), transparent 70%);
+  animation: loader-breathe 2.4s ease-in-out infinite;
+}
+
+.loader-logo {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.loader-ring {
+  position: absolute;
+  inset: -14px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 216, 77, 0.55);
+  box-shadow: 0 0 30px rgba(255, 140, 0, 0.45), inset 0 0 20px rgba(255, 190, 60, 0.2);
+  animation: loader-ring 2s ease-in-out infinite;
+}
+
+.loader-out {
+  animation: loader-exit 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes loader-breathe {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 1; }
+}
+
+@keyframes loader-ring {
+  0%, 100% { transform: scale(1);    opacity: 0.6; }
+  50%      { transform: scale(1.12); opacity: 1; }
+}
+
+@keyframes loader-exit {
+  from { opacity: 1; transform: scale(1);    visibility: visible; }
+  to   { opacity: 0; transform: scale(1.04); visibility: hidden; }
+}
+
+@keyframes loader-failsafe {
+  to { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+/* =====================================================================
+   HERO (pinned on scroll)
+   ===================================================================== */
+
+/* content cannot be tapped until it has appeared */
+.hero-scroll[data-live="0"] .hero-rise {
+  pointer-events: none;
+}
+
+
+
+/* corner fire */
+.flame {
+  position: absolute;
+  bottom: -8%;
+  width: 46%;
+  height: 55%;
+  pointer-events: none;
+  filter: blur(22px);
+  background:
+    radial-gradient(ellipse 40% 55% at 30% 100%, rgba(255, 199, 44, 0.85), transparent 70%),
+    radial-gradient(ellipse 55% 70% at 50% 100%, rgba(255, 122, 26, 0.75), transparent 72%),
+    radial-gradient(ellipse 70% 85% at 60% 100%, rgba(180, 83, 9, 0.6), transparent 75%);
+  transform-origin: bottom center;
+  animation: flame-flicker 2.6s ease-in-out infinite;
+}
+
+.flame-left {
+  left: -12%;
+}
+
+.flame-right {
+  right: -12%;
+  animation-name: flame-flicker-flip;
+  animation-delay: 0.9s;
+}
+
+@keyframes flame-flicker {
+  0%, 100% { opacity: 0.75; transform: scaleY(1); }
+  35%      { opacity: 1;    transform: scaleY(1.12); }
+  65%      { opacity: 0.85; transform: scaleY(0.94); }
+}
+
+@keyframes flame-flicker-flip {
+  0%, 100% { opacity: 0.75; transform: scaleX(-1) scaleY(1); }
+  35%      { opacity: 1;    transform: scaleX(-1) scaleY(1.12); }
+  65%      { opacity: 0.85; transform: scaleX(-1) scaleY(0.94); }
+}
+
+/* sun glow behind the temple */
+.sun-glow {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  width: 90%;
+  height: 70%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 241, 168, 0.75), rgba(255, 160, 30, 0.45) 35%, transparent 70%);
+  animation: sun-pulse 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes sun-pulse {
+  0%, 100% { opacity: 0.8; }
+  50%      { opacity: 1; }
+}
+
+
+/* flying embers */
+.ember {
+  position: absolute;
+  bottom: -6%;
+  left: var(--x);
+  width: var(--w);
+  height: calc(var(--w) * 8);
+  border-radius: 999px;
+  background: linear-gradient(to top, transparent, var(--fire-orange) 35%, var(--fire-yellow));
+  box-shadow: 0 0 8px 2px rgba(255, 140, 0, 0.65);
+  opacity: 0;
+  transform: rotate(-35deg);
+  animation: ember-rise var(--dur) linear var(--delay) infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes ember-rise {
+  0%   { transform: translate3d(0, 0, 0) rotate(-35deg) scale(1); opacity: 0; }
+  10%  { opacity: 1; }
+  70%  { opacity: 0.9; }
+  100% { transform: translate3d(var(--drift), -105vh, 0) rotate(-35deg) scale(0.35); opacity: 0; }
+}
+ 
+
+/* small rising sparks */
+.hero-sparks {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.hero-spark {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffd84d;
+  box-shadow: 0 0 6px #ffd84d, 0 0 14px #ff9d00, 0 0 25px rgba(255, 150, 0, 0.8);
+  opacity: 0;
+  animation: spark-rise 5s linear infinite;
+}
+
+@media (max-width: 640px) {
+  .hero-spark {
+    width: 3px;
+    height: 3px;
+  }
+}
+
+.hero-spark-1  { left: 8%;  bottom: 15%; animation-delay: 0s; }
+.hero-spark-2  { left: 15%; bottom: 25%; animation-delay: 1.2s; }
+.hero-spark-3  { left: 23%; bottom: 12%; animation-delay: 2.4s; }
+.hero-spark-4  { left: 31%; bottom: 30%; animation-delay: 0.8s; }
+.hero-spark-5  { left: 39%; bottom: 18%; animation-delay: 3s; }
+.hero-spark-6  { left: 48%; bottom: 25%; animation-delay: 1.5s; }
+.hero-spark-7  { left: 57%; bottom: 12%; animation-delay: 2.2s; }
+.hero-spark-8  { left: 64%; bottom: 32%; animation-delay: 0.5s; }
+.hero-spark-9  { left: 72%; bottom: 18%; animation-delay: 3.2s; }
+.hero-spark-10 { left: 80%; bottom: 27%; animation-delay: 1.8s; }
+.hero-spark-11 { left: 87%; bottom: 15%; animation-delay: 2.8s; }
+.hero-spark-12 { left: 94%; bottom: 35%; animation-delay: 0.7s; }
+.hero-spark-13 { left: 12%; bottom: 45%; animation-delay: 3.5s; }
+.hero-spark-14 { left: 37%; bottom: 50%; animation-delay: 2s; }
+.hero-spark-15 { left: 55%; bottom: 45%; animation-delay: 2s; }
+.hero-spark-16 { left: 70%; bottom: 48%; animation-delay: 1.2s; }
+.hero-spark-17 { left: 82%; bottom: 42%; animation-delay: 3.7s; }
+.hero-spark-18 { left: 92%; bottom: 50%; animation-delay: 2.5s; }
+
+@keyframes spark-rise {
+  0%   { opacity: 0;   transform: translate3d(0, 30px, 0) scale(0); }
+  15%  { opacity: 1;   transform: translate3d(8px, 0, 0) scale(1); }
+  45%  { opacity: 0.9; transform: translate3d(-12px, -80px, 0) scale(0.8); }
+  75%  { opacity: 0.5; transform: translate3d(15px, -160px, 0) scale(0.5); }
+  100% { opacity: 0;   transform: translate3d(-10px, -230px, 0) scale(0); }
+}
+
+/* big title banner */
+.title-glow {
+  animation: title-pulse 3.2s ease-in-out infinite;
+}
+
+@keyframes title-pulse {
+  0%, 100% { filter: drop-shadow(0 8px 28px rgba(255, 110, 0, 0.35)) brightness(1); }
+  50%      { filter: drop-shadow(0 8px 46px rgba(255, 170, 40, 0.75)) brightness(1.12); }
+}
+
+.title-shine {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  mix-blend-mode: color-dodge;
+}
+
+.title-shine::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  width: 22%;
+  background: linear-gradient(100deg, transparent 0%, rgba(255, 220, 140, 0) 20%, rgba(255, 235, 170, 0.75) 50%, rgba(255, 220, 140, 0) 80%, transparent 100%);
+  transform: translateX(-140%) skewX(-18deg);
+  animation: title-sweep 5s ease-in-out infinite;
+}
+
+@keyframes title-sweep {
+  0%        { transform: translateX(-140%) skewX(-18deg); }
+  45%, 100% { transform: translateX(560%)  skewX(-18deg); }
+}
+
+.title-sparkle {
+  position: absolute;
+  width: var(--s, 16px);
+  height: var(--s, 16px);
+  margin: calc(var(--s, 16px) / -2) 0 0 calc(var(--s, 16px) / -2);
+  pointer-events: none;
+  background: radial-gradient(circle, #fff 0%, #ffe9a6 25%, transparent 65%);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  filter: drop-shadow(0 0 6px #ffb347);
+  opacity: 0;
+  transform: scale(0) rotate(0deg);
+  animation: title-twinkle 2.6s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+
+@keyframes title-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0)   rotate(0deg); }
+  40%      { opacity: 1; transform: scale(1)   rotate(45deg); }
+  60%      { opacity: 1; transform: scale(1.2) rotate(70deg); }
+  80%      { opacity: 0; transform: scale(0.2) rotate(90deg); }
+}
+
+/* =====================================================================
+   BUTTONS
+   ===================================================================== */
+
+.btn-fire {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, #ffa21f, #ffd24a);
+  box-shadow: 0 0 22px rgba(255, 140, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  animation: btn-glow 2.4s ease-in-out infinite;
+}
+
+.btn-fire::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.6) 50%, transparent 65%);
+  transform: translateX(-130%);
+  animation: btn-shine 3.6s ease-in-out 2.5s infinite;
+}
+
+@keyframes btn-glow {
+  0%, 100% { box-shadow: 0 0 16px rgba(255, 140, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.45); }
+  50%      { box-shadow: 0 0 36px rgba(255, 190, 40, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.45); }
+}
+
+@keyframes btn-shine {
+  0%, 55% { transform: translateX(-130%); }
+  100%    { transform: translateX(130%); }
+}
+
+/* =====================================================================
+   SECTION BACKGROUNDS (photo + fade)
+   ===================================================================== */
+
+/* phones: keep the fighters visible */
+@media (max-width: 639px) {
+  .achievement-bg {
+    background-position: 78% center !important;
+    background-size: cover !important;
+  }
+
+  #about .about-bg {
+    object-position: 68% center !important;
+  }
+}
+
+/* tablet */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .achievement-bg {
+    background-position: 75% center;
+  }
+
+  #about .about-bg {
+    object-position: 72% center;
+  }
+}
+
+/* laptop and up: move the fighters right and fade the photo under the text */
+@media (min-width: 1024px) {
+  #about .about-bg {
+    object-position: 85% center;
+    -webkit-mask-image: linear-gradient(to right, transparent 15%, #000 55%);
+            mask-image: linear-gradient(to right, transparent 15%, #000 55%);
+  }
+}
+
+/* =====================================================================
+   SCROLL REVEAL
+   Elements marked data-reveal fade and rise as they enter the screen.
+   Browsers without scroll-driven animations just show them normally.
+   ===================================================================== */
+
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@supports (animation-timeline: view()) {
+  [data-reveal] {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 40%;
+    animation-delay: calc(var(--i, 0) * 80ms);
+  }
+}
+
+/* =====================================================================
+   PHONES: lighter effects so scrolling stays smooth
+   ===================================================================== */
+
+@media (max-width: 639px) {
+  [class*="backdrop-blur"] {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  .flame {
+    filter: blur(14px);
+  }
+}
+
+/* =====================================================================
+   REDUCED MOTION
+   ===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .loader-glow,
+  .loader-ring,
+  .flame,
+  .sun-glow,
+  .ember,
+  .hero-spark,
+  .title-glow,
+  .title-shine::before,
+  .title-sparkle,
+  .btn-fire,
+  .btn-fire::after {
+    animation: none;
+  }
+
+  .ember {
+    opacity: 0.6;
+  }
+
+  .title-sparkle {
+    opacity: 0.7;
+    transform: scale(0.7);
+  }
+
+  [data-reveal] {
+    animation: none;
+  }
+}
+
+
+
+
+/* =====================================================================
+   HERO BACKGROUND
+   ===================================================================== */
+
+.hero-bg {
+  background-color: #0b0301;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
+}
+
+/* Mobile hero: image at top, fades into dark background */
+@media (max-width: 1023px) {
+  .hero-bg {
+    top: 0;
+    bottom: auto;
+    height: 56svh;
+    background-size: cover;
+    background-position: 50% 0%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  }
+}
+
+
+/* tablet */
+@media (min-width: 640px) and (max-width: 1024px) {
+  .hero-bg {
+    background-size: cover;
+    background-position: 65% top;
+  }
+}
+
+/* laptop and up */
+@media (min-width: 1024px) {
+  .hero-bg {
+    background-size: cover;
+    background-position: 60% top;
+  }
+}
+
+
+/* Weapon detail: soft fade + small slide when the selected weapon changes */
+@keyframes fade-swap {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-swap {
+  animation: fade-swap 0.6s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-swap { animation: none; }
+}
