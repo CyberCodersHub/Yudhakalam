@@ -35,9 +35,10 @@ const STATS = [
 ] as const;
 
 const HIGHLIGHTS = [
-  ["Champions of Tomorrow", "We train young warriors to excel in competitions and achieve great success."],
-  ["The Silambam Legacy", "Learn the ancient Tamil martial art and carry its rich heritage forward for generations."],
-  ["Her Power, Her Legacy", "Let’s empower women with strength, courage, and confidence through Silambam."],
+  ["Traditional Lineage", "Training rooted in authentic Tamil Silambam and Kalari weapon traditions, passed down through generations."],
+  ["Full Weapon Arsenal", "From Single Stick to Maan Kombu — train across ten disciplines, not just one style."],
+  ["Women & Youth Focus", "Dedicated self-defence training for women and age-appropriate programs for young warriors."],
+  ["Body & Discipline", "Gymnastics-based conditioning builds the flexibility and strength every weapon art demands."],
 ];
 
 const VIRTUES = [
@@ -258,80 +259,162 @@ const SPARKLES = [
    Logo + name + progress bar counting 0 -> 100%, then fades away.
    Styles for it are in globals.css under "LOADING SCREEN".
    ===================================================================== */
-function Loader() {
-  const [pct, setPct] = useState(0);
-  const [phase, setPhase] = useState<"load" | "out" | "done">("load");
+/* =====================================================================
+   SCROLL PROGRESS BAR (Matches Vellur Yudhakalam top progress line)
+   ===================================================================== */
+function TopProgressBar() {
+  const [scrollProgress, setScrollProgress] = useState(0);
 
-  // count 0 -> 100
   useEffect(() => {
+    const onScroll = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(total > 0 ? (window.scrollY / total) * 100 : 0);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  return (
+    <div className="fixed inset-x-0 top-0 z-[60] h-0.5 bg-transparent">
+      <div
+        className="h-full bg-gradient-to-r from-amber-400 to-red-500 transition-[width] duration-150 ease-out"
+        style={{ width: `${scrollProgress}%` }}
+      />
+    </div>
+  );
+}
+
+/* =====================================================================
+   LOADING SCREEN
+   Logo + name + progress bar counting 0 -> 100%, then fades away.
+   Styles for it are in globals.css under "LOADING SCREEN".
+   ===================================================================== */
+function Loader({ onComplete }: { onComplete?: () => void }) {
+  const [pct, setPct] = useState(0);
+  const [phase, setPhase] = useState<"loading" | "exit" | "done">("loading");
+
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    let exitTimeout: any;
+    let doneTimeout: any;
+
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const total = reduce ? 500 : 2400; // total loading time in ms
+    const duration = reduce ? 600 : 2400;
     const start = performance.now();
     let raf = 0;
 
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / total);
-      setPct(Math.round((1 - Math.pow(1 - t, 2.2)) * 100)); // fast start, slow finish
-      if (t < 1) raf = requestAnimationFrame(tick);
-      else setPhase("out");
+      const elapsed = Math.min((now - start) / duration, 1);
+      const currentPct = Math.round((1 - Math.pow(1 - elapsed, 3)) * 100);
+      setPct(currentPct);
+
+      if (elapsed < 1) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        exitTimeout = setTimeout(() => {
+          setPhase("exit");
+          document.documentElement.classList.add("site-ready");
+        }, 250);
+
+        doneTimeout = setTimeout(() => {
+          setPhase("done");
+          document.body.style.overflow = "";
+          onComplete?.();
+        }, 1250);
+      }
     };
 
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
 
-  // fade out, then remove from the page
-  useEffect(() => {
-    if (phase !== "out") return;
-    const id = setTimeout(() => setPhase("done"), 800);
-    return () => clearTimeout(id);
-  }, [phase]);
-
-  // no scrolling while the loader is on screen
-  useEffect(() => {
-    document.documentElement.style.overflow = phase === "done" ? "" : "hidden";
     return () => {
-      document.documentElement.style.overflow = "";
+      cancelAnimationFrame(raf);
+      clearTimeout(exitTimeout);
+      clearTimeout(doneTimeout);
+      document.body.style.overflow = "";
     };
-  }, [phase]);
+  }, []);
 
   if (phase === "done") return null;
 
+  const titleText = "PADAIVEDU YUDHAKALAM";
+
   return (
     <div
-      role="status"
-      aria-label="Loading"
-      className={`loader ${phase === "out" ? "loader-out" : ""}`}
+      className={`preloader ${phase === "exit" ? "is-exit" : ""}`}
+      aria-hidden="true"
     >
-      <div className="loader-glow" aria-hidden />
+      <div className="pre-curtain pre-top" />
+      <div className="pre-curtain pre-bottom" />
 
-      <div className="relative flex flex-col items-center px-6 text-center">
-        <div className="loader-logo">
-          <span className="loader-ring" aria-hidden />
-          <Image
-            src="/logo.jpeg"
-            alt=""
-            width={120}
-            height={120}
-            priority
-            className="relative h-24 w-24 rounded-full border border-[#FFD84D]/70 bg-[#120804] sm:h-28 sm:w-28"
-          />
+      <div className="pre-inner">
+        <div className="pre-glow" />
+
+        {/* Rising glowing embers */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          {Array.from({ length: 10 }).map((_, r) => (
+            <i
+              key={r}
+              className="ember"
+              style={{
+                left: `${8 + 9 * r}%`,
+                width: `${3 + (r % 3) * 2}px`,
+                height: `${3 + (r % 3) * 2}px`,
+                animationDelay: `${(0.37 * r) % 2}s`,
+                animationDuration: `${2.4 + (r % 4) * 0.5}s`,
+              }}
+            />
+          ))}
         </div>
 
-        <p className="glow-text mt-8 font-display text-xl uppercase tracking-[0.25em] text-[#F5C518] sm:text-3xl">
-          {SITE.name}
-        </p>
+        {/* Rotating Rings & Logo Emblem */}
+        <div className="relative flex h-[140px] w-[140px] items-center justify-center">
+          <span className="emblem-ring-a absolute inset-0 rounded-full border-2 border-transparent border-b-amber-400/25 border-t-amber-400" />
+          <span className="emblem-ring-b absolute inset-2.5 rounded-full border-2 border-transparent border-l-red-500 border-r-red-500/25" />
+          <div className="pre-mono">
+            <Image
+              src="/logo.jpeg"
+              alt="Padaivedu Yudhakalam logo"
+              width={84}
+              height={84}
+              priority
+              className="h-full w-full rounded-full object-cover"
+            />
+          </div>
+        </div>
 
-        <div className="mt-6 h-[2px] w-56 overflow-hidden rounded-full bg-[#FF8A1F]/20 sm:w-72">
+        {/* Animated letter title */}
+        <h1 className="pre-title">
+          {Array.from(titleText).map((char, r) => (
+            <span
+              key={r}
+              className="pre-letter"
+              style={{ animationDelay: `${0.4 + 0.05 * r}s` }}
+            >
+              {char === " " ? " " : char}
+            </span>
+          ))}
+        </h1>
+
+        {/* Progress bar */}
+        <div className="mt-2 h-[3px] w-[min(280px,70vw)] overflow-hidden rounded-full bg-white/10">
           <div
-            className="h-full rounded-full bg-gradient-to-r from-[#FF7A18] via-[#F5C518] to-[#FFD84D] shadow-[0_0_10px_rgba(255,170,40,0.9)]"
+            className="pre-bar-fill h-full rounded-full transition-[width] duration-75 ease-out"
             style={{ width: `${pct}%` }}
           />
         </div>
 
-        <p className="mt-3 text-[11px] font-semibold tracking-[0.3em] text-[#E9D6AE]/70">
+        {/* Percentage text */}
+        <span
+          className="text-xs tracking-[0.2em] text-amber-400"
+          style={{ fontFamily: "var(--font-heading)" }}
+        >
           {pct}%
-        </p>
+        </span>
       </div>
     </div>
   );
@@ -420,202 +503,277 @@ function Nav() {
 }
 
 /* =====================================================================
-   HERO SCROLL
-   The hero wrapper is tall and the hero inside is sticky, so it stays
-   pinned while you scroll. Tagline / buttons / stats rise in as you scroll.
-   The image zooms, blurs and goes black as you scroll.
-   The gold line shows only where Hero meets About, and fades away after.
+   INTERACTIVE COUNTER (Animated number counting up on scroll)
    ===================================================================== */
-function HeroScroll({ children }: { children: ReactNode }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const lineRef = useRef<HTMLDivElement | null>(null);
+function AnimatedCounter({ value, duration = 1400 }: { value: string; duration?: number }) {
+  const match = value.match(/^(\d+)(.*)$/);
+  const targetNum = match ? parseInt(match[1], 10) : null;
+  const suffix = match ? match[2] : "";
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const [display, setDisplay] = useState(targetNum === null ? value : "0");
 
   useEffect(() => {
+    if (targetNum === null) return;
     const node = ref.current;
     if (!node) return;
 
-    const clamp = (n: number) => Math.min(1, Math.max(0, n));
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setDisplay(String(targetNum));
+      return;
+    }
 
-    const apply = () => {
-      const rect = node.getBoundingClientRect();
-      const vh = window.innerHeight || 1;
-      const progress = clamp(-rect.top / (vh * 0.7));
-      const isMobile = window.innerWidth < 1024;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.unobserve(node);
 
-      // image: zoom, blur, dim to black
-      node.style.setProperty("--blur", `${(progress * 9).toFixed(2)}px`);
-      node.style.setProperty("--scale", (1 + progress * 0.22).toFixed(3));
-      node.style.setProperty("--dim", (isMobile ? progress * 0.4 : progress).toFixed(3));
+      const trigger = () => {
+        if (document.documentElement.classList.contains("site-ready")) {
+          const startTime = performance.now();
+          const frame = (now: number) => {
+            const progress = Math.min((now - startTime) / duration, 1);
+            const current = Math.round(targetNum * (1 - Math.pow(1 - progress, 3)));
+            setDisplay(String(current));
+            if (progress < 1) requestAnimationFrame(frame);
+          };
+          requestAnimationFrame(frame);
+        } else {
+          setTimeout(trigger, 100);
+        }
+      };
+      trigger();
+    }, { threshold: 0.3 });
 
-      // title: lifts away and fades
-      node.style.setProperty("--title-o", clamp(1 - progress * 1.25).toFixed(3));
-      node.style.setProperty("--title-y", `${(-progress * 80).toFixed(2)}px`);
-
-      // content: rises in one after another
-      const rise = (from: number, to: number) => clamp((progress - from) / (to - from));
-      node.style.setProperty("--c1", isMobile ? "1" : rise(0.2, 0.55).toFixed(3));
-      node.style.setProperty("--c2", isMobile ? "1" : rise(0.35, 0.7).toFixed(3));
-      node.style.setProperty("--c3", isMobile ? "1" : rise(0.5, 0.85).toFixed(3));
-
-      // buttons can be tapped only once they have appeared
-      node.dataset.live = progress > 0.4 ? "1" : "0";
-
-      // gold line: visible only while the hero-About boundary crosses the screen
-      if (lineRef.current) {
-        const bottom = rect.bottom;
-        const fadeIn = clamp((vh - bottom) / (vh * 0.3));
-        const fadeOut = clamp((bottom - vh * 0.12) / (vh * 0.12));
-        lineRef.current.style.opacity = String(Math.min(fadeIn, fadeOut));
-      }
-    };
-
-    apply();
-    window.addEventListener("scroll", apply, { passive: true });
-    window.addEventListener("resize", apply);
-
-    return () => {
-      window.removeEventListener("scroll", apply);
-      window.removeEventListener("resize", apply);
-    };
-  }, []);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [targetNum, duration]);
 
   return (
-    <div
-      id="top"
-      ref={ref}
-      data-live="0"
-      style={{
-        ["--blur" as any]: "0px",
-        ["--scale" as any]: "1",
-        ["--dim" as any]: "0",
-        ["--title-o" as any]: "1",
-        ["--title-y" as any]: "0px",
-        ["--c1" as any]: "0",
-        ["--c2" as any]: "0",
-        ["--c3" as any]: "0",
-      }}
-      className="hero-scroll relative h-[150svh] lg:h-[170svh]"
-    >
-      {children}
-
-      {/* Bottom fade: hero melts into the dark About section */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-40 h-44 bg-gradient-to-b from-transparent to-[#1C120C]"
-      />
-      {/* Gold line: opacity is set by scroll position (see apply above) */}
-      <div
-        ref={lineRef}
-        aria-hidden
-        style={{ opacity: 0 }}
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-40 translate-y-1/2"
-      >
-        <GoldLine />
-      </div>
-    </div>
+    <span ref={ref}>
+      {display}{suffix}
+    </span>
   );
 }
 
+/* =====================================================================
+   HERO BANNER (Exact reproduction of Vellur Yudhakalam Hero)
+   Features:
+   - Kenburns zoom animation
+   - Mouse-tracking interactive radial cursor highlight (--sx, --sy)
+   - Parallax 3D tilt responding to cursor and scroll
+   - Hero glow drift animation
+   - Traveling banner shine
+   - Rising floating embers
+   - Top and bottom cinematic dark gradients
+   - Staggered word-by-word rising quote with glowing red pulse dashes
+   - Pulsing CTA buttons
+   - Stats grid with smooth animated number counters
+   - Animated vertical cue line
+   ===================================================================== */
+const HERO_EMBERS = Array.from({ length: 18 }, (_, r) => ({
+  left: `${(37 * r) % 100}%`,
+  size: 3 + (r % 4) * 2,
+  duration: 8 + (r % 6) * 2,
+  delay: -((1.3 * r) % 10),
+}));
+
 function Hero() {
-  const reveal = (v: string): CSSProperties => ({
-    opacity: `var(${v})`,
-    transform: `translateY(calc((1 - var(${v})) * 40px))`,
-  });
+  const tiltRef = useRef<HTMLDivElement | null>(null);
+  const bannerRef = useRef<HTMLDivElement | null>(null);
+  const mouseCoords = useRef({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const tiltNode = tiltRef.current;
+    if (!tiltNode || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let rafId = 0;
+
+    const updateTransform = () => {
+      rafId = 0;
+      const scrollYOffset = 0.15 * Math.min(window.scrollY, 800);
+      tiltNode.style.transform = `translate3d(${mouseCoords.current.x}px, ${mouseCoords.current.y + scrollYOffset}px, 0) scale(1.06)`;
+    };
+
+    const requestUpdate = () => {
+      if (!rafId) rafId = requestAnimationFrame(updateTransform);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const bannerNode = bannerRef.current;
+      if (bannerNode) {
+        const rect = bannerNode.getBoundingClientRect();
+        bannerNode.style.setProperty("--sx", `${e.clientX - rect.left}px`);
+        bannerNode.style.setProperty("--sy", `${e.clientY - rect.top}px`);
+      }
+      mouseCoords.current.x = -(24 * (e.clientX / window.innerWidth - 0.5));
+      mouseCoords.current.y = -(16 * (e.clientY / window.innerHeight - 0.5));
+      requestUpdate();
+    };
+
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("scroll", requestUpdate, { passive: true });
+    updateTransform();
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("scroll", requestUpdate);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, []);
+
+  const quoteWords = [
+    "The", "ancient", "Tamil", "martial", "art", "of", "Silambam",
+    "—",
+    "forging", "warriors", "with", "discipline,", "strength,", "and", "cultural", "pride."
+  ];
 
   return (
-    <HeroScroll>
-      <div className="sticky top-0 flex h-[100svh] w-full flex-col overflow-hidden bg-[#0b0301] pt-[60px] lg:pt-0">
-        {/* 1. Background art (text-free warriors image at /public/hero.png) */}
-        <div
-          aria-hidden
-          className="absolute inset-0 z-0 bg-no-repeat will-change-transform hero-bg"
-          style={{
-            backgroundImage: "url('/hero.png')",
-            filter: "blur(var(--blur, 0px))",
-            transform: "scale(var(--scale, 1))",
-          }}
-        />
-        <span aria-hidden className="title-shine" />
+    <section className="relative bg-[#080503]">
+      {/* Visual Hero Banner with layers */}
+      <div className="relative w-full overflow-hidden">
+        <div ref={bannerRef} className="hero-in relative w-full overflow-hidden">
+          <div ref={tiltRef} className="will-change-transform transition-transform duration-300 ease-out">
+            <div className="relative w-full overflow-hidden" style={{ aspectRatio: "1600 / 893" }}>
+              <Image
+                src="/hero.png"
+                alt="Padaivedu Yudhakalam"
+                priority
+                fill
+                sizes="100vw"
+                className="hero-kenburns object-cover object-center"
+              />
+            </div>
+          </div>
 
-        {/* Dark overlay that grows as you scroll */}
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-30 bg-[#0b0301]"
-          style={{ opacity: "var(--dim)" }}
-        />
+          {/* Mouse follow radial spotlight */}
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(420px_circle_at_var(--sx,50%)_var(--sy,40%),rgba(251,191,36,0.14),transparent_65%)]" />
 
-        {/* Sunset glow + bottom fade */}
-        <div aria-hidden className="sun-glow -z-30" />
-        <div
-          aria-hidden
-          className="absolute inset-0 -z-30 bg-[linear-gradient(180deg,rgba(255,140,0,0.2)_0%,rgba(40,12,0,0.25)_50%,#0b0301_95%)]"
-        />
+          {/* Drifting hero ambient glow */}
+          <div className="hero-glow pointer-events-none absolute -inset-[20%]" />
 
-        {/* Ground dust haze */}
-        <div
-          aria-hidden
-          className="absolute inset-x-0 top-[48%] -z-20 h-40 bg-[radial-gradient(ellipse_at_50%_0%,rgba(255,170,40,0.45),transparent_70%)]"
-        />
+          {/* Periodic beam sweep shine */}
+          <div className="banner-shine pointer-events-none absolute inset-y-0 left-0 w-1/3" />
 
-        {/* Corner fire */}
-        <div aria-hidden className="flame flame-left -z-20" />
-        <div aria-hidden className="flame flame-right -z-20" />
-
-        {/* Floating sparks */}
-        <div className="hero-sparks pointer-events-none" aria-hidden="true">
-          {Array.from({ length: 18 }).map((_, index) => (
-            <span key={index} className={`hero-spark hero-spark-${index + 1}`} />
-          ))}
+          {/* Rising ember sparks */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+            {HERO_EMBERS.map((ember, i) => (
+              <span
+                key={i}
+                className="ember"
+                style={{
+                  left: ember.left,
+                  width: `${ember.size}px`,
+                  height: `${ember.size}px`,
+                  animationDuration: `${ember.duration}s`,
+                  animationDelay: `${ember.delay}s`,
+                }}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* ===== Content that rises in over the dark background ===== */}
-        <div className="hero-rise relative z-20 mx-auto mt-auto flex w-full max-w-6xl flex-col items-center px-4 pb-10 text-center sm:pb-14">
-          {/* Tagline (plain text, no box) */}
-          <div style={reveal("--c1")} className="will-change-transform">
-            <p className="mx-auto max-w-sm font-display text-sm uppercase leading-7 tracking-[0.12em] text-[#F5E5C5] [text-shadow:0_2px_12px_rgba(0,0,0,0.95)] sm:max-w-2xl sm:text-base sm:leading-8 sm:tracking-[0.16em]">
-              Discover the ancient Tamil art of Silambam. Build strength, sharpen your focus and carry a
-              proud warrior tradition into the future.
-            </p>
+        {/* Top and Bottom soft dark fades */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/80 to-transparent sm:h-32" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-[#080503] sm:h-56" />
+      </div>
+
+      {/* Hero Content Section */}
+      <div className="relative z-10 mx-auto -mt-10 max-w-6xl px-4 pb-16 sm:-mt-20 sm:pb-24">
+        {/* Animated word-by-word rising quote */}
+        <p
+          className="quote-dash bi-keep text-center text-lg italic text-amber-300 font-bold sm:text-xl drop-shadow-[0_2px_10px_rgba(0,0,0,1)]"
+          style={{ fontFamily: "var(--font-heading)" }}
+        >
+          {quoteWords.map((word, i) => (
+            <span key={i} className="word-mask mr-[0.28em]">
+              <span className="word-rise" style={{ animationDelay: `${0.5 + i * 0.05}s` }}>
+                {word}
+              </span>
+            </span>
+          ))}
+          <span
+            lang="ta"
+            className="hero-rise mt-3 block text-base font-normal tracking-wide text-sand/90 not-italic sm:text-lg"
+            style={{ animationDelay: "1.4s", fontFamily: "var(--font-tamil)" }}
+          >
+            பழமையான தமிழ் தற்காப்புக் கலையான சிலம்பம் — ஒழுக்கம், வலிமை, பண்பாட்டுப் பெருமையுடன் வீரர்களை உருவாக்குகிறது.
+          </span>
+        </p>
+
+        {/* Action Buttons with glowing pulse */}
+        <div className="hero-rise mt-8 flex flex-wrap items-center justify-center gap-4" style={{ animationDelay: "1.3s" }}>
+          <a
+            href="#training"
+            className="btn-pulse rounded-md bg-red-600 px-7 py-3 text-sm font-bold uppercase tracking-wider text-white shadow-[0_0_20px_rgba(220,38,38,0.5)] transition-all duration-200 hover:scale-105 hover:bg-red-500"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
+            Explore Training
+          </a>
+          <a
+            href="#join"
+            className="rounded-md border-2 border-amber-400 bg-amber-400/10 px-7 py-3 text-sm font-bold uppercase tracking-wider text-amber-300 shadow-[0_0_20px_rgba(251,191,36,0.25)] transition-all duration-200 hover:scale-105 hover:bg-amber-400 hover:text-black"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
+            Join the Academy
+          </a>
+        </div>
+
+        {/* Stats bar with smooth animated counters */}
+        <div className="mt-14 flex flex-wrap justify-center gap-x-10 gap-y-6 border-t border-amber-400/25 pt-8">
+          <div className="hero-rise flex flex-col items-center" style={{ animationDelay: "1.6s" }}>
+            <span
+              className="text-3xl font-black text-amber-300 drop-shadow-[0_2px_10px_rgba(0,0,0,1)]"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              <AnimatedCounter value="10+" />
+            </span>
+            <span className="mt-1 text-xs font-bold uppercase tracking-wider text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+              Weapon & Combat Disciplines
+            </span>
           </div>
 
-          {/* Buttons */}
-          <div
-            style={reveal("--c2")}
-            className="mt-7 flex flex-wrap items-center justify-center gap-4 will-change-transform"
-          >
-            <Link
-              href="#training"
-              className="btn-fire inline-flex items-center rounded-md px-6 py-3 text-xs font-bold uppercase tracking-[0.18em] text-[#2a0f00] transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd24a] sm:text-sm"
+          <div className="hero-rise flex flex-col items-center" style={{ animationDelay: "1.75s" }}>
+            <span
+              className="text-3xl font-black text-amber-300 drop-shadow-[0_2px_10px_rgba(0,0,0,1)]"
+              style={{ fontFamily: "var(--font-heading)" }}
             >
-              Explore training
-            </Link>
-            <Link
-              href="#join"
-              className="inline-flex items-center rounded-md border border-[#ffc72c]/80 bg-black/30 px-6 py-3 text-xs font-bold uppercase tracking-[0.18em] text-[#ffd24a] transition hover:bg-[#ffc72c]/15 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ffd24a] sm:text-sm"
-            >
-              Join the academy
-            </Link>
+              <AnimatedCounter value="150+" />
+            </span>
+            <span className="mt-1 text-xs font-bold uppercase tracking-wider text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+              Warriors Trained
+            </span>
           </div>
 
-          {/* Stats (no box, no icons: gold number + small white caps label) */}
-          <ul
-            style={reveal("--c3")}
-            className="mt-12 grid w-full max-w-4xl grid-cols-2 gap-x-6 gap-y-8 will-change-transform md:grid-cols-4"
-          >
-            {STATS.map((s) => (
-              <li key={s.label} className="text-center">
-                <span className="block font-display text-3xl leading-none text-[#F5C518] [text-shadow:0_0_14px_rgba(255,160,30,0.55)] sm:text-4xl">
-                  {s.value}
-                </span>
-                <span className="mt-2 block text-[10px] font-bold uppercase tracking-[0.18em] text-white sm:text-xs">
-                  {s.label}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <div className="hero-rise flex flex-col items-center" style={{ animationDelay: "1.90s" }}>
+            <span
+              className="text-3xl font-black text-amber-300 drop-shadow-[0_2px_10px_rgba(0,0,0,1)]"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              <AnimatedCounter value="40%" />
+            </span>
+            <span className="mt-1 text-xs font-bold uppercase tracking-wider text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+              Women Empowered
+            </span>
+          </div>
+
+          <div className="hero-rise flex flex-col items-center" style={{ animationDelay: "2.05s" }}>
+            <span
+              className="text-3xl font-black text-amber-300 drop-shadow-[0_2px_10px_rgba(0,0,0,1)]"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              All Ages
+            </span>
+            <span className="mt-1 text-xs font-bold uppercase tracking-wider text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">
+              Kids to Adults
+            </span>
+          </div>
+        </div>
+
+        {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
         </div>
       </div>
-    </HeroScroll>
+    </section>
   );
 }
 
@@ -711,10 +869,31 @@ function About() {
             ))}
           </ol>
         </div>
-      </div>
+      </div>         
+      {/* Centered cinematic banner */}
+      <Reveal delay={450}>
+        <div className="group relative mx-auto mt-12 w-[92%] max-w-6xl overflow-hidden rounded-2xl border border-[#FFD84D]/25 bg-[#1C120C] shadow-[0_0_25px_rgba(255,154,31,0.12)] sm:mt-16 sm:w-[90%] sm:rounded-3xl">
+          <Image
+             src="/tradition.png"
+             alt="Padaivedu Yudhakalam Silambam warriors"
+             width={1920}
+             height={800}
+             sizes="(max-width: 640px) 92vw, (max-width: 1024px) 90vw, 1152px"
+            className="block aspect-[16/9] h-auto w-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.02] sm:aspect-[16/7] lg:aspect-[16/6]"
+          />
+          <span aria-hidden className="title-shine" />
+          
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#120805]/50 via-transparent to-transparent" />
+            <span className="pointer-events-none absolute left-3 top-3 h-6 w-6 border-l-2 border-t-2 border-[#FFD84D]/80 sm:left-5 sm:top-5 sm:h-9 sm:w-9" />
+            <span className="pointer-events-none absolute bottom-3 right-3 h-6 w-6 border-b-2 border-r-2 border-[#FFD84D]/80 sm:bottom-5 sm:right-5 sm:h-9 sm:w-9" />
+          </div>
+      </Reveal>
 
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
-      
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -725,7 +904,7 @@ function Training() {
   const [paused, setPaused] = useState(false);
   const item = ITEMS[active];
 
-  // Slow auto-change: 7 seconds per weapon, pauses while the pointer is over the section
+  // Auto-change weapon every 7 seconds
   useEffect(() => {
     if (paused) return;
 
@@ -741,49 +920,88 @@ function Training() {
       id="training"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      className="relative scroll-mt-20 overflow-hidden bg-[#160A04] py-20 sm:py-24"
+      className="training-section-frame relative scroll-mt-20 overflow-hidden bg-[#160A04] py-16 sm:py-24"
     >
-      {/* Background image, dimmed */}
+      {/* Background image */}
       <Image
         src="/coming-up.png"
         alt=""
         fill
         sizes="100vw"
-        className="object-cover object-[75%_center] brightness-[0.1] sm:object-right"
+        className="pointer-events-none object-cover object-[75%_center] brightness-[0.1] sm:object-right"
       />
 
+      {/* Programs moving ticker with thin gold border */}
+<div className="program-ticker relative z-10 mb-12 mt-4 overflow-hidden bg-[#0D0603]/70 py-4 sm:mb-16 sm:py-5">
+  {/* Top gold line */}
+  <span
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FFD84D]/70 to-transparent shadow-[0_0_8px_rgba(255,216,77,0.45)]"
+  />
+  {/* Bottom gold line */}
+  <span
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#FFD84D]/70 to-transparent shadow-[0_0_8px_rgba(255,216,77,0.45)]"
+  />
+  {/* Edge fade so text melts into the border */}
+  <span
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#0D0603] to-transparent"
+  />
+  <span
+    aria-hidden="true"
+    className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#0D0603] to-transparent"
+  />
+
+  <div className="program-ticker-track flex w-max items-center">
+    {[...PROGRAMS, ...PROGRAMS].map((program, i) => (
       <div
-        aria-hidden
-        className="absolute inset-0 bg-gradient-to-b from-[#160A04]/90 via-[#160A04]/80 to-[#160A04]/95"
-      />
+        key={`${program}-${i}`}
+        aria-hidden={i >= PROGRAMS.length}
+        className="flex shrink-0 items-center gap-4 px-4 sm:gap-8 sm:px-8"
+      >
+        <span className="whitespace-nowrap font-display text-xs uppercase tracking-[0.15em] text-[#F3E2B5] drop-shadow-[0_0_6px_rgba(255,216,77,0.35)] transition-colors duration-300 hover:text-[#FFD84D] sm:text-sm sm:tracking-[0.22em]">
+          {program}
+        </span>
+        <span className="text-sm text-[#FF9A1F] sm:text-base">✦</span>
+      </div>
+    ))}
+  </div>
+</div>
 
+      {/* Main training content */}
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
+        {/* Section heading */}
         <div className="mx-auto max-w-3xl text-center">
           <Reveal>
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#FF9A1F]">
-              Training at Padaivedu
+              The Armoury
             </p>
           </Reveal>
 
           <Reveal delay={120}>
             <Heading center className="glow-text">
-              Choose your weapon
+              Choose Your Weapon
             </Heading>
           </Reveal>
 
           <Reveal delay={240}>
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#E9D6AE]/85 sm:text-base">
-              Traditional weapons and techniques of Silambam. Pick one to see what it teaches.
+              Traditional weapons of Silambam and Kalari, each with its own
+              rhythm, reach and discipline.
             </p>
           </Reveal>
         </div>
 
-        <div className="mt-12 grid gap-6 lg:mt-14 lg:grid-cols-[300px_1fr] lg:gap-8">
-          {/* Weapon list */}
+        {/* Weapon list and detail */}
+        <div className="mt-10 grid gap-6 lg:mt-14 lg:grid-cols-[300px_1fr] lg:gap-8">
+          {/* Weapon selection buttons */}
           <ul
             className="grid grid-cols-2 gap-2 sm:grid-cols-5 lg:grid-cols-1"
             onTouchStart={(e) => {
-              e.currentTarget.dataset.touchX = String(e.touches[0].clientX);
+              e.currentTarget.dataset.touchX = String(
+                e.touches[0].clientX
+              );
             }}
             onTouchEnd={(e) => {
               const start = Number(e.currentTarget.dataset.touchX);
@@ -802,12 +1020,16 @@ function Training() {
               const selected = i === active;
 
               return (
-                <Reveal key={it.title} as="li" delay={i * 60}>
+                <Reveal
+                  key={it.title}
+                  as="li"
+                  delay={i * 60}
+                >
                   <button
                     type="button"
                     onClick={() => setActive(i)}
                     aria-pressed={selected}
-                    className={`flex w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-300 sm:flex-col sm:justify-center sm:text-center lg:flex-row lg:justify-start lg:text-left ${
+                    className={`flex h-full w-full items-center gap-3 rounded-xl border px-3 py-3 text-left transition-all duration-300 sm:flex-col sm:justify-center sm:text-center lg:flex-row lg:justify-start lg:text-left ${
                       selected
                         ? "border-[#FFD84D] bg-[#FF7A18]/15 shadow-[0_0_25px_rgba(255,122,24,0.3)]"
                         : "border-[#FF9A1F]/25 bg-[#211006]/70 hover:border-[#FF9A1F]/60 hover:bg-[#211006]"
@@ -815,11 +1037,14 @@ function Training() {
                   >
                     <span
                       className={`font-display text-sm ${
-                        selected ? "text-[#FFD84D]" : "text-[#FF9A1F]"
+                        selected
+                          ? "text-[#FFD84D]"
+                          : "text-[#FF9A1F]"
                       }`}
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
+
                     <span className="text-sm font-medium leading-tight text-[#F5E5C5]">
                       {it.title}
                     </span>
@@ -829,22 +1054,36 @@ function Training() {
             })}
           </ul>
 
-          {/* Detail card */}
-          <div className="grid overflow-hidden rounded-[2rem] border border-[#FF9A1F]/30 bg-[#1A0C05]/90 shadow-[0_30px_80px_rgba(0,0,0,0.5)] md:grid-cols-2">
+          {/* Selected weapon detail card */}
+          <div className="training-weapon-card grid overflow-hidden rounded-[2rem] border border-[#FF9A1F]/30 bg-[#1A0C05]/90 shadow-[0_30px_80px_rgba(0,0,0,0.5)] md:grid-cols-2">
+            {/* Weapon image */}
             <div className="relative aspect-[4/3] bg-black md:aspect-auto md:min-h-[420px]">
               <Image
                 key={item.img}
                 src={item.img}
                 alt={item.title}
                 fill
-                sizes="(min-width:768px) 40vw, 100vw"
+                sizes="(min-width: 768px) 40vw, 100vw"
                 className="object-contain p-4 transition-opacity duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+              {/* Image frame corners */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3 top-3 h-7 w-7 border-l border-t border-[#FFD84D]/70"
+              />
+
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute bottom-3 right-3 h-7 w-7 border-b border-r border-[#FFD84D]/70"
+              />
             </div>
 
-            <div className="flex flex-col justify-center p-7 sm:p-10">
-              <span className="font-display text-6xl leading-none text-[#FF7A18]/35">
+            {/* Weapon description */}
+            <div className="flex flex-col justify-center p-6 sm:p-10">
+              <span className="font-display text-5xl leading-none text-[#FF7A18]/35 sm:text-6xl">
                 {String(active + 1).padStart(2, "0")}
               </span>
 
@@ -854,19 +1093,33 @@ function Training() {
 
               <div className="my-6 h-px w-20 bg-gradient-to-r from-[#FF7A18] to-transparent" />
 
-              <p className="leading-8 text-[#E9D6AE]/85">{item.desc}</p>
+              <p className="leading-8 text-[#E9D6AE]/85">
+                {item.desc}
+              </p>
 
               <div className="mt-8">
                 <Btn href="#join" solid>
-                  Begin training
+                  Begin Training
                 </Btn>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Scroll cue */}
+        <div
+          className="mt-10 flex justify-center"
+          aria-hidden="true"
+        >
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
-   
+
+      {/* Bottom gold separator */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]"
+      />
     </section>
   );
 }
@@ -1002,7 +1255,12 @@ function Virtues() {
         </div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
-   
+    
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1099,7 +1357,12 @@ function Women() {
         </div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
-   
+      
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1181,6 +1444,11 @@ function Why() {
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
    
+     {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1227,6 +1495,11 @@ function Achievements() {
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
    
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1301,6 +1574,11 @@ function Events() {
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
    
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1378,7 +1656,12 @@ function Join() {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]"/>
-  
+      
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
