@@ -1766,6 +1766,24 @@ function Footer() {
                 </a>
               </li>
               <li>{SITE.hours}</li>
+
+              <li>
+                <a 
+                className="transition hover:text-[#FFD84D]"
+                href="https://www.google.com/maps/search/?api=1&query=Padaivedu+Tiruvannamalai+Tamil+Nadu"
+                target="_blank"
+                rel="noopener noreferrer"
+                >
+                  {SITE.place}
+                </a>
+                <iframe 
+                title="Academy location"
+                src="https://www.google.com/maps?q=Padaivedu+Tiruvannamalai&output=embed"
+                className="mt-4 h-100 w-full rounded-lg border border-[#FF9A1F]/25"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                />
+              </li>
             </ul>
           </div>
         </div>
