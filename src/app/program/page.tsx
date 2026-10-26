@@ -1097,31 +1097,22 @@ function CTA() {
 }
 
 // ---------- Footer ----------
+// ---------- Footer ----------
+const FOOTER_EMBERS = [
+  { left: "12%", top: "38%", size: 6, color: "#FFB020", delay: 0 },
+  { left: "30%", top: "62%", size: 4, color: "#FFD84D", delay: 1 },
+  { left: "58%", top: "30%", size: 4, color: "#FF7A18", delay: 0.5 },
+  { left: "78%", top: "55%", size: 6, color: "#FFB020", delay: 2 },
+  { left: "86%", top: "25%", size: 4, color: "#FFD84D", delay: 1.5 },
+];
+
 function Footer() {
   return (
-    <footer id="contact" className="relative overflow-hidden pb-20 pt-16 sm:pb-0">
-      {/* Base warm gradient */}
-      <div
-        aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(to_bottom,#2E1206_0%,#1F0C04_45%,#1A0A03_100%)]"
-      />
-
-      {/* Rising sun: molten gold arc from the bottom edge */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[420px] w-[900px] max-w-[160%] -translate-x-1/2 rounded-t-full bg-[radial-gradient(ellipse_at_50%_100%,#FFE27A_0%,#FFB020_15%,#FF7A18_22%,transparent_50%)] opacity-45 blur-3xl"
-      />
-
-      {/* Rays fanning out */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[520px] w-[1100px] max-w-[200%] -translate-x-1/2 translate-y-[10%] opacity-30 [mask-image:radial-gradient(circle_at_50%_100%,black_20%,transparent_70%)]"
-        style={{
-          background:
-            "repeating-conic-gradient(from 0deg at 50% 100%, rgba(255,200,60,0.55) 0deg 2deg, transparent 2deg 12deg)",
-        }}
-      />
-
+    <footer
+      id="contact"
+      className="relative z-10 scroll-mt-20 overflow-hidden border-t border-[#FFC93C]/30 bg-[linear-gradient(to_bottom,#1F0C04_0%,#2E1206_45%,#1A0A03_100%)] pb-28 pt-16 sm:pb-16 sm:pt-20"
+    >
+      
       {/* Fine diamond pattern */}
       <div
         aria-hidden
@@ -1135,58 +1126,74 @@ function Footer() {
 
       {/* Embers */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <span className="absolute left-[12%] top-[38%] h-1.5 w-1.5 rounded-full bg-[#FFB020] shadow-[0_0_12px_4px_rgba(255,160,30,0.7)]" />
-        <span className="absolute left-[30%] top-[62%] h-1 w-1 rounded-full bg-[#FFD84D] shadow-[0_0_10px_3px_rgba(255,216,77,0.7)]" />
-        <span className="absolute left-[58%] top-[30%] h-1 w-1 rounded-full bg-[#FF7A18] shadow-[0_0_10px_3px_rgba(255,122,24,0.7)]" />
-        <span className="absolute left-[78%] top-[55%] h-1.5 w-1.5 rounded-full bg-[#FFB020] shadow-[0_0_12px_4px_rgba(255,160,30,0.7)]" />
-        <span className="absolute left-[80%] top-[25%] h-1 w-1 rounded-full bg-[#FFD84D] shadow-[0_0_10px_3px_rgba(255,216,77,0.7)]" />
+        {FOOTER_EMBERS.map((e, i) => (
+          <span
+            key={i}
+            className="anim absolute rounded-full"
+            style={{
+              left: e.left,
+              top: e.top,
+              width: e.size,
+              height: e.size,
+              background: e.color,
+              boxShadow: `0 0 ${e.size * 3}px ${e.color}`,
+              animation: `twinkle ${3 + i * 0.7}s ease-in-out ${e.delay}s infinite`,
+            }}
+          />
+        ))}
       </div>
 
-      <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 sm:px-5 md:grid-cols-4">
-        <div className="col-span-2 md:col-span-1">
-          <div className="flex items-center gap-3">
-            <Logo />
-            <span className="font-display text-xl text-[#FFD84D]">{SITE.name}</span>
+      {/* Content sits above the decorative layers */}
+      <div className="relative z-10">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-5 sm:grid-cols-2 md:grid-cols-4 md:gap-x-6">
+          {/* Brand */}
+          <div className="sm:col-span-2 md:col-span-1">
+            <div className="flex items-center gap-3">
+              <Logo />
+              <span className="font-display text-xl text-[#FFD84D]">{SITE.name}</span>
+            </div>
+            <p className="mt-4 text-[#FFF1C7]/80">Tamil staff fighting, taught with discipline, strength and heritage.</p>
           </div>
-          <p className="mt-4 text-[#FFF1C7]/85">Tamil staff fighting, taught with discipline, strength and heritage.</p>
-        </div>
 
-        <div>
-          <h3 className="font-display text-lg text-[#FFC93C]">Quick links</h3>
-          <ul className="mt-3 space-y-2 text-[#FFF1C7]/85">
-            {NAV.map(([l, h]) => (
-              <li key={h}>
-                <Link href={h} className="transition hover:text-[#FFD84D]">{l}</Link>
+          {/* Quick links */}
+          <div>
+            <h3 className="font-display text-lg text-[#FFD84D]">Quick links</h3>
+            <ul className="mt-3 space-y-2 text-[#FFF1C7]/80">
+              {NAV.map(([l, h]) => (
+                <li key={h}>
+                  <a href={h} className="inline-block py-0.5 transition hover:text-[#FFC93C]">
+                    {l}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="sm:col-span-2 md:col-span-2">
+            <h3 className="font-display text-lg text-[#FFD84D]">Contact us</h3>
+            <ul className="mt-3 space-y-3 text-[#FFF1C7]/80">
+              <li>{SITE.place}</li>
+              <li>
+                <a className="inline-block py-0.5 transition hover:text-[#FFC93C]" href={TEL}>
+                  {SITE.phone}
+                </a>
               </li>
-            ))}
-          </ul>
+              <li className="break-all">
+                <a className="inline-block py-0.5 transition hover:text-[#FFC93C]" href={`mailto:${SITE.email}`}>
+                  {SITE.email}
+                </a>
+              </li>
+              <li>{SITE.hours}</li>
+            </ul>
+          </div>
         </div>
 
-        <div>
-          <h3 className="font-display text-lg text-[#FFC93C]">Programs</h3>
-          <ul className="mt-3 space-y-2 text-[#FFF1C7]/85">
-            {DISCIPLINES.map((d) => (
-              <li key={d.title}>{d.title}</li>
-            ))}
-          </ul>
+        {/* Bottom bar: stacked and centred on mobile, row on desktop */}
+        <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center gap-3 border-t border-[#FFC93C]/25 px-5 py-6 text-center text-sm text-[#FFF1C7]/60 md:flex-row md:justify-between md:text-left">
+          <p>© 2026 {SITE.name}. All rights reserved.</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-[#FFC93C]/85">Tradition • Discipline • Strength</p>
         </div>
-
-        <div className="col-span-2 md:col-span-1">
-          <h3 className="font-display text-lg text-[#FFC93C]">Contact us</h3>
-          <ul className="mt-3 space-y-3 text-[#FFF1C7]/85">
-            <li>{SITE.place}</li>
-            <li><a className="transition hover:text-[#FFD84D]" href={TEL}>{SITE.phone}</a></li>
-            <li className="break-words">
-              <a className="transition hover:text-[#FFD84D]" href={`mailto:${SITE.email}`}>{SITE.email}</a>
-            </li>
-            <li>{SITE.hours}</li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="relative z-10 mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FFC93C]/25 px-4 py-6 text-sm text-[#FFF1C7]/65 sm:px-5">
-        <p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p>
-        <p className="text-xs uppercase tracking-[0.3em] text-[#FFC93C]/85">Tradition • Discipline • Strength</p>
       </div>
     </footer>
   );

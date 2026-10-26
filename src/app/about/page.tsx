@@ -732,10 +732,8 @@ function CTA() {
     </section>
   );
 }
+
 // ---------- Footer ----------
-// Warm brown base, sun glow at the bottom centre, two counter-rotating sunburst layers,
-// diamond pattern and twinkling embers.
-// Mobile: one column stack. Tablet: two columns. Desktop: four columns.
 const FOOTER_EMBERS = [
   { left: "12%", top: "38%", size: 6, color: "#FFB020", delay: 0 },
   { left: "30%", top: "62%", size: 4, color: "#FFD84D", delay: 1 },
@@ -750,43 +748,7 @@ function Footer() {
       id="contact"
       className="relative z-10 scroll-mt-20 overflow-hidden border-t border-[#FFC93C]/30 bg-[linear-gradient(to_bottom,#1F0C04_0%,#2E1206_45%,#1A0A03_100%)] pb-28 pt-16 sm:pb-16 sm:pt-20"
     >
-      {/* Sun glow rising from the bottom centre */}
-      <div
-        aria-hidden
-        className="anim pointer-events-none absolute bottom-0 left-1/2 h-[380px] w-[820px] max-w-[170%] -translate-x-1/2 translate-y-1/3 rounded-full bg-[radial-gradient(circle,rgba(255,190,50,0.6)_0%,rgba(255,122,24,0.3)_35%,transparent_70%)] blur-2xl"
-        style={{ animation: "footer-glow 6s ease-in-out infinite" }}
-      />
-
-      {/* Sunburst layer 1: rotates clockwise */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[1100px] w-[1100px] max-w-none -translate-x-1/2 translate-y-1/2 [mask-image:linear-gradient(to_top,black_0%,black_20%,transparent_72%)]"
-      >
-        <div
-          className="anim h-full w-full rounded-full"
-          style={{
-            background:
-              "repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,200,70,0.5) 0deg 2.5deg, transparent 2.5deg 16deg)",
-            animation: "spin-slow 90s linear infinite, footer-rays-pulse 5s ease-in-out infinite",
-          }}
-        />
-      </div>
-
-      {/* Sunburst layer 2: thinner rays rotating the other way */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[900px] w-[900px] max-w-none -translate-x-1/2 translate-y-1/2 [mask-image:linear-gradient(to_top,black_0%,transparent_65%)]"
-      >
-        <div
-          className="anim h-full w-full rounded-full"
-          style={{
-            background:
-              "repeating-conic-gradient(from 6deg at 50% 50%, rgba(255,140,30,0.4) 0deg 1.2deg, transparent 1.2deg 11deg)",
-            animation: "spin-reverse 120s linear infinite",
-          }}
-        />
-      </div>
-
+      
       {/* Fine diamond pattern */}
       <div
         aria-hidden

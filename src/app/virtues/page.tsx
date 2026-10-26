@@ -739,7 +739,8 @@ function CTA() {
   );
 }
 
-// ---------- Footer: same as the About page ----------
+// ---------- Footer:  ----------
+// ---------- Footer ----------
 const FOOTER_EMBERS = [
   { left: "12%", top: "38%", size: 6, color: "#FFB020", delay: 0 },
   { left: "30%", top: "62%", size: 4, color: "#FFD84D", delay: 1 },
@@ -754,35 +755,24 @@ function Footer() {
       id="contact"
       className="relative z-10 scroll-mt-20 overflow-hidden border-t border-[#FFC93C]/30 bg-[linear-gradient(to_bottom,#1F0C04_0%,#2E1206_45%,#1A0A03_100%)] pb-28 pt-16 sm:pb-16 sm:pt-20"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[380px] w-[820px] max-w-[170%] rounded-full bg-[radial-gradient(circle,rgba(255,190,50,0.6)_0%,rgba(255,122,24,0.3)_35%,transparent_70%)] blur-2xl"
-        style={{ transform: "translate(-50%, 33%)", animation: "footer-glow 6s ease-in-out infinite" }}
-      />
-
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[800px] w-[800px] max-w-none -translate-x-1/2 translate-y-1/2 rounded-full [mask-image:radial-gradient(circle,transparent_0%,black_35%,transparent_70%)]"
-        style={{
-          background: "repeating-conic-gradient(from 6deg at 50% 50%, rgba(255,200,70,0.45) 0deg 2deg, transparent 2deg 14deg)",
-          animation: "spin-reverse 120s linear infinite",
-        }}
-      />
-
+      
+      {/* Fine diamond pattern */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.07]"
         style={{
-          backgroundImage: "repeating-conic-gradient(from 6deg at 50% 50%, rgba(255,200,70,0.45) 0deg 2deg, transparent 2deg 14deg)",
+          backgroundImage:
+            "linear-gradient(45deg,#FFD84D 1px,transparent 1px),linear-gradient(-45deg,#FFD84D 1px,transparent 1px)",
           backgroundSize: "34px 34px",
         }}
       />
 
+      {/* Embers */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         {FOOTER_EMBERS.map((e, i) => (
           <span
             key={i}
-            className="absolute rounded-full"
+            className="anim absolute rounded-full"
             style={{
               left: e.left,
               top: e.top,
@@ -796,16 +786,19 @@ function Footer() {
         ))}
       </div>
 
+      {/* Content sits above the decorative layers */}
       <div className="relative z-10">
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-5 sm:grid-cols-2 md:grid-cols-4 md:gap-x-6">
+          {/* Brand */}
           <div className="sm:col-span-2 md:col-span-1">
             <div className="flex items-center gap-3">
               <Logo />
-              <span className="gold-text font-display text-xl text-[#FFD84D]">{SITE.name}</span>
+              <span className="font-display text-xl text-[#FFD84D]">{SITE.name}</span>
             </div>
             <p className="mt-4 text-[#FFF1C7]/80">Tamil staff fighting, taught with discipline, strength and heritage.</p>
           </div>
 
+          {/* Quick links */}
           <div>
             <h3 className="font-display text-lg text-[#FFD84D]">Quick links</h3>
             <ul className="mt-3 space-y-2 text-[#FFF1C7]/80">
@@ -819,6 +812,7 @@ function Footer() {
             </ul>
           </div>
 
+          {/* Contact */}
           <div className="sm:col-span-2 md:col-span-2">
             <h3 className="font-display text-lg text-[#FFD84D]">Contact us</h3>
             <ul className="mt-3 space-y-3 text-[#FFF1C7]/80">
@@ -838,6 +832,7 @@ function Footer() {
           </div>
         </div>
 
+        {/* Bottom bar: stacked and centred on mobile, row on desktop */}
         <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center gap-3 border-t border-[#FFC93C]/25 px-5 py-6 text-center text-sm text-[#FFF1C7]/60 md:flex-row md:justify-between md:text-left">
           <p>© 2026 {SITE.name}. All rights reserved.</p>
           <p className="text-xs uppercase tracking-[0.3em] text-[#FFC93C]/85">Tradition • Discipline • Strength</p>
@@ -846,6 +841,7 @@ function Footer() {
     </footer>
   );
 }
+
 
 function FloatingCall() {
   return (
