@@ -1715,7 +1715,6 @@ function Footer() {
         <span className="absolute left-[80%] top-[25%] h-1 w-1 rounded-full bg-[#FFD84D] shadow-[0_0_10px_3px_rgba(255,216,77,0.7)]" />
       </div>
 
-
       {/* Content */}
       <div className="relative z-10">
         <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 sm:px-5 md:grid-cols-4">
@@ -1766,27 +1765,33 @@ function Footer() {
                 </a>
               </li>
               <li>{SITE.hours}</li>
-
-              <li>
-                <a 
-                className="transition hover:text-[#FFD84D]"
-                href="https://www.google.com/maps/search/?api=1&query=Padaivedu+Tiruvannamalai+Tamil+Nadu"
-                target="_blank"
-                rel="noopener noreferrer"
-                >
-                  {SITE.place}
-                </a>
-                <iframe 
-                title="Academy location"
-                src="https://www.google.com/maps?q=Padaivedu+Tiruvannamalai&output=embed"
-                className="mt-4 h-100 w-full rounded-lg border border-[#FF9A1F]/25"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                />
-              </li>
             </ul>
           </div>
         </div>
+
+        {/* Map: centered, square, framed */}
+          <div className="relative left-1/2 mt-12 w-screen -translate-x-1/2 ">
+            <a
+              className="mb-4 block text-center text-[#F5E5C5]/85 transition hover:text-[#FFD84D]"
+              href="https://www.google.com/maps/search/?api=1&query=Padaivedu+Tiruvannamalai+Tamil+Nadu"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {SITE.place}
+            </a>
+
+              <div className="relative h-[500px] w-fun overflow-hidden rounded-lg">
+                <iframe
+                  title="Academy location"
+                  src="https://www.google.com/maps?q=Padaivedu+Tiruvannamalai&output=embed"
+                  className="absolute inset-0 h-full w-full"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />              
+            </div>
+          </div>
+        
 
         <div className="mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FF9A1F]/25 px-4 py-6 text-sm text-[#F5E5C5]/65 sm:px-5">
           <p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p>
