@@ -12,21 +12,18 @@ const SITE = {
   place: "Padaivedu, Tiruvannamalai, Tamil Nadu, India",
   hours: "Saturdays, Sundays and government holidays: 6:00–8:00 AM and 4:00–6:00 PM",
 };
+
 const TEL = `tel:${SITE.phone.replace(/\s/g, "")}`;
 
 const NAV = [
   ["Home", "/"],
   ["About", "/about"],
-  ["Programs", "/programs"],
+  ["Programs", "/program"],
   ["Virtues", "/virtues"],
-  ["Women", "/women"],
   ["Achievements", "/achievements"],
   ["Contact", "/#contact"],
 ];
 
-const ROMAN = ["I", "II", "III", "IV", "V"];
-
-// The five virtues from the home page, with practice notes.
 const VIRTUES = [
   {
     title: "Discipline",
@@ -81,6 +78,105 @@ const FAQ = [
   { q: "Is the code of conduct strict?", a: "We expect respect for the instructor, the training partner and the floor. The aim is to encourage, not to intimidate." },
 ];
 
+const ROMAN = ["I", "II", "III", "IV", "V"];
+
+// Same palette and motion language as the About page.
+const pageStyles = `
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+  @keyframes spin-reverse { to { transform: rotate(-360deg); } }
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 40px rgba(255,160,40,0.35), inset 0 0 30px rgba(255,200,60,0.08); }
+    50% { box-shadow: 0 0 100px rgba(255,160,40,0.7), inset 0 0 50px rgba(255,200,60,0.2); }
+  }
+  @keyframes float-logo {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes sweep {
+    0% { transform: translateX(-120%) skewX(-18deg); }
+    60%, 100% { transform: translateX(260%) skewX(-18deg); }
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(0.6); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+  @keyframes drift {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-40px); }
+  }
+  @keyframes page-glow {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.7; }
+  }
+  @keyframes title-glow {
+    0%, 100% { text-shadow: 0 0 18px rgba(255,190,60,0.35); }
+    50% { text-shadow: 0 0 34px rgba(255,190,60,0.7); }
+  }
+  @keyframes cta-card-glow {
+    0%, 100% { box-shadow: 0 0 40px rgba(255,160,40,0.2), inset 0 0 40px rgba(255,160,40,0.05); }
+    50% { box-shadow: 0 0 90px rgba(255,160,40,0.45), inset 0 0 60px rgba(255,160,40,0.12); }
+  }
+  @keyframes rays-breathe {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 0.65; }
+  }
+  @keyframes footer-glow {
+    0%, 100% { opacity: 0.45; }
+    50% { opacity: 0.85; }
+  }
+  @keyframes footer-rays-pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0.9; }
+  }
+  @keyframes flicker {
+    0%, 100% { transform: scale(1) rotate(-1deg); }
+    50% { transform: scale(1.05) rotate(1deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .anim { animation: none !important; }
+  }
+`;
+
+// Deterministic sparkle positions so server and client render the same markup.
+const SPARKLES = Array.from({ length: 60 }, (_, i) => ({
+  left: (i * 37) % 100,
+  top: (i * 53) % 100,
+  size: 2 + (i % 3),
+  delay: (i * 0.37) % 6,
+  duration: 3 + (i % 5),
+  color: i % 3 === 0 ? "#FFD84D" : i % 3 === 1 ? "#FFA332" : "#F2C94C",
+}));
+
+function PageSparkles() {
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+      <div
+        className="anim absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(255,140,30,0.22),transparent_45%),radial-gradient(circle_at_80%_75%,rgba(255,200,60,0.12),transparent_50%)]"
+        style={{ animation: "page-glow 8s ease-in-out infinite" }}
+      />
+      <div
+        className="anim absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-[#FFD84D]/10 to-transparent"
+        style={{ animation: "sweep 14s ease-in-out infinite" }}
+      />
+      {SPARKLES.map((s, i) => (
+        <span
+          key={i}
+          className="anim absolute rounded-full"
+          style={{
+            left: `${s.left}%`,
+            top: `${s.top}%`,
+            width: s.size,
+            height: s.size,
+            background: s.color,
+            boxShadow: `0 0 ${s.size * 4}px ${s.color}`,
+            animation: `twinkle ${s.duration}s ease-in-out ${s.delay}s infinite, drift ${s.duration * 3}s linear infinite alternate`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 // ---------- Small pieces ----------
 function Reveal({ children, delay = 0, className }: { children: ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -117,15 +213,26 @@ function Reveal({ children, delay = 0, className }: { children: ReactNode; delay
   );
 }
 
+function GoldText({ children }: { children: ReactNode }) {
+  return (
+    <span
+      className="bg-gradient-to-r from-[#D98A12] via-[#FFD84D] to-[#E8A317] bg-clip-text text-transparent"
+      style={{ animation: "title-glow 4s ease-in-out infinite" }}
+    >
+      {children}
+    </span>
+  );
+}
+
 const SOLID_BTN =
-  "border-2 border-[#FF9A1F] bg-gradient-to-r from-[#FF7A1A] to-[#F5C518] text-[#1C120C] shadow-[0_0_20px_rgba(255,122,26,0.45)] hover:from-[#FF8F3A] hover:to-[#FFD84D]";
+  "border border-[#FFA332] bg-gradient-to-r from-[#FF7A18] to-[#FFC93C] text-[#1C0E02] shadow-[0_0_28px_rgba(255,150,40,0.5)] hover:from-[#FF8F3A] hover:to-[#FFD84D]";
 
 function Btn({ href, children, solid }: { href: string; children: ReactNode; solid?: boolean }) {
   return (
     <Link
       href={href}
-      className={`inline-block rounded-lg px-5 py-2.5 font-bold transition-all active:scale-95 ${
-        solid ? SOLID_BTN : "border-2 border-[#FF9A1F]/60 text-[#FFD84D] hover:bg-[#FF7A1A]/10"
+      className={`inline-block rounded-md px-6 py-3 font-semibold uppercase tracking-[0.12em] transition-all active:scale-95 ${
+        solid ? SOLID_BTN : "border border-[#FFC93C]/70 text-[#FFD84D] hover:bg-[#FFC93C]/10"
       }`}
     >
       {children}
@@ -133,14 +240,48 @@ function Btn({ href, children, solid }: { href: string; children: ReactNode; sol
   );
 }
 
-function Logo() {
+// variant "badge": small round logo for nav/footer.
+// variant "hero": cropped to a circle so the square black background disappears.
+// Falls back to a Tamil letter if /logo.jpeg is missing.
+function Logo({ size = 40, variant = "badge" }: { size?: number; variant?: "badge" | "hero" }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <span
+        aria-label={`${SITE.name} logo`}
+        className="flex shrink-0 items-center justify-center rounded-full border border-[#FFC93C]/70 bg-[#0B0603] font-display text-[#FFD84D]"
+        style={{ width: size, height: size, fontSize: size * 0.4 }}
+      >
+        வி
+      </span>
+    );
+  }
+
+  if (variant === "hero") {
+    return (
+      <div className="relative h-full w-full overflow-hidden rounded-full">
+        <Image
+          src="/logo.jpeg"
+          alt={`${SITE.name} logo`}
+          fill
+          sizes="300px"
+          onError={() => setFailed(true)}
+          className="scale-[1.18] object-cover"
+        />
+      </div>
+    );
+  }
+
   return (
     <Image
       src="/logo.jpeg"
-      alt="Padaivedu Yudhakalam logo"
-      width={40}
-      height={40}
-      className="h-10 w-10 shrink-0 rounded-full border border-[#FFD84D] bg-[#1C120C]"
+      alt={`${SITE.name} logo`}
+      width={size}
+      height={size}
+      onError={() => setFailed(true)}
+      className="shrink-0 rounded-full border border-[#FFC93C]/70 bg-[#0B0603] object-cover"
+      style={{ width: size, height: size }}
     />
   );
 }
@@ -148,28 +289,31 @@ function Logo() {
 // ---------- Nav ----------
 function Nav() {
   return (
-    <header className="fixed inset-x-0 top-0 z-30 border-b border-[#FF8A1F]/30 bg-[#1C120C]/90 pt-[env(safe-area-inset-top)] backdrop-blur">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-5" aria-label="Main">
-        <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3">
+    <header className="fixed inset-x-0 top-0 z-30 border-b border-[#FFC93C]/25 bg-[#1A0A03]/80 pt-[env(safe-area-inset-top)] backdrop-blur">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-3" aria-label="Main">
+        <Link href="/" className="flex min-w-0 items-center gap-3">
           <Logo />
-          <span className="font-display text-sm leading-tight text-[#F5C518] sm:text-xl">{SITE.name}</span>
+          <span className="truncate font-display text-lg text-[#FFD84D]">{SITE.name}</span>
         </Link>
 
-        <ul className="hidden items-center gap-4 xl:flex">
+        <ul className="hidden items-center gap-1 xl:flex">
           {NAV.map(([l, h]) => (
             <li key={h}>
               <Link
                 href={h}
-                className={`block rounded-lg px-3 py-2 text-sm transition-all hover:bg-[#FF7A1F]/10 hover:text-[#FFD84D] ${
-                  l === "Virtues" ? "text-[#FFD84D]" : "text-[#E9D6AE]/85"
+                className={`block rounded-md px-3 py-2 text-sm transition hover:text-[#FFC93C] ${
+                  l === "Virtues" ? "text-[#FFC93C]" : "text-[#FFF1C7]/85"
                 }`}
               >
                 {l}
               </Link>
             </li>
           ))}
-          <li>
-            <Link href="/#join" className={`block rounded-lg px-4 py-2 text-center font-bold ${SOLID_BTN}`}>
+          <li className="ml-3">
+            <Link
+              href="/#join"
+              className="block rounded-md bg-gradient-to-r from-[#FF7A18] to-[#FFC93C] px-4 py-2 text-sm font-semibold uppercase tracking-wider text-[#1C0E02] hover:from-[#FF8F3A] hover:to-[#FFD84D]"
+            >
               Join now
             </Link>
           </li>
@@ -178,16 +322,16 @@ function Nav() {
         <details className="relative shrink-0 xl:hidden">
           <summary
             aria-label="Open menu"
-            className="flex h-10 w-10 cursor-pointer list-none flex-col items-center justify-center gap-[5px] rounded-lg border border-[#FF8A1F]/50 marker:hidden [&::-webkit-details-marker]:hidden"
+            className="flex h-10 w-10 cursor-pointer list-none flex-col items-center justify-center gap-[5px] rounded-md border border-[#FFC93C]/50 [&::-webkit-details-marker]:hidden"
           >
-            <span className="block h-[2px] w-5 rounded-full bg-[#F5C518]" />
-            <span className="block h-[2px] w-5 rounded-full bg-[#F5C518]" />
-            <span className="block h-[2px] w-5 rounded-full bg-[#F5C518]" />
+            <span className="block h-[2px] w-5 bg-[#FFD84D]" />
+            <span className="block h-[2px] w-5 bg-[#FFD84D]" />
+            <span className="block h-[2px] w-5 bg-[#FFD84D]" />
           </summary>
-          <ul className="absolute right-0 z-50 mt-3 w-56 space-y-1 rounded-xl border border-[#FF8A1F]/50 bg-gradient-to-br from-[#3A1C0B] to-[#1C120C] p-3 shadow-2xl shadow-black/70">
+          <ul className="absolute right-0 z-50 mt-3 w-56 space-y-1 rounded-xl border border-[#FFC93C]/40 bg-[#2A1205] p-3 shadow-2xl">
             {NAV.map(([l, h]) => (
               <li key={h}>
-                <Link href={h} className="block rounded-lg px-3 py-2.5 text-[#E9D6AE]/90 hover:bg-[#FF7A1A]/10 hover:text-[#FFD84D]">
+                <Link href={h} className="block rounded-md px-3 py-2.5 text-[#FFF1C7]/90 hover:bg-[#FFC93C]/10 hover:text-[#FFC93C]">
                   {l}
                 </Link>
               </li>
@@ -200,49 +344,143 @@ function Nav() {
 }
 
 // ---------- Hero ----------
+const EMBLEM_GLINTS = [
+  { angle: 35, delay: 0 },
+  { angle: 215, delay: 5.0 },
+];
+
 function Hero() {
   return (
-    <section className="relative flex min-h-[60vh] items-center overflow-hidden bg-[#080503] pt-28 pb-16">
-      <Image src="/hero.png" alt="" fill priority sizes="100vw" className="object-cover object-center opacity-35" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/55 to-[#080503]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,166,0,0.18),transparent_60%)]" />
+    <section className="relative z-10 flex min-h-[80vh] items-center pt-28">
+      <style>{`
+        @keyframes emb-orbit {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes emb-streak {
+          0%, 100% { opacity: 0; }
+          15% { opacity: 1; }
+          40% { opacity: 0.4; }
+          60% { opacity: 0; }
+        }
+        @keyframes emb-head {
+          0%, 100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+          50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .emb-anim { animation: none !important; }
+        }
+      `}</style>
 
-      <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-5">
-        <Reveal>
-          <p className="text-xs font-bold uppercase tracking-[0.35em] text-[#FF9A1F]">The warrior&apos;s code</p>
-        </Reveal>
-        <Reveal delay={150}>
-          <h1 className="mt-4 font-display text-4xl text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] sm:text-6xl">
-            Five virtues of a <span className="text-[#FFD84D]">warrior</span>
-          </h1>
-        </Reveal>
-        <Reveal delay={300}>
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-[#F5E5C5]/90 sm:text-base">
-            Silambam teaches more than weapons. Every session builds the character that makes a warrior worth following.
-          </p>
-        </Reveal>
-        <Reveal delay={450}>
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Btn href="/programs" solid>Explore programs</Btn>
-            <Btn href="/#join">Join the academy</Btn>
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl items-center gap-12 px-5 lg:grid-cols-2">
+        {/* Left: text (unchanged) */}
+        <div>
+          <Reveal>
+            <span className="inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.3em] text-[#FFC93C]">
+              <span className="h-px w-10 bg-[#FFC93C]/70" />
+              The warrior&apos;s code
+            </span>
+          </Reveal>
+
+          <Reveal delay={150}>
+            <h1 className="mt-6 font-display text-5xl leading-[1.1] text-[#FFF1C7] sm:text-6xl lg:text-7xl">
+              Five virtues of a <GoldText>warrior</GoldText>
+            </h1>
+          </Reveal>
+
+          <Reveal delay={250}>
+            <div className="my-8 h-[3px] w-20 bg-gradient-to-r from-[#FF7A18] to-transparent" />
+          </Reveal>
+
+          <Reveal delay={350}>
+            <p className="max-w-xl text-lg leading-8 text-[#FFF1C7]/90">
+              Silambam teaches more than weapons. Every session builds the character that makes a warrior worth following.
+            </p>
+          </Reveal>
+
+          <Reveal delay={450}>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Btn href="/#training" solid>Explore programs</Btn>
+              <Btn href="/#join">Join the academy</Btn>
+            </div>
+          </Reveal>
+        </div>
+
+        {/* Right: logo emblem with orbiting light streaks */}
+        <Reveal delay={300} className="relative mx-auto aspect-square w-full max-w-[520px]">
+          <span
+            aria-hidden
+            className="emb-anim absolute inset-0 rounded-full border border-dashed border-[#FFC93C]/45"
+            style={{ animation: "spin-slow 60s linear infinite" }}
+          />
+          <span
+            aria-hidden
+            className="emb-anim absolute inset-[9%] rounded-full border border-[#FF9F1C]/30"
+            style={{ animation: "spin-reverse 45s linear infinite" }}
+          />
+
+          {/* Light streaks orbiting the outer ring, each with a bright head */}
+          <div aria-hidden className="pointer-events-none absolute inset-0">
+            {EMBLEM_GLINTS.map((g, i) => (
+              <div
+                key={i}
+                className="emb-anim absolute inset-0 rounded-full"
+                style={{
+                  transform: `rotate(${g.angle}deg)`,
+                  animation: `emb-orbit 10s linear ${g.delay}s infinite`,
+                }}
+              >
+                <span
+                  className="emb-anim absolute left-0 top-1/2 h-[2px] w-[22%] -translate-y-1/2 bg-gradient-to-r from-transparent via-[#FFD84D] to-[#FFE27A] shadow-[0_0_12px_#FFD84D]"
+                  style={{ animation: "emb-streak 4s ease-in-out infinite" }}
+                />
+                <span
+                  className="emb-anim absolute left-0 top-1/2 h-3 w-3 rounded-full bg-[#FFE27A] shadow-[0_0_18px_6px_rgba(255,190,60,0.8)]"
+                  style={{ animation: "emb-head 2s ease-in-out infinite", transform: "translate(-50%, -50%)" }}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div
+            className="anim absolute inset-[18%] rounded-full border-2 border-[#FFC93C] bg-[#1A0A03]"
+            style={{ animation: "glow-pulse 4s ease-in-out infinite" }}
+          >
+            <div
+              aria-hidden
+              className="anim absolute inset-[-14%] rounded-full opacity-80 [mask-image:radial-gradient(circle,transparent_58%,black_62%,black_78%,transparent_84%)]"
+              style={{
+                backgroundImage: "radial-gradient(circle, #FFD84D 1.2px, transparent 1.8px)",
+                backgroundSize: "9px 9px",
+                animation: "spin-slow 90s linear infinite",
+              }}
+            />
+
+            <div className="anim absolute inset-[8%] z-10" style={{ animation: "float-logo 6s ease-in-out infinite" }}>
+              <Logo variant="hero" />
+            </div>
+
+            <div aria-hidden className="pointer-events-none absolute inset-[8%] z-20 overflow-hidden rounded-full">
+              <span
+                className="anim absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-[#FFD84D]/35 to-transparent"
+                style={{ animation: "sweep 7s ease-in-out infinite" }}
+              />
+            </div>
           </div>
         </Reveal>
       </div>
     </section>
   );
 }
-
 // ---------- Stats ----------
 function StatsRow() {
   return (
-    <section className="relative border-y border-[#FFD84D]/25 bg-[#120804] py-12">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-4 text-center sm:px-5 md:grid-cols-4">
+    <section className="relative z-10 border-y border-[#FFC93C]/25 bg-[#1A0A03]/70 py-12 backdrop-blur-sm">
+      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-5 text-center md:grid-cols-4">
         {STATS.map((s, i) => (
           <Reveal key={s.label} delay={i * 120}>
-            <p className="font-display text-4xl text-[#FFD84D] drop-shadow-[0_2px_10px_rgba(255,216,77,0.35)] sm:text-5xl">
-              {s.value}
-            </p>
-            <p className="mt-2 text-xs font-bold uppercase tracking-[0.2em] text-[#F5E5C5]/80">{s.label}</p>
+            <p className="font-display text-4xl text-[#FFD84D] sm:text-5xl">{s.value}</p>
+            <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#FFF1C7]/75">{s.label}</p>
           </Reveal>
         ))}
       </div>
@@ -250,31 +488,32 @@ function StatsRow() {
   );
 }
 
-// ---------- Virtues (numbered, alternating) ----------
+// ---------- Virtues: numbered rows like the About page's Values ----------
 function VirtueList() {
   return (
-    <section className="relative overflow-hidden bg-[#0D0603] py-20 sm:py-24">
-      <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/3 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#FF7A18]/12 blur-[120px]" />
-      <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-5">
+    <section className="relative z-10 py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-5">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#FF9A1F]">What we build</p>
-          <h2 className="glow-text font-display text-3xl text-[#FFF3D6] sm:text-5xl">The virtues, one by one</h2>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.4em] text-[#FF9F1C]">What we build</p>
+          <h2 className="font-display text-4xl text-[#FFF1C7] sm:text-5xl">
+            The virtues, <GoldText>one by one</GoldText>
+          </h2>
         </Reveal>
 
-        <ol className="mt-16 space-y-10">
+        <ol className="mx-auto mt-14 max-w-4xl">
           {VIRTUES.map((v, i) => (
-            <Reveal key={v.title} delay={i * 80}>
-              <li className="group grid list-none items-center gap-6 rounded-[2rem] border border-[#FF9A1F]/30 bg-[#1A0C05]/90 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.4)] transition-all duration-300 hover:border-[#FFD84D]/60 md:grid-cols-[auto_1fr] md:gap-10 md:p-10">
-                <div className="mx-auto grid h-24 w-24 shrink-0 place-items-center rounded-full border border-[#FFD84D]/50 bg-[#120804] font-display text-2xl text-[#FFD84D] shadow-[0_0_30px_rgba(255,122,24,0.3)] transition-transform duration-300 group-hover:scale-105">
+            <Reveal key={v.title} delay={(i % 3) * 120}>
+              <li className="group grid grid-cols-[3.5rem_1fr] gap-4 border-b border-[#FFC93C]/25 py-8 first:border-t sm:grid-cols-[5rem_1fr] sm:gap-6">
+                <span className="font-display text-3xl text-[#FF9F1C] transition-colors group-hover:text-[#FFD84D]">
                   {ROMAN[i]}
-                </div>
+                </span>
                 <div>
-                  <h3 className="font-display text-2xl text-[#FFD84D] sm:text-3xl">{v.title}</h3>
-                  <p className="mt-2 text-base font-medium text-[#FFF3D6]">{v.desc}</p>
-                  <p className="mt-4 leading-8 text-[#E9D6AE]/85">{v.detail}</p>
-                  <div className="mt-5 rounded-xl border-l-2 border-[#FF9A1F] bg-black/30 px-5 py-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#FFB020]">Practice</p>
-                    <p className="mt-1 text-sm leading-7 text-[#F5E5C5]/90">{v.practice}</p>
+                  <h3 className="font-display text-xl uppercase tracking-[0.06em] text-[#FFC93C]">{v.title}</h3>
+                  <p className="mt-2 font-medium text-[#FFF1C7]">{v.desc}</p>
+                  <p className="mt-3 leading-7 text-[#FFF1C7]/80">{v.detail}</p>
+                  <div className="mt-5 border-l-2 border-[#FF9F1C] bg-[#2A1205]/60 px-5 py-4">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#FF9F1C]">Practice</p>
+                    <p className="mt-1 text-sm leading-7 text-[#FFF1C7]/90">{v.practice}</p>
                   </div>
                 </div>
               </li>
@@ -286,23 +525,26 @@ function VirtueList() {
   );
 }
 
-// ---------- Daily practice ----------
+// ---------- Daily practice: cards like the About page's Mission ----------
 function DailyPractice() {
   return (
-    <section className="relative overflow-hidden bg-[#140803] py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-5">
+    <section className="relative z-10 py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-5">
         <Reveal className="mx-auto max-w-3xl text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#FF9A1F]">In every session</p>
-          <h2 className="glow-text font-display text-3xl text-white sm:text-5xl">How the virtues are practised</h2>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.4em] text-[#FF9F1C]">In every session</p>
+          <h2 className="font-display text-4xl text-[#FFF1C7] sm:text-5xl">
+            How the virtues are <GoldText>practised</GoldText>
+          </h2>
         </Reveal>
 
-        <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {DAILY.map((d, i) => (
             <Reveal key={d.title} delay={i * 100}>
-              <li className="h-full list-none rounded-2xl border border-[#FF9A1F]/30 bg-[#1A0C05]/90 p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#FFD84D]/60">
-                <span className="font-display text-2xl text-[#FF7A18]/60">{String(i + 1).padStart(2, "0")}</span>
+              <li className="h-full list-none rounded-2xl border border-[#FFC93C]/30 bg-gradient-to-br from-[#4A2508]/80 to-[#1A0A03]/90 p-6 transition-transform duration-300 hover:-translate-y-1">
+                <span className="font-display text-3xl text-[#FF9F1C]">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="mt-3 font-display text-lg text-[#FFD84D]">{d.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-[#E9D6AE]/85">{d.desc}</p>
+                <div className="my-4 h-px w-12 bg-gradient-to-r from-[#FF9F1C] to-transparent" />
+                <p className="text-sm leading-7 text-[#FFF1C7]/85">{d.desc}</p>
               </li>
             </Reveal>
           ))}
@@ -315,14 +557,15 @@ function DailyPractice() {
 // ---------- Quote ----------
 function Quote() {
   return (
-    <section className="relative overflow-hidden bg-[#1C0D05] py-20">
-      <div aria-hidden className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,166,0,0.12),transparent_60%)]" />
-      <Reveal className="relative z-10 mx-auto max-w-3xl px-4 text-center">
-        <span className="font-display text-6xl leading-none text-[#FF7A18]/40">“</span>
+    <section className="relative z-10 py-20">
+      <Reveal className="relative z-10 mx-auto max-w-3xl px-5 text-center">
+        <span className="font-display text-6xl leading-none text-[#FF9F1C]/60" style={{ animation: "flicker 3s ease-in-out infinite", display: "inline-block" }}>
+          “
+        </span>
         <p lang="ta" className="-mt-4 text-2xl font-semibold text-[#FFD84D] sm:text-3xl">
           வீரம் பயிற்சியில் பிறக்கும்
         </p>
-        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-[#F5E5C5]/70">Courage is born in practice</p>
+        <p className="mt-4 text-xs uppercase tracking-[0.3em] text-[#FFF1C7]/65">Courage is born in practice</p>
       </Reveal>
     </section>
   );
@@ -333,31 +576,43 @@ function FAQSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="relative overflow-hidden bg-[#0D0603] py-20 sm:py-24">
-      <div className="mx-auto max-w-3xl px-4 sm:px-5">
+    <section className="relative z-10 py-20 sm:py-24">
+      <div className="mx-auto max-w-3xl px-5">
         <Reveal className="text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.4em] text-[#FF9A1F]">Questions</p>
-          <h2 className="glow-text font-display text-3xl text-white sm:text-4xl">About the code</h2>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.4em] text-[#FF9F1C]">Questions</p>
+          <h2 className="font-display text-4xl text-[#FFF1C7]">
+            About the <GoldText>code</GoldText>
+          </h2>
         </Reveal>
 
-        <div className="mt-10 space-y-3">
+        <div className="mt-12 space-y-4">
           {FAQ.map((f, i) => {
             const isOpen = open === i;
             return (
               <Reveal key={f.q} delay={i * 80}>
-                <div className={`overflow-hidden rounded-xl border transition-colors ${isOpen ? "border-[#FFD84D]/60 bg-[#211006]" : "border-[#FF9A1F]/25 bg-[#1A0C05]/80"}`}>
+                <div
+                  className={`overflow-hidden rounded-xl border transition-colors duration-300 ${
+                    isOpen ? "border-[#FFC93C]/60 bg-[#2A1205]/80" : "border-[#FFC93C]/25 bg-[#1A0A03]/70 hover:border-[#FFC93C]/50"
+                  }`}
+                >
                   <button
                     type="button"
                     aria-expanded={isOpen}
                     onClick={() => setOpen(isOpen ? null : i)}
-                    className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
                   >
-                    <span className="font-semibold text-[#FFF3D6]">{f.q}</span>
-                    <span className={`text-xl text-[#FFD84D] transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}>+</span>
+                    <span className="font-semibold text-[#FFF1C7]">{f.q}</span>
+                    <span
+                      className={`grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[#FFC93C]/60 text-lg font-bold text-[#FFD84D] transition-transform duration-500 ${
+                        isOpen ? "rotate-45" : ""
+                      }`}
+                    >
+                      +
+                    </span>
                   </button>
-                  <div className={`grid transition-all duration-300 ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
-                    <p className="overflow-hidden px-5 text-sm leading-7 text-[#E9D6AE]/85">
-                      <span className={isOpen ? "block pb-5" : "block"}>{f.a}</span>
+                  <div className={`grid transition-all duration-500 ease-out ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
+                    <p className="overflow-hidden px-6 text-sm leading-7 text-[#FFF1C7]/85">
+                      <span className={`block ${isOpen ? "pb-5" : ""}`}>{f.a}</span>
                     </p>
                   </div>
                 </div>
@@ -370,117 +625,223 @@ function FAQSection() {
   );
 }
 
-// ---------- CTA ----------
+// ---------- CTA: sunburst with dashed ring and orbiting glints ----------
+const CTA_SPARKS = [
+  { left: "8%", top: "22%", size: 4, delay: 0 },
+  { left: "15%", top: "70%", size: 3, delay: 1.2 },
+  { left: "27%", top: "86%", size: 3, delay: 0.6 },
+  { left: "82%", top: "18%", size: 4, delay: 2 },
+  { left: "90%", top: "58%", size: 3, delay: 0.9 },
+  { left: "73%", top: "88%", size: 3, delay: 1.6 },
+];
+
 function CTA() {
   return (
-    <section id="join" className="relative overflow-hidden bg-[#140803] px-4 py-20 sm:px-5">
-      <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 h-[380px] w-[800px] max-w-[160%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,#FFE27A_0%,#FFB020_22%,#FF7A18_45%,transparent_70%)] opacity-40 blur-2xl" />
-      <Reveal className="relative z-10 mx-auto max-w-3xl rounded-2xl border border-[#FF9A1F]/40 bg-[#160A04]/75 p-8 text-center shadow-[0_0_60px_rgba(255,122,24,0.2)] backdrop-blur-md sm:p-12">
-        <h2 className="glow-text font-display text-3xl text-white sm:text-4xl">Live by the code</h2>
-        <p className="mx-auto mt-4 max-w-xl leading-8 text-[#F5E5C5]/90">
-          Start training with discipline, strength, focus, peace and courage. Call the academy to join the next batch.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <Btn href={TEL} solid>Call to enrol</Btn>
-          <Btn href="/programs">View programs</Btn>
+    <section id="join" className="relative z-10 overflow-hidden px-5 py-24">
+      <style>{`
+        @keyframes cta-rays {
+          to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        @keyframes cta-ring {
+          to { transform: translate(-50%, -50%) rotate(-360deg); }
+        }
+        @keyframes cta-orbit {
+          from { transform: translate(-50%, -50%) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        @keyframes cta-breathe {
+          0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(1); }
+          50% { opacity: 0.85; transform: translate(-50%, -50%) scale(1.08); }
+        }
+        @keyframes cta-twinkle {
+          0%, 100% { opacity: 0.2; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.3); }
+        }
+        @keyframes cta-card-glow {
+          0%, 100% { box-shadow: 0 0 40px rgba(255,160,40,0.2), inset 0 0 40px rgba(255,160,40,0.05); }
+          50% { box-shadow: 0 0 90px rgba(255,160,40,0.45), inset 0 0 60px rgba(255,160,40,0.12); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .cta-anim { animation: none !important; }
+        }
+      `}</style>
+
+      {/* Sunburst rays, breathing glow, dashed ring and orbiting glints */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="cta-anim absolute left-1/2 top-1/2 h-[1000px] w-[1000px] max-w-none rounded-full [mask-image:radial-gradient(circle,transparent_15%,black_40%,transparent_70%)]"
+          style={{
+            background: "repeating-conic-gradient(from 8deg at 50% 50%, rgba(255,190,60,0.35) 0deg 2deg, transparent 2deg 14deg)",
+            animation: "cta-rays 80s linear infinite",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+
+        <div
+          className="cta-anim absolute left-1/2 top-1/2 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(255,226,122,0.4)_0%,rgba(255,150,30,0.2)_40%,transparent_70%)] blur-2xl"
+          style={{ animation: "cta-breathe 6s ease-in-out infinite", transform: "translate(-50%, -50%)" }}
+        />
+
+        <div
+          className="cta-anim absolute left-1/2 top-1/2 h-[620px] w-[620px] max-w-[95%] rounded-full border border-dashed border-[#FFC93C]/25"
+          style={{ animation: "cta-ring 60s linear infinite", transform: "translate(-50%, -50%)" }}
+        />
+
+        <div
+          className="cta-anim absolute left-1/2 top-1/2 h-[620px] w-[620px] max-w-[95%] rounded-full"
+          style={{ animation: "cta-orbit 9s linear infinite", transform: "translate(-50%, -50%)" }}
+        >
+          <span className="absolute left-0 top-1/2 h-24 w-[2px] -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-[#FFD84D] to-transparent" />
+          <span className="absolute left-0 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FFE27A] shadow-[0_0_18px_6px_rgba(255,190,60,0.8)]" />
+          <span className="absolute right-0 top-1/2 h-24 w-[2px] translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-[#FFD84D] to-transparent" />
+          <span className="absolute right-0 top-1/2 h-3 w-3 translate-x-1/2 -translate-y-1/2 rounded-full bg-[#FFE27A] shadow-[0_0_18px_6px_rgba(255,190,60,0.8)]" />
+        </div>
+      </div>
+
+      {/* Twinkling sparkles */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        {CTA_SPARKS.map((s, i) => (
+          <span
+            key={i}
+            className="cta-anim absolute rounded-full bg-[#FFD84D]"
+            style={{
+              left: s.left,
+              top: s.top,
+              width: s.size,
+              height: s.size,
+              boxShadow: `0 0 ${s.size * 4}px #FFB020`,
+              animation: `cta-twinkle 4s ease-in-out ${s.delay}s infinite`,
+            }}
+          />
+        ))}
+      </div>
+
+      <Reveal className="relative z-10 mx-auto max-w-3xl rounded-2xl border border-[#FFA332]/50 bg-[#1A0A03]/85 p-8 text-center backdrop-blur-md sm:p-12">
+        <div
+          aria-hidden
+          className="cta-anim pointer-events-none absolute inset-0 rounded-2xl"
+          style={{ animation: "cta-card-glow 4s ease-in-out infinite" }}
+        />
+        <div className="relative">
+          <h2 className="font-display text-3xl uppercase tracking-[0.04em] text-[#FFF1C7] sm:text-5xl">
+            Live by the <GoldText>code</GoldText>
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-[#FFF1C7]/85">
+            Start training with discipline, strength, focus, peace and courage. Call the academy to join the next batch.
+          </p>
+          <div className="mt-9 flex flex-wrap justify-center gap-4">
+            <Btn href={TEL} solid>Call to enrol</Btn>
+            <Btn href="/#training">View programs</Btn>
+          </div>
         </div>
       </Reveal>
     </section>
   );
 }
 
-// ---------- Footer ----------
+// ---------- Footer: same as the About page ----------
+const FOOTER_EMBERS = [
+  { left: "12%", top: "38%", size: 6, color: "#FFB020", delay: 0 },
+  { left: "30%", top: "62%", size: 4, color: "#FFD84D", delay: 1 },
+  { left: "58%", top: "30%", size: 4, color: "#FF7A18", delay: 0.5 },
+  { left: "78%", top: "55%", size: 6, color: "#FFB020", delay: 2 },
+  { left: "86%", top: "25%", size: 4, color: "#FFD84D", delay: 1.5 },
+];
+
 function Footer() {
   return (
-    <footer id="contact" className="relative overflow-hidden bg-[#140803] pb-20 pt-16 sm:pb-0">
-        
-        {/* Base warm gradient */}
+    <footer
+      id="contact"
+      className="relative z-10 scroll-mt-20 overflow-hidden border-t border-[#FFC93C]/30 bg-[linear-gradient(to_bottom,#1F0C04_0%,#2E1206_45%,#1A0A03_100%)] pb-28 pt-16 sm:pb-16 sm:pt-20"
+    >
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(to_bottom,#2a0f04_0%,#1a0a04_45%,#0f0502_100%)]"
+        className="pointer-events-none absolute bottom-0 left-1/2 h-[380px] w-[820px] max-w-[170%] rounded-full bg-[radial-gradient(circle,rgba(255,190,50,0.6)_0%,rgba(255,122,24,0.3)_35%,transparent_70%)] blur-2xl"
+        style={{ transform: "translate(-50%, 33%)", animation: "footer-glow 6s ease-in-out infinite" }}
       />
 
-      {/* Rising sun: molten gold arc from the top edge */}
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[420px] w-[900px] max-w-[160%] -translate-x-1/2 rounded-t-full bg-[radial-gradient(ellipse_at_50%_100%,#FFE27A_0%,#FFB020_15%,#FF7A18_22%,transparent_50%)] opacity-50 blur-3xl"
-      />
-
-      {/* Rays fanning out like a spinning staff */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 left-1/2 h-[520px] w-[1100px] max-w-[200%] -translate-x-1/2 translate-y-[10%] opacity-30 [mask-image:radial-gradient(circle_at_50%_100%,black_20%,transparent_70%)]"
+        className="pointer-events-none absolute bottom-0 left-1/2 h-[800px] w-[800px] max-w-none -translate-x-1/2 translate-y-1/2 rounded-full [mask-image:radial-gradient(circle,transparent_0%,black_35%,transparent_70%)]"
         style={{
-          background:
-            "repeating-conic-gradient(from 0deg at 50% 100%, rgba(255,200,60,0.55) 0deg 2deg, transparent 2deg 12deg)",
+          background: "repeating-conic-gradient(from 6deg at 50% 50%, rgba(255,200,70,0.45) 0deg 2deg, transparent 2deg 14deg)",
+          animation: "spin-reverse 120s linear infinite",
         }}
       />
 
-      {/* Fine diamond pattern */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.07]"
         style={{
-          backgroundImage:
-            "linear-gradient(45deg,#FFD84D 1px,transparent 1px),linear-gradient(-45deg,#FFD84D 1px,transparent 1px)",
+          backgroundImage: "repeating-conic-gradient(from 6deg at 50% 50%, rgba(255,200,70,0.45) 0deg 2deg, transparent 2deg 14deg)",
           backgroundSize: "34px 34px",
         }}
       />
 
-      {/* Embers */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
-        <span className="absolute left-[12%] top-[38%] h-1.5 w-1.5 rounded-full bg-[#FFB020] shadow-[0_0_12px_4px_rgba(255,160,30,0.7)]" />
-        <span className="absolute left-[30%] top-[62%] h-1 w-1 rounded-full bg-[#FFD84D] shadow-[0_0_10px_3px_rgba(255,216,77,0.7)]" />
-        <span className="absolute left-[58%] top-[30%] h-1 w-1 rounded-full bg-[#FF7A18] shadow-[0_0_10px_3px_rgba(255,122,24,0.7)]" />
-        <span className="absolute left-[78%] top-[55%] h-1.5 w-1.5 rounded-full bg-[#FFB020] shadow-[0_0_12px_4px_rgba(255,160,30,0.7)]" />
-        <span className="absolute left-[80%] top-[25%] h-1 w-1 rounded-full bg-[#FFD84D] shadow-[0_0_10px_3px_rgba(255,216,77,0.7)]" />
+        {FOOTER_EMBERS.map((e, i) => (
+          <span
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              left: e.left,
+              top: e.top,
+              width: e.size,
+              height: e.size,
+              background: e.color,
+              boxShadow: `0 0 ${e.size * 3}px ${e.color}`,
+              animation: `twinkle ${3 + i * 0.7}s ease-in-out ${e.delay}s infinite`,
+            }}
+          />
+        ))}
       </div>
 
-      <div className="relative z-10 mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 sm:px-5 md:grid-cols-4">
-        <div className="col-span-2 md:col-span-1">
-          <div className="flex items-center gap-3">
-            <Logo />
-            <span className="font-display text-xl text-[#FFD84D]">{SITE.name}</span>
+      <div className="relative z-10">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-5 sm:grid-cols-2 md:grid-cols-4 md:gap-x-6">
+          <div className="sm:col-span-2 md:col-span-1">
+            <div className="flex items-center gap-3">
+              <Logo />
+              <span className="gold-text font-display text-xl text-[#FFD84D]">{SITE.name}</span>
+            </div>
+            <p className="mt-4 text-[#FFF1C7]/80">Tamil staff fighting, taught with discipline, strength and heritage.</p>
           </div>
-          <p className="mt-4 text-[#F5E5C5]/85">Tamil staff fighting, taught with discipline, strength and heritage.</p>
-        </div>
 
-        <div>
-          <h3 className="font-display text-lg text-[#FFB020]">Quick links</h3>
-          <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
-            {NAV.map(([l, h]) => (
-              <li key={h}>
-                <Link href={h} className="transition hover:text-[#FFD84D]">{l}</Link>
+          <div>
+            <h3 className="font-display text-lg text-[#FFD84D]">Quick links</h3>
+            <ul className="mt-3 space-y-2 text-[#FFF1C7]/80">
+              {NAV.map(([l, h]) => (
+                <li key={h}>
+                  <a href={h} className="inline-block py-0.5 transition hover:text-[#FFC93C]">
+                    {l}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="sm:col-span-2 md:col-span-2">
+            <h3 className="font-display text-lg text-[#FFD84D]">Contact us</h3>
+            <ul className="mt-3 space-y-3 text-[#FFF1C7]/80">
+              <li>{SITE.place}</li>
+              <li>
+                <a className="inline-block py-0.5 transition hover:text-[#FFC93C]" href={TEL}>
+                  {SITE.phone}
+                </a>
               </li>
-            ))}
-          </ul>
+              <li className="break-all">
+                <a className="inline-block py-0.5 transition hover:text-[#FFC93C]" href={`mailto:${SITE.email}`}>
+                  {SITE.email}
+                </a>
+              </li>
+              <li>{SITE.hours}</li>
+            </ul>
+          </div>
         </div>
 
-        <div>
-          <h3 className="font-display text-lg text-[#FFB020]">Virtues</h3>
-          <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
-            {VIRTUES.map((v) => (
-              <li key={v.title}>{v.title}</li>
-            ))}
-          </ul>
+        <div className="mx-auto mt-12 flex max-w-6xl flex-col items-center gap-3 border-t border-[#FFC93C]/25 px-5 py-6 text-center text-sm text-[#FFF1C7]/60 md:flex-row md:justify-between md:text-left">
+          <p>© 2026 {SITE.name}. All rights reserved.</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-[#FFC93C]/85">Tradition • Discipline • Strength</p>
         </div>
-
-        <div className="col-span-2 md:col-span-1">
-          <h3 className="font-display text-lg text-[#FFB020]">Contact us</h3>
-          <ul className="mt-3 space-y-3 text-[#F5E5C5]/85">
-            <li>{SITE.place}</li>
-            <li><a className="transition hover:text-[#FFD84D]" href={TEL}>{SITE.phone}</a></li>
-            <li className="break-words">
-              <a className="transition hover:text-[#FFD84D]" href={`mailto:${SITE.email}`}>{SITE.email}</a>
-            </li>
-            <li>{SITE.hours}</li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="relative z-10 mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FF9A1F]/25 px-4 py-6 text-sm text-[#F5E5C5]/65 sm:px-5">
-        <p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p>
-        <p className="text-xs uppercase tracking-[0.3em] text-[#FFB020]/70">Tradition • Discipline • Strength</p>
       </div>
     </footer>
   );
@@ -491,7 +852,7 @@ function FloatingCall() {
     <a
       href={TEL}
       aria-label="Call the academy to enrol"
-      className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))] z-40 flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FF7A1A] to-[#F5C518] px-4 py-3 text-sm font-bold text-[#1C120C] shadow-lg shadow-black/40 active:scale-95 sm:bottom-5 sm:right-5 sm:px-5 sm:text-base"
+      className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-[max(1rem,env(safe-area-inset-right))] z-40 flex items-center gap-2 rounded-full bg-gradient-to-r from-[#FF7A18] to-[#FFC93C] px-5 py-3 text-sm font-semibold uppercase tracking-wider text-[#1C0E02] shadow-lg shadow-black/50 active:scale-95 sm:bottom-5 sm:right-5"
     >
       <span aria-hidden>📞</span> Enroll Today
     </a>
@@ -500,9 +861,11 @@ function FloatingCall() {
 
 export default function VirtuesPage() {
   return (
-    <>
+    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(ellipse_at_top_right,#4A2508_0%,#2A1205_40%,#1A0A03_100%)]">
+      <style>{pageStyles}</style>
+      <PageSparkles />
       <Nav />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <StatsRow />
         <VirtueList />
@@ -513,6 +876,6 @@ export default function VirtuesPage() {
       </main>
       <Footer />
       <FloatingCall />
-    </>
+    </div>
   );
 }

@@ -18,11 +18,11 @@ const TEL = `tel:${SITE.phone.replace(/\s/g, "")}`;
 
 const NAV = [
   ["Home", "#top"],
-  ["About", "#about"],
-  ["Programs", "#training"],
-  ["Virtues", "#virtues"],
+  ["About", "about"],
+  ["Programs", "program"],
+  ["Virtues", "virtues"],
   ["Women", "#women"],
-  ["Achievements", "#achievements"],
+  ["Achievements", "achievements"],
   ["Contact", "#contact"],
 ];
 
@@ -259,7 +259,42 @@ const SPARKLES = [
    Logo + name + progress bar counting 0 -> 100%, then fades away.
    Styles for it are in globals.css under "LOADING SCREEN".
    ===================================================================== */
-function Loader() {
+/* =====================================================================
+   SCROLL PROGRESS BAR (Matches Vellur Yudhakalam top progress line)
+   ===================================================================== */
+function TopProgressBar() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(total > 0 ? (window.scrollY / total) * 100 : 0);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  return (
+    <div className="fixed inset-x-0 top-0 z-[60] h-0.5 bg-transparent">
+      <div
+        className="h-full bg-gradient-to-r from-amber-400 to-red-500 transition-[width] duration-150 ease-out"
+        style={{ width: `${scrollProgress}%` }}
+      />
+    </div>
+  );
+}
+
+/* =====================================================================
+   LOADING SCREEN
+   Logo + name + progress bar counting 0 -> 100%, then fades away.
+   Styles for it are in globals.css under "LOADING SCREEN".
+   ===================================================================== */
+function Loader({ onComplete }: { onComplete?: () => void }) {
   const [pct, setPct] = useState(0);
   const [phase, setPhase] = useState<"loading" | "exit" | "done">("loading");
 
@@ -385,104 +420,83 @@ function Loader() {
   );
 }
 
-// ---------- Nav (Matches Vellur header style with gold active indicator) ----------
+// ---------- Nav ----------
 function Nav() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#080503]/95 shadow-lg backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-        <a className="bi-keep flex items-center gap-3 transition-opacity hover:opacity-80" href="#top">
-          <Image
-            src="/logo.jpeg"
-            alt="Padaivedu Yudhakalam logo"
-            width={40}
-            height={40}
-            className="h-10 w-10 shrink-0 rounded-md object-cover ring-1 ring-amber-400/30"
-          />
-          <span
-            className="text-lg font-bold leading-tight tracking-wide text-amber-400 sm:text-xl"
-            style={{ fontFamily: "var(--font-heading)" }}
-          >
+    <header className="fixed inset-x-0 top-0 z-30 border-b border-[#FF8A1F]/30 bg-[#1C120C]/90 pt-[env(safe-area-inset-top)] backdrop-blur">
+      <nav
+        className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-5"
+        aria-label="Main"
+      >
+        <a href="#top" className="flex min-w-0 items-center gap-2 sm:gap-3">
+          <Logo />
+
+          <span className="glow-text font-display text-sm leading-tight text-[#F5C518] sm:text-xl">
             {SITE.name}
           </span>
         </a>
 
-        {/* Desktop Nav */}
-        <nav className="hidden items-center gap-1 md:flex">
-          {NAV.map(([label, href], idx) => (
-            <a
-              key={href}
-              href={href}
-              className={`group relative rounded-md px-3 py-2 text-sm font-medium transition-colors hover:text-amber-400 ${
-                idx === 0 ? "text-amber-400" : "text-white/90"
-              }`}
-            >
-              {label}
-              <span
-                className={`pointer-events-none absolute inset-x-3 -bottom-0.5 h-px origin-left bg-amber-400 transition-transform duration-300 ease-out group-hover:scale-x-100 ${
-                  idx === 0 ? "scale-x-100" : "scale-x-0"
-                }`}
-              />
-            </a>
+        {/* Desktop Menu */}
+        <ul className="hidden items-center gap-4 xl:flex">
+          {NAV.map(([l, h]) => (
+            <li key={h}>
+              <a
+                href={h}
+                className="group relative block rounded-lg px-3 py-2 text-sm text-[#E9D6AE]/85 transition-all duration-300 hover:bg-[#FF7A1F]/10 hover:text-[#FFD84D] hover:shadow-[0_0_18px_rgba(255,122,24,0.30)]"
+              >
+                <span className="relative z-10">{l}</span>
+
+                {/* Orange → Yellow light line */}
+                <span className="absolute bottom-1 left-3 right-3 h-[2px] origin-left scale-x-0 rounded-full bg-gradient-to-r from-[#FF7A18] via-[#F5C518] to-[#FFD84D] shadow-[0_0_8px_rgba(245,197,24,0.8)] transition-transform duration-300 group-hover:scale-x-100" />
+              </a>
+            </li>
           ))}
-          <a
-            className="ml-2 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-[0_0_15px_rgba(220,38,38,0.4)] transition-all duration-200 hover:scale-105 hover:bg-red-500"
-            href="#join"
-          >
-            Join Now
-          </a>
-        </nav>
 
-        {/* Mobile menu hamburger toggle */}
-        <button
-          type="button"
-          onClick={() => setMobileOpen((prev) => !prev)}
-          className="relative flex h-6 w-6 flex-col items-center justify-center md:hidden text-amber-400"
-          aria-label="Toggle menu"
-          aria-expanded={mobileOpen}
-        >
-          <span
-            className={`absolute h-0.5 w-6 bg-current transition-transform duration-300 ${
-              mobileOpen ? "rotate-45 translate-y-0" : "-translate-y-2"
-            }`}
-          />
-          <span
-            className={`absolute h-0.5 w-6 bg-current transition-opacity duration-200 ${
-              mobileOpen ? "opacity-0" : "opacity-100"
-            }`}
-          />
-          <span
-            className={`absolute h-0.5 w-6 bg-current transition-transform duration-300 ${
-              mobileOpen ? "-rotate-45 translate-y-0" : "translate-y-2"
-            }`}
-          />
-        </button>
-      </div>
+          <li>
+            <a
+              href="#join"
+              className="block rounded-lg border-2 border-[#FF9A1F] bg-gradient-to-r from-[#FF7A1A] to-[#F5C518] px-4 py-2 text-center font-bold text-[#1C120C] shadow-[0_0_18px_rgba(255,122,24,0.35)] transition-all duration-300 hover:scale-105 hover:from-[#FF8F3A] hover:to-[#FFD84D] hover:shadow-[0_0_28px_rgba(245,197,24,0.55)]"
+            >
+              Join now
+            </a>
+          </li>
+        </ul>
 
-      {/* Mobile dropdown */}
-      <nav
-        className={`flex flex-col gap-1 overflow-hidden border-t border-white/10 px-4 transition-[max-height,opacity] duration-300 ease-in-out md:hidden ${
-          mobileOpen ? "max-h-96 py-3 opacity-100" : "max-h-0 border-t-0 py-0 opacity-0"
-        }`}
-      >
-        {NAV.map(([label, href]) => (
-          <a
-            key={href}
-            href={href}
-            onClick={() => setMobileOpen(false)}
-            className="rounded-md px-3 py-2 text-sm font-medium text-white/90 transition hover:bg-white/5 hover:text-amber-400"
+        {/* Mobile Menu */}
+        <details className="relative shrink-0 xl:hidden">
+          <summary
+              aria-label="Open menu"
+              className="group flex h-10 w-10 cursor-pointer list-none flex-col items-center justify-center gap-[5px] rounded-lg border border-[#FF8A1F]/50 transition-all duration-300 hover:border-[#FFD84D] hover:bg-[#FF7A1A]/10 hover:shadow-[0_0_20px_rgba(255,122,26,0.4)] marker:hidden [&::-webkit-details-marker]:hidden"
           >
-            {label}
-          </a>
-        ))}
-        <a
-          href="#join"
-          onClick={() => setMobileOpen(false)}
-          className="mt-2 rounded-md bg-red-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-[0_0_15px_rgba(220,38,38,0.4)] transition hover:bg-red-500"
-        >
-          Join Now
-        </a>
+            <span className="block h-[2px] w-5 rounded-full bg-[#F5C518] transition-transform duration-300 group-open:translate-y-[7px] group-open:rotate-45" />
+            <span className="block h-[2px] w-5 rounded-full bg-[#F5C518] transition-opacity duration-300 group-open:opacity-0" />
+            <span className="block h-[2px] w-5 rounded-full bg-[#F5C518] transition-transform duration-300 group-open:-translate-y-[7px] group-open:-rotate-45" />
+          </summary>
+
+          <ul className="absolute right-0 z-50 mt-3 w-56 space-y-1 rounded-xl border border-[#FF8A1F]/50 bg-gradient-to-br from-[#3A1C0B] to-[#1C120C] p-3 shadow-2xl shadow-black/70">
+            {NAV.map(([l, h]) => (
+              <li key={h}>
+                <a
+                  href={h}
+                  className="group relative block rounded-lg px-3 py-2.5 text-[#E9D6AE]/90 transition-all duration-300 hover:bg-[#FF7A1A]/10 hover:text-[#FFD84D] hover:shadow-[0_0_16px_rgba(255,122,24,0.3)] active:bg-[#FF7A1A]/15 active:text-[#FFD84D]"
+                >
+                  <span className="relative z-10">{l}</span>
+
+                  <span className="absolute bottom-1 left-3 right-3 h-[2px] origin-left scale-x-0 rounded-full bg-gradient-to-r from-[#FF7A18] via-[#F5C518] to-[#FFD84D] shadow-[0_0_8px_rgba(245,197,24,0.8)] transition-transform duration-300 group-hover:scale-x-100" />
+                </a>
+              </li>
+            ))}
+
+            <li className="pt-1">
+              <a
+                href="#join"
+                className="block rounded-lg border border-[#FF9A1F] bg-gradient-to-r from-[#FF7A1A] to-[#F5C518] px-3 py-2.5 text-center font-bold text-[#1C120C] shadow-[0_0_16px_rgba(255,122,24,0.35)] transition-all duration-300 hover:from-[#FF8F3A] hover:to-[#FFD84D] hover:shadow-[0_0_25px_rgba(245,197,24,0.55)]"
+              >
+                Join now
+              </a>
+            </li>
+          </ul>
+        </details>
       </nav>
     </header>
   );
@@ -793,17 +807,10 @@ function About() {
             </Reveal>
 
             <Reveal delay={150}>
-              <h2
-                className="mt-5 text-4xl font-bold leading-[1.1] tracking-wide text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)] sm:text-5xl lg:text-6xl"
-                style={{ fontFamily: "var(--font-deco)" }}
-              >
-                Ancient Art.
-                <br />
-                <span className="bg-gradient-to-r from-amber-300 via-amber-400 to-red-500 bg-clip-text text-transparent">
-                  Modern Warriors.
-                </span>
-              </h2>
-              <div className="mt-4 h-1 w-20 bg-gradient-to-r from-amber-400 to-red-500" />
+              <Heading className="glow-text mt-4">
+                Old Tradition...!
+                <span className="block text-[#FFD84D]">New Warriors...!</span>
+              </Heading>
             </Reveal>
 
             <Reveal delay={300}>
@@ -821,7 +828,16 @@ function About() {
               </p>
             </Reveal>
 
-
+            <Reveal delay={500}>
+              <blockquote className="mt-7 border-l-2 border-[#FF9A1F] pl-4">
+                <p className="text-lg font-semibold text-[#FFD84D] drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
+                  வீரம் பயிற்சியில் பிறக்கும்
+                </p>
+                <p className="mt-1 text-xs uppercase tracking-[0.2em] text-white/70">
+                  Courage is born in practice
+                </p>
+              </blockquote>
+            </Reveal>
 
             <Reveal delay={600}>
               <div className="mt-8">
@@ -853,10 +869,31 @@ function About() {
             ))}
           </ol>
         </div>
-      </div>
+      </div>         
+      {/* Centered cinematic banner */}
+      <Reveal delay={450}>
+        <div className="group relative mx-auto mt-12 w-[92%] max-w-6xl overflow-hidden rounded-2xl border border-[#FFD84D]/25 bg-[#1C120C] shadow-[0_0_25px_rgba(255,154,31,0.12)] sm:mt-16 sm:w-[90%] sm:rounded-3xl">
+          <Image
+             src="/tradition.png"
+             alt="Padaivedu Yudhakalam Silambam warriors"
+             width={1920}
+             height={800}
+             sizes="(max-width: 640px) 92vw, (max-width: 1024px) 90vw, 1152px"
+            className="block aspect-[16/9] h-auto w-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.02] sm:aspect-[16/7] lg:aspect-[16/6]"
+          />
+          <span aria-hidden className="title-shine" />
+          
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#120805]/50 via-transparent to-transparent" />
+            <span className="pointer-events-none absolute left-3 top-3 h-6 w-6 border-l-2 border-t-2 border-[#FFD84D]/80 sm:left-5 sm:top-5 sm:h-9 sm:w-9" />
+            <span className="pointer-events-none absolute bottom-3 right-3 h-6 w-6 border-b-2 border-r-2 border-[#FFD84D]/80 sm:bottom-5 sm:right-5 sm:h-9 sm:w-9" />
+          </div>
+      </Reveal>
 
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
-      
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -885,6 +922,7 @@ function Training() {
       onMouseLeave={() => setPaused(false)}
       className="training-section-frame relative scroll-mt-20 overflow-hidden bg-[#160A04] py-16 sm:py-24"
     >
+  
       {/* Background image */}
       <Image
         src="/coming-up.png"
@@ -894,43 +932,41 @@ function Training() {
         className="pointer-events-none object-cover object-[75%_center] brightness-[0.1] sm:object-right"
       />
 
-      {/* Programs moving ticker with thin gold border */}
-<div className="program-ticker relative z-10 mb-12 mt-4 overflow-hidden bg-[#0D0603]/70 py-4 sm:mb-16 sm:py-5">
-  {/* Top gold line */}
-  <span
-    aria-hidden="true"
-    className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FFD84D]/70 to-transparent shadow-[0_0_8px_rgba(255,216,77,0.45)]"
-  />
-  {/* Bottom gold line */}
-  <span
-    aria-hidden="true"
-    className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#FFD84D]/70 to-transparent shadow-[0_0_8px_rgba(255,216,77,0.45)]"
-  />
-  {/* Edge fade so text melts into the border */}
-  <span
-    aria-hidden="true"
-    className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#0D0603] to-transparent"
-  />
-  <span
-    aria-hidden="true"
-    className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#0D0603] to-transparent"
-  />
+      {/* Dark background overlay */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#160A04]/90 via-[#160A04]/80 to-[#160A04]/95" />
 
-  <div className="program-ticker-track flex w-max items-center">
-    {[...PROGRAMS, ...PROGRAMS].map((program, i) => (
-      <div
-        key={`${program}-${i}`}
-        aria-hidden={i >= PROGRAMS.length}
-        className="flex shrink-0 items-center gap-4 px-4 sm:gap-8 sm:px-8"
-      >
-        <span className="whitespace-nowrap font-display text-xs uppercase tracking-[0.15em] text-[#F3E2B5] drop-shadow-[0_0_6px_rgba(255,216,77,0.35)] transition-colors duration-300 hover:text-[#FFD84D] sm:text-sm sm:tracking-[0.22em]">
-          {program}
-        </span>
-        <span className="text-sm text-[#FF9A1F] sm:text-base">✦</span>
+      {/* Gold top & bottom border lines */}
+<div
+  aria-hidden="true"
+  className="pointer-events-none absolute inset-x-0 top-0 z-20 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]"
+/>
+<div
+  aria-hidden="true"
+  className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]"
+/>
+
+
+
+      {/* Programs moving ticker */}
+      <div className="program-ticker relative z-10 mb-12 mt-4 overflow-hidden border-y border-[#FFD84D]/25 bg-[#1C120C]/60 py-4 sm:mb-16 sm:py-5">
+        <div className="program-ticker-track flex w-max items-center">
+          {[...PROGRAMS, ...PROGRAMS].map((program, i) => (
+            <div
+              key={`${program}-${i}`}
+              aria-hidden={i >= PROGRAMS.length}
+              className="flex shrink-0 items-center gap-4 px-4 sm:gap-8 sm:px-8"
+            >
+              <span className="whitespace-nowrap font-display text-xs font-semibold uppercase tracking-[0.15em] text-[#F5E5C5] transition-colors duration-300 hover:text-[#FFD84D] sm:text-sm sm:tracking-[0.22em]">
+                {program}
+              </span>
+
+              <span className="text-sm text-[#FF9A1F] sm:text-base">
+                ✦
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
-    ))}
-  </div>
-</div>
 
       {/* Main training content */}
       <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-5">
@@ -1017,18 +1053,31 @@ function Training() {
             })}
           </ul>
 
-          {/* Detail card */}
-          <div className="grid overflow-hidden rounded-[2rem] border border-[#FF9A1F]/30 bg-[#1A0C05]/90 shadow-[0_30px_80px_rgba(0,0,0,0.5)] md:grid-cols-2">
+          {/* Selected weapon detail card */}
+          <div className="training-weapon-card grid overflow-hidden rounded-[2rem] border border-[#FF9A1F]/30 bg-[#1A0C05]/90 shadow-[0_30px_80px_rgba(0,0,0,0.5)] md:grid-cols-2">
+            {/* Weapon image */}
             <div className="relative aspect-[4/3] bg-black md:aspect-auto md:min-h-[420px]">
               <Image
                 key={item.img}
                 src={item.img}
                 alt={item.title}
                 fill
-                sizes="(min-width:768px) 40vw, 100vw"
+                sizes="(min-width: 768px) 40vw, 100vw"
                 className="object-contain p-4 transition-opacity duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+              {/* Image frame corners */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3 top-3 h-7 w-7 border-l border-t border-[#FFD84D]/70"
+              />
+
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute bottom-3 right-3 h-7 w-7 border-b border-r border-[#FFD84D]/70"
+              />
             </div>
 
             {/* Weapon description */}
@@ -1055,9 +1104,22 @@ function Training() {
             </div>
           </div>
         </div>
+
+        {/* Scroll cue */}
+        <div
+          className="mt-10 flex justify-center"
+          aria-hidden="true"
+        >
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
       </div>
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
-   
+
+      {/* Bottom gold separator */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]"
+      />
+
     </section>
   );
 }
@@ -1124,16 +1186,16 @@ function Virtues() {
                 key={v.title}
                 onClick={() => setActive(i)}
                 aria-hidden={!isActive}
-                className={`absolute left-1/2 top-1/2 w-[250px] rounded-2xl border p-6 text-center transition-all duration-700 ease-out backdrop-blur-xl sm:w-[290px] ${
+                className={`absolute left-1/2 top-1/2 w-[230px] rounded-2xl border p-6 text-center transition-all duration-700 ease-out sm:w-[270px] ${
                   isActive
-                    ? "cursor-default border-[#FFD84D] bg-[#1a0a04] shadow-[0_20px_60px_rgba(255,122,24,0.45)] ring-1 ring-[#FFD84D]/30"
-                    : "cursor-pointer border-[#FF9A1F]/20 bg-[#120703]/95 shadow-[0_10px_30px_rgba(0,0,0,0.7)] hover:border-[#FF9A1F]/50"
+                    ? "cursor-default border-[#FFD84D]/70 bg-gradient-to-br from-[#4A1E08]/95 to-[#1E0D06]/98 shadow-[0_20px_60px_rgba(255,122,24,0.35)]"
+                    : "cursor-pointer border-[#FF9A1F]/35 bg-gradient-to-br from-[#4A1E08]/85 to-[#24100A]/90 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
+                    //"cursor-pointer border-[#FF9A1F]/30 bg-gradient-to-br from-[#3A1607]/80 to-[#1E0D06]/85 shadow-[0_10px_30px_rgba(0,0,0,0.4)]"
                 }`}
                 style={{
-                  transform: `translate(-50%, -50%) translateX(${offset * 160}px) translateZ(${-abs * 140}px) rotateY(${-offset * 18}deg) scale(${1 - abs * 0.14})`,
-                  opacity: isActive ? 1 : Math.max(0.2, 0.65 - abs * 0.25),
+                  transform: `translate(-50%, -50%) translateX(${offset * 130}px) translateZ(${-abs * 120}px) rotateY(${-offset * 16}deg) scale(${1 - abs * 0.1})`,
+                  opacity: 1 - abs * 0.12,
                   zIndex: 10 - abs,
-                  pointerEvents: abs > 2 ? 'none' : 'auto',
                 }}
               >
                 
@@ -1193,7 +1255,12 @@ function Virtues() {
         </div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
-   
+    
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1290,7 +1357,12 @@ function Women() {
         </div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
-   
+      
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1372,6 +1444,11 @@ function Why() {
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
    
+     {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1418,6 +1495,11 @@ function Achievements() {
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
    
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1467,7 +1549,17 @@ function Events() {
             ))}
           </ul>
         ) : (
-          <p className="mx-auto mt-10 max-w-xl rounded-xl border border-amber-300/50 bg-black/45 p-6 text-center text-base text-white/90 backdrop-blur-sm sm:p-8 sm:text-lg"
+          <p
+            data-reveal
+            className="
+              mx-auto mt-10 max-w-xl rounded-xl
+              border border-amber-300/50
+              bg-black/45
+              p-6 text-center
+              text-base text-white/90
+              backdrop-blur-sm
+              sm:p-8 sm:text-lg
+            "
           >
             No events are scheduled right now. Join the academy and we will
             tell you the moment a date is set.
@@ -1482,6 +1574,11 @@ function Events() {
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]" />
    
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1536,7 +1633,9 @@ function Join() {
       </div>
 
       {/* Card */}
-      <div className="relative z-10 mx-auto max-w-4xl rounded-2xl border border-[#FF9A1F]/40 bg-[#160A04]/70 p-8 text-center shadow-[0_0_60px_rgba(255,122,24,0.2)] backdrop-blur-md sm:p-14"
+      <div
+        data-reveal
+        className="relative z-10 mx-auto max-w-4xl rounded-2xl border border-[#FF9A1F]/40 bg-[#160A04]/70 p-8 text-center shadow-[0_0_60px_rgba(255,122,24,0.2)] backdrop-blur-md sm:p-14"
       >
         {/* Top gold accent line */}
         <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent" />
@@ -1557,7 +1656,12 @@ function Join() {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FFD84D] to-transparent shadow-[0_0_15px_#FF7A18]"/>
-  
+      
+      {/* Scroll cue indicator line */}
+        <div className="mt-10 flex justify-center" aria-hidden="true">
+          <span className="cue-line block h-10 w-px bg-gradient-to-b from-amber-400 to-transparent" />
+        </div>
+
     </section>
   );
 }
@@ -1614,118 +1718,60 @@ function Footer() {
 
       {/* Content */}
       <div className="relative z-10">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 items-start gap-10 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:gap-8">
-          {/* Column 1: Brand Info */}
-          <div className="flex flex-col">
+        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-10 px-4 sm:px-5 md:grid-cols-4">
+          {/* Brand: full width on mobile */}
+          <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-3">
               <Logo />
               <span className="glow-text font-display text-xl text-[#FFD84D]">
                 {SITE.name}
               </span>
             </div>
-            <p className="mt-4 text-sm leading-relaxed text-[#F5E5C5]/80">
-              Tamil staff fighting, taught with discipline, strength and heritage. Learn the ancient art and carry warrior tradition forward.
+            <p className="mt-4 text-[#F5E5C5]/85">
+              Tamil staff fighting, taught with discipline, strength and heritage.
             </p>
           </div>
 
-          {/* Column 2: Quick links */}
-          <div className="flex flex-col">
-            <h3 className="glow-text font-display text-lg font-semibold text-[#FFB020]">
-              Quick links
-            </h3>
-            <ul className="mt-4 space-y-2.5 text-sm text-[#F5E5C5]/85">
+          {/* Quick links */}
+          <div>
+            <h3 className="glow-text font-display text-lg text-[#FFB020]">Quick links</h3>
+            <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
               {NAV.map(([l, h]) => (
                 <li key={h}>
-                  <a href={h} className="inline-block transition-colors duration-200 hover:translate-x-1 hover:text-[#FFD84D]">
-                    {l}
-                  </a>
+                  <a href={h} className="transition hover:text-[#FFD84D]">{l}</a>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Column 3: Programs (2 columns inside to balance height) */}
-          <div className="flex flex-col">
-            <h3 className="glow-text font-display text-lg font-semibold text-[#FFB020]">
-              Programs
-            </h3>
-            <ul className="mt-4 grid grid-cols-1 gap-x-2 gap-y-2 text-sm text-[#F5E5C5]/85 sm:grid-cols-2 lg:grid-cols-1">
-              {PROGRAMS.map((p) => (
-                <li key={p} className="transition-colors hover:text-[#FFD84D]">
-                  <a href="#training" className="hover:underline">{p}</a>
-                </li>
-              ))}
+          {/* Programs */}
+          <div>
+            <h3 className="glow-text font-display text-lg text-[#FFB020]">Programs</h3>
+            <ul className="mt-3 space-y-2 text-[#F5E5C5]/85">
+              {PROGRAMS.map((p) => <li key={p}>{p}</li>)}
             </ul>
           </div>
 
-          {/* Column 4: Contact us */}
-          <div className="flex flex-col">
-            <h3 className="glow-text font-display text-lg font-semibold text-[#FFB020]">
-              Contact us
-            </h3>
-            <ul className="mt-4 space-y-3 text-sm text-[#F5E5C5]/85">
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-amber-400">📍</span>
-                <span>{SITE.place}</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="text-amber-400">📞</span>
+          {/* Contact */}
+          <div className="col-span-2 md:col-span-1">
+            <h3 className="glow-text font-display text-lg text-[#FFB020]">Contact us</h3>
+            <ul className="mt-3 space-y-3 text-[#F5E5C5]/85">
+              <li>{SITE.place}</li>
+              <li>
                 <a className="transition hover:text-[#FFD84D]" href={TEL}>{SITE.phone}</a>
               </li>
-              <li className="flex items-center gap-2 break-all">
-                <span className="text-amber-400">✉️</span>
+              <li className="break-words">
                 <a className="transition hover:text-[#FFD84D]" href={`mailto:${SITE.email}`}>
                   {SITE.email}
                 </a>
               </li>
-              <li className="flex items-start gap-2 text-xs leading-relaxed text-[#F5E5C5]/75">
-                <span className="mt-0.5 text-amber-400">🕒</span>
-                <span>{SITE.hours}</span>
-              </li>
+              <li>{SITE.hours}</li>
             </ul>
           </div>
         </div>
 
-        {/* Padaivedu Location Map Section */}
-        <div className="mx-auto mt-14 max-w-6xl px-4 sm:px-5">
-          <div className="overflow-hidden rounded-2xl border border-[#FF9A1F]/40 bg-[#120703]/90 p-4 shadow-[0_15px_40px_rgba(0,0,0,0.6)] backdrop-blur-md sm:p-6">
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h4 className="glow-text font-display text-lg text-[#FFD84D] sm:text-xl">
-                  Locate Our Arena • Padaivedu
-                </h4>
-                <p className="mt-1 text-xs text-[#F5E5C5]/80 sm:text-sm">
-                  {SITE.place}
-                </p>
-              </div>
-              <a
-                href="https://maps.google.com/?q=Padaivedu,+Tiruvannamalai,+Tamil+Nadu"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-[#FF9A1F]/60 bg-gradient-to-r from-[#FF7A1A]/20 to-[#F5C518]/20 px-3.5 py-1.5 text-xs font-semibold text-[#FFD84D] shadow-[0_0_12px_rgba(255,122,26,0.25)] transition hover:scale-105 hover:border-[#FFD84D] hover:bg-[#FF7A1A]/30 sm:text-sm"
-              >
-                 Open in Google Maps
-              </a>
-            </div>
-
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-white/10 sm:aspect-[21/9]">
-              <iframe
-                title="Padaivedu Yudhakalam Location Map"
-                src="https://maps.google.com/maps?q=Padaivedu,+Tiruvannamalai,+Tamil+Nadu&t=&z=14&ie=UTF8&iwloc=&output=embed"
-                width="100%"
-                height="100%"
-                style={{ border: 0, filter: "invert(90%) hue-rotate(180deg) contrast(1.15) brightness(0.95)" }}
-                allowFullScreen={false}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="h-full w-full object-cover"
-              />
-            </div>
-          </div>
-        </div>
-
         <div className="mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FF9A1F]/25 px-4 py-6 text-sm text-[#F5E5C5]/65 sm:px-5">
-          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4"><p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p><span className="hidden text-white/30 sm:inline">•</span><p className="text-xs text-amber-400/90 font-medium tracking-wide">Designed By  <a href="https://github.com/CyberCodersHub" target="_blank" rel="noopener noreferrer" className="underline font-bold text-amber-300 hover:text-amber-200 transition">CyberCodersHub </a></p></div>
+          <p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p>
           <p className="text-xs uppercase tracking-[0.3em] text-[#FFB020]/70">
             Tradition • Discipline • Strength
           </p>
@@ -1748,35 +1794,23 @@ function FloatingCall() {
 }
 
 export default function Home() {
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    // Failsafe in case reduced-motion or quick navigation
-    if (document.documentElement.classList.contains("site-ready")) {
-      setLoaded(true);
-    }
-  }, []);
-
   return (
     <>
-      <TopProgressBar />
-      <Loader onComplete={() => setLoaded(true)} />
-      <div className={`transition-opacity duration-700 ease-out ${loaded ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
-        <Nav />
-        <main>
-          <Hero />
-          <About />
-          <Training />
-          <Virtues />
-          <Women />
-          <Why />
-          <Achievements />
-          <Events />
-          <Join />
-        </main>
-        <Footer />
-        <FloatingCall />
-      </div>
+      <Loader />
+      <Nav />
+      <main>
+        <Hero />
+        <About />
+        <Training />
+        <Virtues />
+        <Women />
+        <Why />
+        <Achievements />
+        <Events />
+        <Join />
+      </main>
+      <Footer />
+      <FloatingCall />
     </>
   );
 }

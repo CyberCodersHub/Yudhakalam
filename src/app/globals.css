@@ -489,3 +489,375 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .fade-swap { animation: none; }
 }
+
+
+/* =====================================================================
+   VELLUR YUDHAKALAM MATCHING EFFECTS & ANIMATIONS
+   ===================================================================== */
+
+@keyframes kenburns {
+  0% { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+@keyframes hero-in {
+  0% {
+    opacity: 0;
+    filter: blur(14px);
+    clip-path: inset(14% 10% round 28px);
+    transform: scale(1.12);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    clip-path: inset(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes hero-rise {
+  0% { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cue-line {
+  0% { transform-origin: top; transform: scaleY(0); }
+  50% { transform-origin: top; transform: scaleY(1); }
+  51% { transform-origin: bottom; transform: scaleY(1); }
+  to { transform-origin: bottom; transform: scaleY(0); }
+}
+
+@keyframes ember-rise {
+  0% { opacity: 0; transform: translateY(0) translate(0); }
+  10% { opacity: 0.9; }
+  to { opacity: 0; transform: translateY(-70vh) translate(40px); }
+}
+
+@keyframes glow-drift {
+  0% { transform: translate(-4%, -3%) scale(1); }
+  to { transform: translate(5%, 4%) scale(1.15); }
+}
+
+@keyframes banner-shine {
+  0% { transform: translate(-120%) skew(-15deg); }
+  40%, to { transform: translate(420%) skew(-15deg); }
+}
+
+@keyframes btn-pulse {
+  0%, to { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.55); }
+  50% { box-shadow: 0 0 0 12px rgba(220, 38, 38, 0); }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pre-glow {
+  0% { opacity: 0.6; transform: translate(-50%, -55%) scale(0.9); }
+  to { opacity: 1; transform: translate(-50%, -55%) scale(1.1); }
+}
+
+@keyframes pre-breath {
+  0%, to { box-shadow: 0 0 20px rgba(251, 191, 36, 0.35); }
+  50% { box-shadow: 0 0 42px rgba(251, 191, 36, 0.75); }
+}
+
+@keyframes pre-letter {
+  0% { opacity: 0; filter: blur(6px); transform: translateY(14px); }
+  to { opacity: 1; filter: blur(0); transform: translateY(0); }
+}
+
+@keyframes pre-fade {
+  to { opacity: 1; }
+}
+
+@keyframes word-rise {
+  0% { opacity: 0; transform: translateY(100%) rotate(4deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes dash-pulse {
+  0%, to { opacity: 0.5; transform: scaleX(1); }
+  50% { opacity: 1; transform: scaleX(1.8); }
+}
+
+/* Preloader styles */
+.preloader {
+  z-index: 9999;
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+.preloader.is-done {
+  display: none;
+}
+.preloader.is-exit .pre-curtain:after {
+  opacity: 1;
+}
+.preloader.is-exit .pre-top {
+  transform: translateY(-100%);
+}
+.preloader.is-exit .pre-bottom {
+  transform: translateY(100%);
+}
+.preloader.is-exit .pre-inner {
+  opacity: 0;
+  transform: scale(1.15);
+}
+
+.pre-curtain {
+  background: radial-gradient(#1c1220 0%, #08080e 70%);
+  height: 50.5%;
+  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.pre-curtain:after {
+  content: "";
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, #fbbf24, transparent);
+  height: 2px;
+  transition: opacity 0.3s;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.pre-top {
+  top: 0;
+}
+.pre-top:after {
+  bottom: 0;
+}
+.pre-bottom {
+  bottom: 0;
+}
+.pre-bottom:after {
+  top: 0;
+}
+
+.pre-inner {
+  z-index: 1;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 22px;
+  padding: 0 20px;
+  transition: opacity 0.5s, transform 0.5s;
+  display: flex;
+  position: absolute;
+  inset: 0;
+}
+
+.pre-glow {
+  filter: blur(20px);
+  pointer-events: none;
+  background: radial-gradient(circle at 40% 40%, rgba(251, 191, 36, 0.22), transparent 55%),
+              radial-gradient(circle at 65% 65%, rgba(220, 38, 38, 0.25), transparent 55%);
+  width: 460px;
+  max-width: 100vw;
+  height: 460px;
+  animation: 3s ease-in-out infinite alternate pre-glow;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+}
+
+.pre-mono {
+  color: #fbbf24;
+  width: 96px;
+  height: 96px;
+  font-family: var(--font-deco, var(--font-cinzel));
+  background: #08080e;
+  border: 3px solid #fbbf24;
+  border-radius: 9999px;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.9rem;
+  font-weight: 700;
+  animation: 2.4s ease-in-out infinite pre-breath;
+  display: flex;
+  overflow: hidden;
+}
+
+.pre-title {
+  font-family: var(--font-deco, var(--font-cinzel));
+  letter-spacing: 0.22em;
+  color: #fbbf24;
+  font-size: clamp(0.95rem, 3.2vw, 1.5rem);
+  font-weight: 700;
+}
+
+.pre-letter {
+  opacity: 0;
+  animation: 0.5s ease-out forwards pre-letter;
+  display: inline-block;
+}
+
+.pre-bar-fill {
+  background: linear-gradient(90deg, #dc2626, #fbbf24);
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.7);
+}
+
+.emblem-ring-a {
+  animation: 8s linear infinite spin-slow;
+}
+
+.emblem-ring-b {
+  animation: 5s linear infinite reverse spin-slow;
+}
+
+/* Hero Section Styles */
+.hero-kenburns {
+  animation: 16s ease-in-out infinite alternate kenburns;
+}
+
+.hero-in {
+  animation: 1.6s cubic-bezier(0.22, 1, 0.36, 1) both hero-in;
+}
+
+.hero-rise {
+  opacity: 0;
+  animation: 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards hero-rise;
+}
+
+.hero-glow {
+  background: radial-gradient(circle at 25% 30%, rgba(251, 191, 36, 0.08), transparent 45%),
+              radial-gradient(circle at 75% 70%, rgba(220, 38, 38, 0.09), transparent 50%);
+  animation: 14s ease-in-out infinite alternate glow-drift;
+}
+
+.banner-shine {
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 230, 150, 0.28) 50%, transparent 65%);
+  animation: 6s ease-in-out 2s infinite banner-shine;
+}
+
+.ember {
+  opacity: 0;
+  background: radial-gradient(circle, #ffd76a 0%, rgba(251, 191, 36, 0) 70%);
+  border-radius: 9999px;
+  animation: linear infinite ember-rise;
+  position: absolute;
+  bottom: -10px;
+}
+
+.word-mask {
+  vertical-align: bottom;
+  padding-bottom: 0.12em;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.word-rise {
+  opacity: 0;
+  animation: 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards word-rise;
+  display: inline-block;
+}
+
+.cue-line {
+  animation: 2s ease-in-out infinite cue-line;
+}
+
+.btn-pulse {
+  animation: 2.6s ease-in-out 2s infinite btn-pulse;
+}
+
+.quote-dash:before,
+.quote-dash:after {
+  content: "—";
+  color: #ef4444;
+  margin: 0 10px;
+  animation: 3s ease-in-out infinite dash-pulse;
+  display: inline-block;
+}
+
+/* Pause animations until site is ready (preloader complete) */
+html:not(.site-ready) .hero-in,
+html:not(.site-ready) .hero-rise,
+html:not(.site-ready) .word-rise,
+html:not(.site-ready) .cue-line {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-kenburns,
+  .hero-in,
+  .ember,
+  .hero-glow,
+  .banner-shine,
+  .btn-pulse,
+  .cue-line,
+  .emblem-ring-a,
+  .emblem-ring-b,
+  .pre-glow,
+  .pre-mono,
+  .quote-dash:before,
+  .quote-dash:after {
+    animation: none;
+  }
+  .hero-in,
+  .pre-letter,
+  .word-rise,
+  .hero-rise {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+}
+
+
+/* =====================================================================
+   GLOBAL FONT OVERRIDE: CINZEL / CINZEL DECORATIVE
+   ===================================================================== */
+html, body, p, span, a, h1, h2, h3, h4, h5, h6, li, button, input, textarea, blockquote {
+  font-family: var(--font-heading), var(--font-deco), serif !important;
+}
+
+h1, h2, h3, .font-display, .glow-text, .pre-title, .hero-title {
+  font-family: var(--font-deco), var(--font-heading), serif !important;
+}
+
+
+/* Continuous programs ticker */
+.program-ticker {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
+}
+
+.program-ticker-track {
+  animation: programs-scroll 35s linear infinite;
+  will-change: transform;
+}
+
+.program-ticker:hover .program-ticker-track {
+  animation-play-state: paused;
+}
+
+@keyframes programs-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .program-ticker-track {
+    animation: none;
+  }
+}
