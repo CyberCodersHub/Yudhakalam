@@ -14,6 +14,8 @@ const SITE = {
   hours: "Saturdays, Sundays and government holidays: 6:00–8:00 AM and 4:00–6:00 PM",
 };
 
+const INSTAGRAM_URL = "https://www.instagram.com/silambam_hari/";
+
 const TEL = `tel:${SITE.phone.replace(/\s/g, "")}`;
 
 const NAV = [
@@ -1768,6 +1770,47 @@ function Footer() {
             </ul>
           </div>
         </div>
+
+        
+{/* Social Media Links */}
+<div className="mx-auto mt-10 max-w-6xl px-4 sm:px-5">
+  <h3 className="glow-text font-display text-lg text-[#FFB020]">
+    Follow Us
+  </h3>
+
+  <div className="mt-4 flex flex-wrap items-center gap-4">
+    <a
+      href="https://www.instagram.com/silambam_hari/"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Follow us on Instagram"
+      className="group inline-flex items-center gap-3 rounded-full border border-[#FFB020]/40 bg-[#FF7A18]/10 px-5 py-3 text-[#FFD84D] transition-all duration-300 hover:border-[#FFD84D] hover:bg-[#FF7A18]/20 hover:shadow-[0_0_25px_rgba(255,176,32,0.3)]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <rect x="3" y="3" width="18" height="18" rx="5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" />
+      </svg>
+
+      <span className="font-medium">Instagram</span>
+      <span className="transition-transform duration-300 group-hover:translate-x-1">
+        ↗
+      </span>
+    </a>
+  </div>
+</div>
+
 
         {/* Map: centered, square, framed */}
           <div className="relative left-1/2 mt-12 w-screen -translate-x-1/2 ">
