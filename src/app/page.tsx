@@ -1866,9 +1866,9 @@ function Footer() {
           </div>
         
 
-        <div className="mx-auto mt-12 flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FF9A1F]/25 px-4 py-6 text-sm text-[#F5E5C5]/65 sm:px-5">
+        <div className="mx-auto mt-12 font-display flex max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-[#FF9A1F]/25 px-4 py-6 text-sm text-[#FFB020]/65 sm:px-5 glow-text">
           <p>© 2026 Padaivedu Yudhakalam. All rights reserved.</p>
-          <p className="text-xs uppercase tracking-[0.3em] text-[#FFB020]/70">
+          <p className="text-xs uppercase tracking-[0.3em] text-[#FFB020]/70 glow-text">
             Tradition • Discipline • Strength
           </p>
         </div>
