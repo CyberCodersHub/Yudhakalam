@@ -1771,45 +1771,75 @@ function Footer() {
           </div>
         </div>
 
-        
-{/* Social Media Links */}
-<div className="mx-auto mt-10 max-w-6xl px-4 sm:px-5">
-  <h3 className="glow-text font-display text-lg text-[#FFB020]">
-    Follow Us
-  </h3>
+        {/* Social Media Links */}
+        <div className="mx-auto mt-10 max-w-6xl px-4 sm:px-5">
+          <h3 className="glow-text font-display text-lg text-[#FFB020]">
+              Follow Us
+          </h3>
+          <div className="mt-4 flex flex-wrap items-center gap-4">
 
-  <div className="mt-4 flex flex-wrap items-center gap-4">
+          {/* Instagram */}
+          <a
+             href="https://www.instagram.com/silambam_hari/"
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label="Follow us on Instagram"
+             className="group inline-flex items-center gap-3 rounded-full border border-[#FFB020]/40 bg-[#FF7A18]/10 px-5 py-3 text-[#FFD84D] transition-all duration-300 hover:border-[#FFD84D] hover:bg-[#FF7A18]/20 hover:shadow-[0_0_25px_rgba(255,176,32,0.3)]"
+          >
+          {/* Original Instagram Logo */}
+          <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+          >
+          <defs>
+              <linearGradient id="instagramGradient" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#FFD600" />
+                <stop offset="50%" stopColor="#FF0169" />
+                <stop offset="100%" stopColor="#7638FA" />
+              </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="20" height="20" rx="6" fill="url(#instagramGradient)" />
+          <rect x="6" y="6" width="12" height="12" rx="4" fill="none" stroke="white" strokeWidth="1.8" />
+          <circle cx="12" cy="12" r="3" fill="none" stroke="white" strokeWidth="1.8" />
+          <circle cx="17.5" cy="6.8" r="1.1" fill="white" />
+          </svg>
+
+          <span className="font-medium">Instagram</span>
+          <span className="transition-transform duration-300 group-hover:translate-x-1">↗</span>
+          </a>
+
+    {/* Facebook */}
     <a
-      href="https://www.instagram.com/silambam_hari/"
+      href="https://www.facebook.com/"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Follow us on Instagram"
+      aria-label="Follow us on Facebook"
       className="group inline-flex items-center gap-3 rounded-full border border-[#FFB020]/40 bg-[#FF7A18]/10 px-5 py-3 text-[#FFD84D] transition-all duration-300 hover:border-[#FFD84D] hover:bg-[#FF7A18]/20 hover:shadow-[0_0_25px_rgba(255,176,32,0.3)]"
     >
+      {/* Original Facebook Logo */}
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="22"
-        height="22"
+        width="25"
+        height="25"
         viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
         aria-hidden="true"
       >
-        <rect x="3" y="3" width="18" height="18" rx="5" />
-        <circle cx="12" cy="12" r="4" />
-        <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" />
+        <circle cx="12" cy="12" r="11" fill="#1877F2" />
+        <path
+          fill="white"
+          d="M13.5 21v-8h2.7l.4-3.1h-3.1v-2c0-.9.3-1.5 1.6-1.5h1.7V3.6c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.1H7.3V13h2.8v8h3.4Z"
+        />
       </svg>
 
-      <span className="font-medium">Instagram</span>
-      <span className="transition-transform duration-300 group-hover:translate-x-1">
-        ↗
-      </span>
+      <span className="font-medium">Facebook</span>
+      <span className="transition-transform duration-300 group-hover:translate-x-1">↗</span>
     </a>
+
   </div>
-</div>
+  </div>
 
 
         {/* Map: centered, square, framed */}
